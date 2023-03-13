@@ -45,6 +45,14 @@ allprojects {
 			mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
 		}
 	}
+
+	tasks.withType<Test> {
+		useJUnitPlatform()
+	}
+
+	tasks.test {
+		outputs.dir(snippetsDir)
+	}
 }
 
 dependencies {
@@ -71,12 +79,4 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.testcontainers:elasticsearch")
 	 */
-}
-
-tasks.withType<Test> {
-	useJUnitPlatform()
-}
-
-tasks.test {
-	outputs.dir(snippetsDir)
 }

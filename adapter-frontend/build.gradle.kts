@@ -12,6 +12,7 @@ dependencies {
 frontend {
     nodeVersion.set("14.17.3")
     assembleScript.set("run build")
+    publishScript.set("run publish")
     // cleanScript = "run clean"
     // checkScript = "run check"
     packageJsonDirectory.set(File(projectDir, "src/main/frontend"))

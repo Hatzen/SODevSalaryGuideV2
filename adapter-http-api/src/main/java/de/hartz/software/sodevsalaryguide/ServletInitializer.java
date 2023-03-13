@@ -1,4 +1,4 @@
-package de.hartz.software.sodevsalaryguide.backend;
+package de.hartz.software.sodevsalaryguide;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

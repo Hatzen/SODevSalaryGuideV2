@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+    // modules
+    implementation(project(":adapter-frontend"))
 
     // http
     implementation("org.springframework.boot:spring-boot-starter-actuator")

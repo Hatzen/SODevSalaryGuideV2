@@ -7,7 +7,8 @@
     "start": "webpack serve --port 3000",
     "build": "set NODE_ENV=production && webpack",
     "lint": "eslint \"**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix"
+    "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
+    "publish": "set NODE_ENV=production && webpack --output-path ./../resources/public/"
   },
   "author": "",
   "license": "ISC",

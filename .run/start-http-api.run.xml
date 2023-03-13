@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="start-http-api" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.BackendApplication" />
+    <module name="backend.adapter-http-api.main" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

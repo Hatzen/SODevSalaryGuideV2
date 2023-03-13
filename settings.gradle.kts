@@ -9,7 +9,8 @@ pluginManagement {
 
 rootProject.name = "backend"
 
-include("adapter-http")
+include("adapter-http-api")
+include("adapter-frontend")
 include("adapter-persistence")
 include("adapter-batch")
 include("core")

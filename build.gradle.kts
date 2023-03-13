@@ -3,11 +3,11 @@ plugins {
 	war
 	id("org.springframework.boot") version "3.0.4"
 	id("io.spring.dependency-management") version "1.1.0"
-	//  id("org.asciidoctor.convert") version "2.2.1"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
-
+val snippetsDir by extra { file("build/generated-snippets") }
+val testcontainersVersion by extra { "1.17.6" }
 
 allprojects {
 	group = "de.hartz.software.sodevsalaryguide"
@@ -37,27 +37,21 @@ allprojects {
 
 
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
-		// testImplementation("org.testcontainers:junit-jupiter")
+		testImplementation("org.testcontainers:junit-jupiter")
 	}
 
-	/*
 	dependencyManagement {
 		imports {
 			mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
 		}
 	}
-	 */
 }
-
-val snippetsDir by extra { file("build/generated-snippets") }
-// extra["testcontainersVersion"] = "1.17.6"
 
 dependencies {
 	// modules
 	implementation(project(":core"))
 	implementation(project(":adapter-batch"))
 	implementation(project(":adapter-persistence"))
-	// implementation(project(":core"))
 
 	// tools
 	/*
@@ -79,14 +73,6 @@ dependencies {
 	 */
 }
 
-/*
-dependencyManagement {
-	imports {
-		mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
-	}
-}
- */
-
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
@@ -94,10 +80,3 @@ tasks.withType<Test> {
 tasks.test {
 	outputs.dir(snippetsDir)
 }
-
-/*
-tasks.asciidoctor {
-	inputs.dir(snippetsDir)
-	dependsOn(test)
-}
- */

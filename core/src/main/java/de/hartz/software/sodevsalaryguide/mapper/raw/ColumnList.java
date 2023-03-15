@@ -1,7 +1,7 @@
 package de.hartz.software.sodevsalaryguide.mapper.raw;
 
-public class ColumnList {
-    String initial;
-    Integer from;
-    Integer to;
+import lombok.Data;
+
+@Data
+public record ColumnList(String initial, Integer from, Integer to) {
 }

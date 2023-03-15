@@ -6,6 +6,8 @@ group = "de.hartz.software.sodevsalaryguide"
 version = "0.0.1-SNAPSHOT"
 
 dependencies {
+    implementation(project(":core"))
+
     // persistence
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

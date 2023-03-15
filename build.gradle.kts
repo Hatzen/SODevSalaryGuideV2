@@ -38,6 +38,10 @@ allprojects {
 
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 		testImplementation("org.testcontainers:junit-jupiter")
+
+
+		implementation("org.mapstruct:mapstruct:1.5.3.Final")
+		annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
 	}
 
 	dependencyManagement {

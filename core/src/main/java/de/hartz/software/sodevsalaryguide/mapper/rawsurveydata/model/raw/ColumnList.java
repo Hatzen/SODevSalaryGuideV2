@@ -1,4 +1,4 @@
-package de.hartz.software.sodevsalaryguide.mapper.raw;
+package de.hartz.software.sodevsalaryguide.mapper.rawsurveydata.model.raw;
 
 import lombok.Data;
 

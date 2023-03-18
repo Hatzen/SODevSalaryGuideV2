@@ -1,6 +1,6 @@
-package de.hartz.software.sodevsalaryguide.mapper;
+package de.hartz.software.sodevsalaryguide.mapper.rawsurveydata;
 
-import de.hartz.software.sodevsalaryguide.mapper.raw.ColumnList;
+import de.hartz.software.sodevsalaryguide.mapper.rawsurveydata.model.raw.ColumnList;
 import de.hartz.software.sodevsalaryguide.model.Range;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.model.enums.Currency;
@@ -14,33 +14,34 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractRawRowMapper {
-    static String COLUMN_DONT_EXIST = "COLUMN_DONT_EXIST";
+    public static String COLUMN_DONT_EXIST = "COLUMN_DONT_EXIST";
     // TODO: do we still need this? As it only appears with frontend csv parser. Maybe use as domain object..
-    static String UNNAMED_COLUMN_PREFIX = "columnIndex-";
+    public static String UNNAMED_COLUMN_PREFIX = "columnIndex-";
 
     // Sets to distinct values and map to filter values with single response.
-    static Map<String, Integer> educations = new HashMap<>();
-    static  Map<String, Integer> countries = new HashMap<>();
-    static  Set<String> genders = new HashSet<>();
-    static Set<String> years = new HashSet<>();
-    static  Map<String, Integer> abilities = new HashMap<>();
+    public static Map<String, Integer> educations = new HashMap<>();
+    public static  Map<String, Integer> countries = new HashMap<>();
+    public static  Set<String> genders = new HashSet<>();
+    public static Set<String> years = new HashSet<>();
+    public static  Map<String, Integer> abilities = new HashMap<>();
 
-    abstract String SALARY_KEY();
-    abstract String CURRENCY_KEY();
-    abstract String GENDER_KEY();
-    abstract String YEARS_OF_EXPIERIENCE();
-    abstract String ABILITIES_KEY();
-    abstract ColumnList ABILITIES_KEYs();
-    abstract String DEGREE();
-    abstract String COMPANY_SIZE();
-    abstract String COUNTRY();
+    protected abstract String getSalaryColumnName();
+    protected abstract String getCurrencyColumnName();
+    protected abstract String getGenderColumnName();
+    protected abstract String getYearsOfExperienceColumnName();
+    protected abstract Optional<String> getAbilitiesColumnName();
+    protected abstract ColumnList getAbilitiesColumnList();
+    protected abstract String getDegreeColumnName();
+    protected abstract String getCompanyColumnName();
+    protected abstract String getCountryColumnName();
 
-    abstract Integer MAPPER_FOR_YEAR();
+    protected abstract Integer MAPPER_FOR_YEAR();
 
     public SurveyEntry map (RawRow csvRow) {
         val result = new SurveyEntry();
@@ -55,19 +56,20 @@ public abstract class AbstractRawRowMapper {
     }
 
     void setAbilities(RawRow csvRow, SurveyEntry result) {
+        // TODO we need to handle result.getAbilities() == null?
         List<String> abilities = new ArrayList<>(result.getAbilities());
-        if (ABILITIES_KEY() != null) {
-            String abilitiesSeperatedBySemicolon = csvRow.get((String) ABILITIES_KEY());
+        if (getAbilitiesColumnName().isPresent()) {
+            String abilitiesSeperatedBySemicolon = csvRow.get(getAbilitiesColumnName().get());
             if (abilitiesSeperatedBySemicolon != null) {
                 for (String abi : abilitiesSeperatedBySemicolon.split(";")) {
                     addKeyAndUpdateKeyCount(abi, abilities);
                 }
             }
         } else {
-            ColumnList columnList = ABILITIES_KEYs();
+            ColumnList columnList = getAbilitiesColumnList();
             String ability = csvRow.get(columnList.getInitial());
             addKeyAndUpdateKeyCount(ability, abilities);
-            if (abilities == null) {
+            if (abilities.size() == 0) {
                 return;
             }
             for (int i = columnList.getFrom(); i <= columnList.getTo(); i++) {
@@ -97,7 +99,7 @@ public abstract class AbstractRawRowMapper {
     }
 
      void setDegree(RawRow csvRow, SurveyEntry result) {
-        String degree = csvRow.get(DEGREE());
+        String degree = csvRow.get(getDegreeColumnName());
         if (degree == null) {
             return;
         }
@@ -118,7 +120,7 @@ public abstract class AbstractRawRowMapper {
 
 
     protected void setCountry(RawRow csvRow, SurveyEntry result) {
-        String country = csvRow.get(this.COUNTRY());
+        String country = csvRow.get(this.getCountryColumnName());
         if (country == null) {
             return;
         }
@@ -133,7 +135,7 @@ public abstract class AbstractRawRowMapper {
     }
 
     protected void setYearsOfExpirience(RawRow csvRow, SurveyEntry result) {
-        String yearsOfExpirience = csvRow.get(this.YEARS_OF_EXPIERIENCE());
+        String yearsOfExpirience = csvRow.get(this.getYearsOfExperienceColumnName());
         if (yearsOfExpirience == null) {
             return;
         }
@@ -158,7 +160,7 @@ public abstract class AbstractRawRowMapper {
     }
 
     protected void setCompanySize(RawRow csvRow, SurveyEntry result) {
-        String companySize = csvRow.get(this.COMPANY_SIZE());
+        String companySize = csvRow.get(this.getCompanyColumnName());
         if (companySize == null) {
             return;
         }
@@ -182,7 +184,7 @@ public abstract class AbstractRawRowMapper {
     }
 
     protected void setGender(RawRow csvRow, SurveyEntry result) {
-        String gender = csvRow.get(this.GENDER_KEY());
+        String gender = csvRow.get(this.getGenderColumnName());
         if (gender == null) {
             return;
         }
@@ -201,7 +203,7 @@ public abstract class AbstractRawRowMapper {
     }
 
     protected void setSalary(RawRow csvRow, SurveyEntry result) {
-        String salary = csvRow.get(SALARY_KEY());
+        String salary = csvRow.get(getSalaryColumnName());
         if (salary != null) {
             double salaryValue = getSalaryValue(salary);
             if (salaryValue < 10000) {
@@ -210,7 +212,7 @@ public abstract class AbstractRawRowMapper {
             result.setSalary(salaryValue);
         }
 
-        String currency = csvRow.get(CURRENCY_KEY());
+        String currency = csvRow.get(getCurrencyColumnName());
         if (currency != null) {
             result.setCurrency(getCurrency(currency));
         }

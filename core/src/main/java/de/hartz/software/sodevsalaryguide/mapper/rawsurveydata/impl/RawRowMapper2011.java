@@ -1,6 +1,9 @@
-package de.hartz.software.sodevsalaryguide.mapper;
+package de.hartz.software.sodevsalaryguide.mapper.rawsurveydata.impl;
 
-import de.hartz.software.sodevsalaryguide.mapper.raw.ColumnList;
+import de.hartz.software.sodevsalaryguide.mapper.rawsurveydata.AbstractRawRowMapper;
+import de.hartz.software.sodevsalaryguide.mapper.rawsurveydata.model.raw.ColumnList;
+
+import java.util.Optional;
 
 public class RawRowMapper2011 extends AbstractRawRowMapper {
     @Override
@@ -8,43 +11,42 @@ public class RawRowMapper2011 extends AbstractRawRowMapper {
         return 2011;
     }
 
-    public final String SALARY_KEY() {
+    public final String getSalaryColumnName() {
         return "Including bonus, what is your annual compensation in USD?";
     }
 
-    public final String CURRENCY_KEY() {
+    public final String getCurrencyColumnName() {
         return AbstractRawRowMapper.COLUMN_DONT_EXIST;
     }
 
-    public final String GENDER_KEY() {
+    public final String getGenderColumnName() {
         return AbstractRawRowMapper.COLUMN_DONT_EXIST;
     }
 
-    public final String YEARS_OF_EXPIERIENCE() {
+    public final String getYearsOfExperienceColumnName() {
         return "How many years of IT/Programming experience do you have?";
     }
 
-    // TODO: proper solution for handling columnlist vs keys..
-    public final String ABILITIES_KEY() {
-        return null;
+    public final Optional<String> getAbilitiesColumnName() {
+        return Optional.empty();
     }
 
     @Override
-    ColumnList ABILITIES_KEYs() {
+    public ColumnList getAbilitiesColumnList() {
         return new ColumnList("What type of project are you developing?",
                 30,
                 43);
     }
 
-    public final String DEGREE() {
+    public final String getDegreeColumnName() {
         return AbstractRawRowMapper.COLUMN_DONT_EXIST;
     }
 
-    public final String COMPANY_SIZE() {
+    public final String getCompanyColumnName() {
         return "Which best describes the size of your company?";
     }
 
-    public final String COUNTRY() {
+    public final String getCountryColumnName() {
         return "What Country or Region do you live in?";
     }
 

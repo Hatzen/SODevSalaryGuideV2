@@ -67,12 +67,12 @@ public abstract class AbstractRawRowMapper {
             }
         } else {
             ColumnList columnList = getAbilitiesColumnList();
-            String ability = csvRow.get(columnList.getInitial());
+            String ability = csvRow.get(columnList.initial());
             addKeyAndUpdateKeyCount(ability, abilities);
             if (abilities.size() == 0) {
                 return;
             }
-            for (int i = columnList.getFrom(); i <= columnList.getTo(); i++) {
+            for (int i = columnList.from(); i <= columnList.to(); i++) {
                 ability = csvRow.get(UNNAMED_COLUMN_PREFIX + i);
                 addKeyAndUpdateKeyCount(ability, abilities);
             }

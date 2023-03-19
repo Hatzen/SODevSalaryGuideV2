@@ -3,9 +3,12 @@ package de.hartz.software.sodevsalaryguide.model;
 import de.hartz.software.sodevsalaryguide.model.enums.Currency;
 import de.hartz.software.sodevsalaryguide.model.enums.Gender;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +16,11 @@ import java.util.Set;
 
 @Data
 @Entity
+@Table(name = "surveyentry")
 @NoArgsConstructor
 public class SurveyEntryJpa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(nullable = false)
     private Long id;
 
     private Double salary;
@@ -30,12 +33,13 @@ public class SurveyEntryJpa {
 
     private Gender gender;
 
-    private Set<String> abilities;
+    @OneToMany(mappedBy="ability", fetch = FetchType.EAGER)
+    private Set<AbilityJpa> abilities;
 
     private Integer age;
 
-    private Range companySizeMin;
-    private Range companySizeMax;
+    private Integer companySizeMin;
+    private Integer companySizeMax;
 
     private String highestDegree;
 

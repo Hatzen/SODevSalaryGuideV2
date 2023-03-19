@@ -1,38 +1,31 @@
-create table survey_entry (
+create table surveyEntry (
   id bigint not null,
-  name varchar(50) not null,
+  computationId bigint not null UNIQUE,
+  salary numeric,
+  currency text,
+  expirienceInYearsMin int,
+  expirienceInYearsMax int,
+  gender text,
+  age int,
+  companySizeMin int,
+  companySizeMax int,
+  highestDegree text,
+  country text,
+  abilityId bigint not null,
+  CONSTRAINT fk_surveyEntry_computations FOREIGN KEY (computationId) references computations (computationId),
+  CONSTRAINT pk_surveyEntry primary key (id)
+);
+
+create table ability (
+  id bigint not null,
+  surveyEntryId bigint not null UNIQUE,
+  ability text,
+  CONSTRAINT fk_ability_surveyEntry FOREIGN KEY (surveyEntryId) references surveyEntry (id),
   primary key (id)
 );
 
-create table exam (
-  id bigserial not null,
-  title varchar(50) not null,
-  description varchar(512) not null,
-  primary key (id)
-);
+ALTER TABLE surveyEntry
+    ADD CONSTRAINT fk_surveyEntry_ability FOREIGN KEY (abilityId) REFERENCES ability (id)  ON DELETE CASCADE;
 
-create table question (
-  id bigserial not null,
-  exam_id bigint not null references exam (id),
-  question_order bigint not null,
-  description text not null,
-  primary key (id)
-);
-
-create table alternative (
-  id bigserial not null,
-  question_id bigint not null references question (id),
-  alternative_order bigint not null,
-  description text not null,
-  correct boolean not null,
-  primary key (id)
-);
-
-create table attempt (
-  id bigserial not null,
-  user_id varchar(255) not null references "user" (id),
-  alternative_id bigint not null references alternative (id),
-  correct boolean not null,
-  date timestamp without time zone not null,
-  primary key (id)
-);
+ALTER TABLE computations
+    ADD CONSTRAINT fk_computations_surveyEntry FOREIGN KEY (computationId) REFERENCES surveyEntry (computationId)  ON DELETE CASCADE;

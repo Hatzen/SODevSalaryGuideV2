@@ -1,18 +1,24 @@
 package de.hartz.software.sodevsalaryguide.model.raw;
 
 import java.util.HashMap;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class RawRow extends HashMap<HeaderMeta<?>, String> {
 
-    public String get(String columName) {
-        return getValueForColumnName(columName);
-    }
+  @Getter private final RawDataSetName rawDataSetName;
 
-    public String getValueForColumnName(String columName) {
-        return super.get(columName);
-    }
+  public String get(String columName) {
+    return getValueForColumnName(columName);
+  }
 
-    public String getValueForColumnIndex(Integer index) {
-        return (String) entrySet().toArray()[index];
-    }
+  public String getValueForColumnName(String columName) {
+    return super.get(columName);
+  }
+
+  // TODO: This will obviously not work deterministicly with Hash implementation
+  public String getValueForColumnIndex(Integer index) {
+    return (String) entrySet().toArray()[index];
+  }
 }

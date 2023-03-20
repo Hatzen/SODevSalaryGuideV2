@@ -1,10 +1,9 @@
-package de.hartz.software.sodevsalaryguide.port;
+package de.hartz.software.sodevsalaryguide.port.repo;
 
 import de.hartz.software.sodevsalaryguide.model.SurveyEntry;
-
 import java.util.List;
 
 public interface EvaluatedDataWriteRepo {
 
-    void insertAllSurveyEntries(List<SurveyEntry> entries);
+  void insertAllSurveyEntries(List<SurveyEntry> entries);
 }

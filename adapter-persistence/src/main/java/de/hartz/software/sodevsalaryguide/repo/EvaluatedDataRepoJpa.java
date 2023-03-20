@@ -3,8 +3,8 @@ package de.hartz.software.sodevsalaryguide.repo;
 import de.hartz.software.sodevsalaryguide.mapper.JpaMapper;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntryJpa;
-import de.hartz.software.sodevsalaryguide.port.EvaluatedDataReadRepo;
-import de.hartz.software.sodevsalaryguide.port.EvaluatedDataWriteRepo;
+import de.hartz.software.sodevsalaryguide.port.repo.EvaluatedDataReadRepo;
+import de.hartz.software.sodevsalaryguide.port.repo.EvaluatedDataWriteRepo;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 

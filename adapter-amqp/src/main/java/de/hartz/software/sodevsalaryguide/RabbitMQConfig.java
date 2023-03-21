@@ -9,27 +9,28 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+@ComponentScan
 @Configuration
 public class RabbitMQConfig {
 
-  @Value("${rabbitmq.queue.name}")
-  private String queue;
+  // @Value("${rabbitmq.queue.name}")
+  private String queue = "myRabbitQueue";
 
-  @Value("${rabbitmq.queue.json.name}")
-  private String jsonQueue;
+  // @Value("${rabbitmq.queue.json.name}")
+  private String jsonQueue = "myJsonQueue";
 
-  @Value("${rabbitmq.exchange.name}")
-  private String exchange;
+  // @Value("${rabbitmq.exchange.name}")
+  private String exchange = "myExchange";
 
-  @Value("${rabbitmq.routing.key}")
-  private String routingKey;
+  // @Value("${rabbitmq.routing.key}")
+  private String routingKey = "myRoutingKey";
 
-  @Value("${rabbitmq.routing.json.key}")
-  private String routingJsonKey;
+  // @Value("${rabbitmq.routing.json.key}")
+  private String routingJsonKey = "myJsonRoutingKey";
 
   // spring bean for rabbitmq queue
   @Bean

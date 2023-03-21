@@ -21,4 +21,12 @@ dependencies {
 
     // testImplementation("org.testcontainers:postgresql")
     // testImplementation("org.testcontainers:r2dbc")
+
+
+    val queryDslVersion = "4.2.2"
+    // TODO cant use querydsl
+    // https://stackoverflow.com/a/59951292/8524651
+    // Unable to load class 'com.mysema.codegen.model.Type'.
+    //implementation("com.querydsl:querydsl-sql:${queryDslVersion}")
+    //annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:general")
 }

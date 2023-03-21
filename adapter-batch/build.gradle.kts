@@ -7,6 +7,8 @@ version = "0.0.1-SNAPSHOT"
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":adapter-amqp"))
+    implementation(project(":adapter-persistence"))
     // http
     // TODO: Is there a smaller dependency?
     implementation("org.springframework.boot:spring-boot-starter-web")

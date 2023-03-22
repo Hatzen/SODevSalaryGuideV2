@@ -1,5 +1,6 @@
 package de.hartz.software.sodevsalaryguide.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,13 +20,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AbilityJpa {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="surveyentryid", nullable=false)
-    private SurveyEntryJpa surveyEntryJpa;
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @JoinColumn(name = "surveyentryid")
+  private SurveyEntryJpa surveyEntryJpa;
 
-    private String ability;
+  private String ability;
 }

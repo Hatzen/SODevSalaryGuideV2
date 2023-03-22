@@ -1,5 +1,7 @@
 plugins {
-    java
+    // https://stackoverflow.com/a/64302254/8524651
+    `java-library`
+    `java-test-fixtures`
 }
 
 group = "de.hartz.software.sodevsalaryguide"
@@ -9,11 +11,11 @@ dependencies {
     implementation(project(":core"))
 
     // persistence
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.liquibase:liquibase-core")
+    api("org.springframework.boot:spring-boot-starter-data-jdbc")
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
+    api("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    api("org.springframework.boot:spring-boot-starter-jdbc")
+    api("org.liquibase:liquibase-core")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("org.postgresql:postgresql")

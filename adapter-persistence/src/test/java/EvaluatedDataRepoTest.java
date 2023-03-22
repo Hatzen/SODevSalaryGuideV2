@@ -1,5 +1,6 @@
 import de.hartz.software.sodevsalaryguide.model.Range;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntry;
+import de.hartz.software.sodevsalaryguide.model.enums.Gender;
 import de.hartz.software.sodevsalaryguide.repo.EvaluatedDataRepoJpa;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class EvaluatedDataRepoTest {
             .age(1)
             .abilities(Set.of("SQL", "JAVA", "FUN"))
             .country("DE")
+            .gender(Gender.FEMALE)
             .companySize(new Range(100, 1000))
             .build();
     SurveyEntry testEntryMin = SurveyEntry.builder().salary(1000.0).build();
@@ -34,6 +36,8 @@ public class EvaluatedDataRepoTest {
     evaluatedDataRepoJpa.insertAllSurveyEntries(testEntries);
     List<SurveyEntry> actualEntries = evaluatedDataRepoJpa.getAllSurveyEntries();
 
+    // TODO: ability set may conntain in different order and mapped mapstruct Ranges are filled with
+    // null..
     Assertions.assertEquals(testEntries, actualEntries);
   }
 }

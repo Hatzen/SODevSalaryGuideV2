@@ -6,11 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+// @EnableAutoConfiguration
 @EnableJpaAuditing
 @Configuration
 @ComponentScan
 // TODO: Is componentscan already sufficient?
-@EnableJpaRepositories({"de.hartz.software.sodevsalaryguide.repo"})
+@EnableJpaRepositories(basePackages = {"de.hartz.software.sodevsalaryguide.repo"})
+// https://stackoverflow.com/a/24531432/8524651
+// ,
+// entityManagerFactoryRef = "entityManagerFactory")
 @EntityScan({"de.hartz.software.sodevsalaryguide.model"})
-public class PersistenceConfiguration {
-}
+public class PersistenceConfiguration {}

@@ -1,14 +1,17 @@
 package de.hartz.software.sodevsalaryguide.mapper;
 
 import de.hartz.software.sodevsalaryguide.model.AbilityJpa;
+import de.hartz.software.sodevsalaryguide.model.Range;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntryJpa;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -50,5 +53,29 @@ public interface JpaMapper {
   @ObjectFactory
   default <T> Set<T> createCarDto() {
     return new HashSet<>();
+  }
+
+  // https://stackoverflow.com/a/46533757/8524651
+  @AfterMapping
+  default void after(final @MappingTarget SurveyEntry target, final Range source) {
+    if (source.min() == null && source.max() == null) {
+      if (source == target.getCompanySize()) {
+        target.setCompanySize(null);
+      } else {
+        target.setExpirienceInYears(null);
+      }
+    }
+  }
+
+  // https://stackoverflow.com/a/46533757/8524651
+  @AfterMapping
+  default void after(final @MappingTarget SurveyEntry target) {
+    if (target.getCompanySize().min() == null && target.getCompanySize().max() == null) {
+      target.setCompanySize(null);
+    }
+    if (target.getExpirienceInYears().min() == null
+        && target.getExpirienceInYears().max() == null) {
+      target.setExpirienceInYears(null);
+    }
   }
 }

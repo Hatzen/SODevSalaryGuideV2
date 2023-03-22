@@ -1,7 +1,7 @@
 create table surveyEntry (
-  id bigint not null,
-  computationId bigint not null UNIQUE,
-  salary numeric,
+  id bigint not null auto_increment,
+  computationId bigint UNIQUE,
+  salary float,
   currency text,
   expirienceInYearsMin int,
   expirienceInYearsMax int,
@@ -11,14 +11,14 @@ create table surveyEntry (
   companySizeMax int,
   highestDegree text,
   country text,
-  abilityId bigint not null,
+  abilityId bigint,
   CONSTRAINT fk_surveyEntry_computations FOREIGN KEY (computationId) references computations (computationId),
   CONSTRAINT pk_surveyEntry primary key (id)
 );
 
 create table ability (
-  id bigint not null,
-  surveyEntryId bigint not null UNIQUE,
+  id bigint not null auto_increment,
+  surveyEntryId bigint UNIQUE,
   ability text,
   CONSTRAINT fk_ability_surveyEntry FOREIGN KEY (surveyEntryId) references surveyEntry (id),
   primary key (id)

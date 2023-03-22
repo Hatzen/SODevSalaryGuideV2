@@ -22,7 +22,8 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
     // https://www.baeldung.com/hibernate-select-all
     val list =
         entityManager
-            .createQuery("SELECT a FROM SurveyEntryJpa a", SurveyEntryJpa.class)
+            .createQuery(
+                "SELECT a FROM SurveyEntryJpa a LEFT JOIN a.abilities b", SurveyEntryJpa.class)
             .getResultList();
     return list.stream()
         .map(JpaMapper.INSTANCE::surveyEntryJpaToDomain)

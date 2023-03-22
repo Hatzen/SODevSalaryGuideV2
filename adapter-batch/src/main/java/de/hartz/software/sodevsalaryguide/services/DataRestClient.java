@@ -16,7 +16,7 @@ public class DataRestClient {
 
   // TODO:
   // https://stackoverflow.com/questions/51845228/proper-way-of-streaming-using-responseentity-and-making-sure-the-inputstream-get
-  public DataRestClient() {
+  public void getFile() {
     String csvName = "testCsv.csv";
     ResponseEntity<Resource> response =
         restTemplateBuilder.build().getForEntity(HOST + PATH + "/" + csvName, Resource.class);

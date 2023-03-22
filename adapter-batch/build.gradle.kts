@@ -19,4 +19,6 @@ dependencies {
 
     testImplementation("org.springframework.batch:spring-batch-test")
 
+    // https://stackoverflow.com/a/60138176/8524651
+    testImplementation(testFixtures(project(":adapter-persistence")))
 }

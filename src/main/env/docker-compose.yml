@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres-database:
+    build: database/
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+        - ./data/database:/var/lib/postgresql/data
+
+  # https://www.section.io/engineering-education/dockerize-a-rabbitmq-instance/
+  rabbitmq3:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.8-management-alpine
+    environment:
+        - RABBITMQ_DEFAULT_USER=myuser
+        - RABBITMQ_DEFAULT_PASS=mypassword
+    ports:
+        # AMQP protocol port
+        - '5672:5672'
+        # HTTP management UI
+        - '15672:15672'
+
+# TODO: Add spring http server and batch

@@ -9,6 +9,11 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":adapter-amqp"))
     implementation(project(":adapter-persistence"))
+
+
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("com.h2database:h2")
+    
     // http
     // TODO: Is there a smaller dependency?
     implementation("org.springframework.boot:spring-boot-starter-web")

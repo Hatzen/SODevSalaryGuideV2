@@ -9,6 +9,7 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -23,6 +24,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 // @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BatchTestConfig.class})
+// @Profile({"persistence-test"})
+@Profile({"persistence-test"})
 public class BatchComponentTest {
 
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;

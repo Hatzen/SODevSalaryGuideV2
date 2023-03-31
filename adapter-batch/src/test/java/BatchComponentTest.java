@@ -9,23 +9,19 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-// https://stackoverflow.com/a/39215237/8524651
-// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// https://stackoverflow.com/a/55838334/8524651
-@AutoConfigureTestDatabase
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureWebClient // https://stackoverflow.com/a/43131830/8524651
 @DataJpaTest
+// @SpringBootTest
 @SpringBatchTest
-
-// @AutoConfigureWebClient
-// @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BatchTestConfig.class})
-// @Profile({"persistence-test"})
-@Profile({"persistence-test"})
+@ActiveProfiles({"persistence-test", "batch-test"})
 public class BatchComponentTest {
 
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;

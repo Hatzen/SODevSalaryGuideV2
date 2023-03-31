@@ -13,7 +13,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("com.h2database:h2")
-    
+
     // http
     // TODO: Is there a smaller dependency?
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -26,4 +26,5 @@ dependencies {
 
     // https://stackoverflow.com/a/60138176/8524651
     testImplementation(testFixtures(project(":adapter-persistence")))
+    testImplementation((project(":adapter-persistence")))
 }

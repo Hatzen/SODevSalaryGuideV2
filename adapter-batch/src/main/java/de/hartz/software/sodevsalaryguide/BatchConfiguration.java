@@ -15,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.PlatformTransactionManager;
 
-// @Import({RabbitMQConfig.class})
+@Import({RabbitMQConfig.class})
 @ComponentScan
 @Configuration
 public class BatchConfiguration {

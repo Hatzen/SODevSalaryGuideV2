@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="start-intake-worker-batch" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.InputCsvWorkerBatchApplication" />
+    <module name="backend.adapter-batch.main" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=prod" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

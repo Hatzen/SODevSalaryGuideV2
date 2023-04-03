@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RawDataRepoJpa implements RawDataRepo {
 
-  @Autowired private RawDataCrudRepo crudRepo;
+  @Autowired private RawDataCrudRepo rawDataCrudRepo;
 
   @Override
   public void insertRawRow(RawRow rawRow) {
     val mappedinstance = RawRowJpaMapper.INSTANCE.surveyEntryDomainToJpa(rawRow);
-    crudRepo.save(mappedinstance);
+    rawDataCrudRepo.save(mappedinstance);
   }
 }

@@ -13,6 +13,7 @@ dependencies {
     // persistence
     api("org.springframework.boot:spring-boot-starter-data-jdbc")
     api("org.springframework.boot:spring-boot-starter-data-jpa")
+    api("org.hibernate:hibernate-core:5.4.24.Final")
     api("org.springframework.boot:spring-boot-starter-data-r2dbc")
     api("org.springframework.boot:spring-boot-starter-jdbc")
     api("org.liquibase:liquibase-core")

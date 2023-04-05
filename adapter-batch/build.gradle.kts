@@ -1,9 +1,23 @@
-plugins {
-    id("java")
+// https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveClassifier.set("boot")
+    mainClass.set("de.hartz.software.sodevsalaryguide.InputCsvWorkerBatchApplication")
 }
 
-group = "de.hartz.software.sodevsalaryguide"
-version = "0.0.1-SNAPSHOT"
+tasks.named<Jar>("jar") {
+    archiveClassifier.set("")
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            artifact.set("sodevsalaryguide-intake-worker")
+            version.set("1.0.0-alpha")
+            group.set("de.hartz.software.sodevsalaryguide")
+            name.set("Stackoverflow Salary Guide V2 Worker Intake")
+        }
+    }
+}
 
 dependencies {
     implementation(project(":core"))

@@ -2,12 +2,12 @@ plugins {
     java
     war
     id("org.springframework.boot") version "3.0.5"
-    // id("io.spring.dependency-management") version "1.1.0"
+    id("io.spring.dependency-management") version "1.1.0"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 val snippetsDir by extra { file("build/generated-snippets") }
-// val testcontainersVersion by extra { "1.17.6" }
+val testcontainersVersion by extra { "1.17.6" }
 
 allprojects {
     group = "de.hartz.software.sodevsalaryguide"
@@ -40,20 +40,19 @@ allprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
             exclude("org.junit.vintage", "junit-vintage-engine")
         }
-        // testImplementation("org.testcontainers:junit-jupiter")
+        testImplementation("org.testcontainers:junit-jupiter")
 
 
         implementation("org.mapstruct:mapstruct:1.5.3.Final")
         annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
     }
 
-    /*
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
             mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
         }
-    }*/
+    }
 
     tasks.withType<Test> {
         useJUnitPlatform()

@@ -1,6 +1,5 @@
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
+    war
 }
 
 // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
@@ -30,21 +29,18 @@ dependencies {
     implementation(project(":adapter-frontend"))
     implementation(project(":adapter-persistence"))
 
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.hibernate:hibernate-core:5.4.24.Final")
-
-    // runtimeOnly("com.h2database:h2")
-
     // http
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-tomcat")
 
+    runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
     // providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     // TODO: add reactive with https://www.baeldung.com/spring-webflux
 
+    // implementation("org.springframework.boot:spring-boot-starter-web-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }

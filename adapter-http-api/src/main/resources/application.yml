@@ -1,0 +1,4 @@
+#spring:
+#  main:
+#    # https://stackoverflow.com/a/50232382/8524651
+#    web-application-type: none

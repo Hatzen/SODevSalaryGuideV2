@@ -23,18 +23,14 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":adapter-amqp"))
     implementation(project(":adapter-persistence"))
-
-
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("com.h2database:h2")
-
+    
     // http
     // TODO: Is there a smaller dependency?
     implementation("org.springframework.boot:spring-boot-starter-web")
 
     // batch
     implementation("org.springframework.boot:spring-boot-starter-batch")
-    implementation("com.opencsv:opencsv:4.1")
+    implementation("com.opencsv:opencsv:5.7.1")
 
     testImplementation("org.springframework.batch:spring-batch-test")
 

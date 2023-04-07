@@ -1,6 +1,7 @@
 package de.hartz.software.sodevsalaryguide.helper;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import de.hartz.software.sodevsalaryguide.model.raw.HeaderMetaUntyped;
 import de.hartz.software.sodevsalaryguide.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.model.raw.RawRow;
@@ -41,7 +42,7 @@ public class FileHandler {
     }
   }
 
-  private void initHeaders() throws IOException {
+  private void initHeaders() throws IOException, CsvValidationException {
     headerMetaUntyped = new ArrayList<>();
     String[] line = cSVReader.readNext();
     for (String header : line) {

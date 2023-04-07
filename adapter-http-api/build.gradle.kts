@@ -1,5 +1,6 @@
 plugins {
     war
+    application
 }
 
 // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
@@ -34,9 +35,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-tomcat")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
-    // providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     // TODO: add reactive with https://www.baeldung.com/spring-webflux
 
     // implementation("org.springframework.boot:spring-boot-starter-web-test")

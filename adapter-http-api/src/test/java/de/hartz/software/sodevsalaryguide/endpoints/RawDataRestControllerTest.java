@@ -2,10 +2,10 @@ package de.hartz.software.sodevsalaryguide.endpoints;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import de.hartz.software.sodevsalaryguide.HttpApiTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -17,9 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-// @AutoConfigureWebMvc
-@ContextConfiguration(
-    classes = {HibernateJpaAutoConfiguration.class}) // , WebMvcAutoConfiguration.class
+@ContextConfiguration(classes = {HttpApiTestConfiguration.class})
 public class RawDataRestControllerTest {
 
   @Autowired MockMvc mockMvc;

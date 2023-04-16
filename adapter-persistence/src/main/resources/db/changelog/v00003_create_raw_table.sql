@@ -7,5 +7,5 @@ create table raw_survey_entries (
   CONSTRAINT pk_raw_survey_entries_2011 primary key (id)
 );
 
-ALTER TABLE computations
-    ADD CONSTRAINT fk_computations_raw_survey_entries_2011 FOREIGN KEY (computationId) REFERENCES raw_survey_entries (computationId)  ON DELETE CASCADE;
+--ALTER TABLE computations
+--    ADD CONSTRAINT fk_computations_raw_survey_entries_2011 FOREIGN KEY (computationId) REFERENCES raw_survey_entries (computationId)  ON DELETE CASCADE;

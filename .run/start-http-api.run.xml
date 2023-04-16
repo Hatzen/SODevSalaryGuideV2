@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="start-http-api" type="Application" factoryName="Application">
-        <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.WebuiApplication"/>
-        <module name="backend.adapter-http-api.main"/>
-        <option name="VM_PARAMETERS" value="-Dspring.profiles.active=persistence-test -Ddebug"/>
-        <method v="2">
-            <option name="Make" enabled="true"/>
-        </method>
-    </configuration>
+  <configuration default="false" name="start-http-api" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.WebuiApplication" />
+    <module name="backend.adapter-http-api.main" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=prod -Ddebug" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
 </component>

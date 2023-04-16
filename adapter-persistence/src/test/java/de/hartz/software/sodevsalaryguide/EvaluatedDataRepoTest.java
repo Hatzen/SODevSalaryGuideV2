@@ -1,3 +1,5 @@
+package de.hartz.software.sodevsalaryguide;
+
 import de.hartz.software.sodevsalaryguide.model.Range;
 import de.hartz.software.sodevsalaryguide.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.model.enums.Gender;

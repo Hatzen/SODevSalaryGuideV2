@@ -1,4 +1,5 @@
-import de.hartz.software.sodevsalaryguide.PersistenceConfiguration;
+package de.hartz.software.sodevsalaryguide;
+
 import org.springframework.context.annotation.Import;
 
 @Import(value = PersistenceConfiguration.class)

@@ -5,25 +5,31 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "computations")
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ComputationJpa {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(nullable = false)
-    private Long computationid;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @Column(nullable = false)
+  private Long computationid;
 
-    private LocalDateTime starttime;
-    private LocalDateTime endtime;
+  // @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  // @JoinColumn(name = "computationid")
+  // private List<RawRowJpa> rawRowJpas;
 
-    private Integer year;
-    private Integer chunk;
+  private LocalDateTime starttime;
+  private LocalDateTime endtime;
 
+  private Integer year;
+  private Integer chunk;
 }

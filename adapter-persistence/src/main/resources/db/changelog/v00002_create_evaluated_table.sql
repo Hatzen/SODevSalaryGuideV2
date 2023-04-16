@@ -27,5 +27,5 @@ create table ability (
 ALTER TABLE surveyEntry
     ADD CONSTRAINT fk_surveyEntry_ability FOREIGN KEY (abilityId) REFERENCES ability (id)  ON DELETE CASCADE;
 
-ALTER TABLE computations
-    ADD CONSTRAINT fk_computations_surveyEntry FOREIGN KEY (computationId) REFERENCES surveyEntry (computationId)  ON DELETE CASCADE;
+--ALTER TABLE computations
+--    ADD CONSTRAINT fk_computations_surveyEntry FOREIGN KEY (computationId) REFERENCES surveyEntry (computationId)  ON DELETE CASCADE;

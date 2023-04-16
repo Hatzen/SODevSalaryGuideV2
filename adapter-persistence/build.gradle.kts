@@ -13,20 +13,20 @@ dependencies {
     // persistence
     api("org.springframework.boot:spring-boot-starter-data-jdbc")
     api("org.springframework.boot:spring-boot-starter-data-jpa")
-    api("org.hibernate:hibernate-core:6.1.7.Final")
+    // api("org.hibernate:hibernate-core:6.1.7.Final")
     api("org.springframework.boot:spring-boot-starter-data-r2dbc")
     api("org.springframework.boot:spring-boot-starter-jdbc")
     api("org.liquibase:liquibase-core")
+
     runtimeOnly("com.h2database:h2")
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
 
-
-    api("com.h2database:h2")
-    api("io.r2dbc:r2dbc-h2")
-    api("org.postgresql:postgresql")
-    api("org.postgresql:r2dbc-postgresql")
+    // api("com.h2database:h2")
+    // api("io.r2dbc:r2dbc-h2")
+    // api("org.postgresql:postgresql")
+    // api("org.postgresql:r2dbc-postgresql")
 
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:r2dbc")

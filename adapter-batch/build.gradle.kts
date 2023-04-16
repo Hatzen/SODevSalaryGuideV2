@@ -1,3 +1,6 @@
+plugins {
+    application
+}
 // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     archiveClassifier.set("boot")
@@ -23,7 +26,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":adapter-amqp"))
     implementation(project(":adapter-persistence"))
-    
+
     // http
     // TODO: Is there a smaller dependency?
     implementation("org.springframework.boot:spring-boot-starter-web")

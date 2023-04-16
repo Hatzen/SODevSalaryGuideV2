@@ -1,12 +1,16 @@
 package de.hartz.software.sodevsalaryguide.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,14 +18,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "raw_survey_entries")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RawRowJpa {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne
-  @JoinColumn(name = "computationid")
+  // , mappedBy = "computationid" // TODO: Not usable as the id column is not the join column.
+  // @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  // @JoinColumn(name = "computationid")
+  // private ComputationJpa computation;
+
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "computationid", referencedColumnName = "computationid", nullable = false)
+  // @MapsId
   private ComputationJpa computation;
 
   // TODO: implement properly https://www.baeldung.com/hibernate-persisting-maps

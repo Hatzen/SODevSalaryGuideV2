@@ -30,9 +30,12 @@ allprojects {
     dependencies {
         // base
         compileOnly("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
+        testCompileOnly("org.projectlombok:lombok")
+        testAnnotationProcessor("org.projectlombok:lombok")
+
         developmentOnly("org.springframework.boot:spring-boot-devtools")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-        annotationProcessor("org.projectlombok:lombok")
 
         implementation(platform("org.springframework.boot:spring-boot-dependencies:3.0.5"))
 

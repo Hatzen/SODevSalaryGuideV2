@@ -29,6 +29,7 @@ dependencies {
     // modules
     implementation(project(":adapter-frontend"))
     implementation(project(":adapter-persistence"))
+    annotationProcessor(project(":adapter-persistence"))
 
     // http
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -41,8 +42,12 @@ dependencies {
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     // TODO: add reactive with https://www.baeldung.com/spring-webflux
 
+
+    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // implementation("org.hibernate:hibernate-core:6.1.7.Final")
+
     // implementation("org.springframework.boot:spring-boot-starter-web-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation(testFixtures(project(":adapter-persistence")))
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }

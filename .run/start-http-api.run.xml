@@ -1,10 +1,13 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="start-http-api" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="17" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.WebuiApplication" />
     <module name="backend.adapter-http-api.main" />
-    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=prod -Ddebug" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/adapter-http-api" />
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="MakeProject" enabled="true" />
     </method>
   </configuration>
 </component>

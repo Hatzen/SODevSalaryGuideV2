@@ -1,4 +1,25 @@
-#spring:
-#  main:
-#    # https://stackoverflow.com/a/50232382/8524651
-#    web-application-type: none
+test: 12356
+
+spring:
+  config:
+    import: classpath:/application-prod.properties
+
+  hibernate:
+    connection:
+      url: jdbc:postgresql://localhost:9999/postgres
+    dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  javax:
+    persistence:
+      jdbc:
+        url: jdbc:postgresql://localhost:9999/postgres
+
+
+hibernate:
+  connection:
+    url: jdbc:postgresql://localhost:9999/postgres
+  dialect: org.hibernate.dialect.PostgreSQL9Dialect
+javax:
+  persistence:
+    jdbc:
+      url: jdbc:postgresql://localhost:9999/postgres
+

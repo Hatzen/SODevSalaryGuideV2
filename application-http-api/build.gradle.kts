@@ -38,17 +38,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
 
-    // https://stackoverflow.com/questions/42839126/configurationproperties-spring-boot-configuration-annotation-processor-not-foun
-    implementation("org.springframework.boot:spring-boot-configuration-processor")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     // TODO: add reactive with https://www.baeldung.com/spring-webflux
-
-
-    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    // implementation("org.hibernate:hibernate-core:6.1.7.Final")
 
     // implementation("org.springframework.boot:spring-boot-starter-web-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")

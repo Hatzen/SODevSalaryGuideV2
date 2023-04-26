@@ -3,6 +3,7 @@ package de.hartz.software.sodevsalaryguide.adapter.persistence;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
@@ -14,6 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 // @Import(HibernateJpaAutoConfiguration.class) // TODO: leads to test errors
 // Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of
 // type 'jakarta.persistence.EntityManagerFactory' available
+
+@PropertySource(value = "classpath:application.properties")
 public class PersistenceConfiguration {
 
   // TODO: why is it not obtained directly?

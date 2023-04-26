@@ -6,20 +6,11 @@ spring:
 
   # https://www.cockroachlabs.com/blog/tutorial-spring-hibernate/
   datasource:
-    url: jdbc:postgresql://localhost:9999/postgres?sslmode=disable
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password:
+    url: jdbc:postgresql://localhost:9999/postgres
+    username: sodevuser
+    password: sodevuserpw
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
-
-
-hibernate:
-  dialect: org.hibernate.dialect.PostgreSQL9Dialect
-  connection:
-    driver_class: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:9999/postgres
-    user: postgres
-    password:

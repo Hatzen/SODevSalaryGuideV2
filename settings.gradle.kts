@@ -7,11 +7,11 @@ pluginManagement {
     }
 }
 
-rootProject.name = "backend"
+rootProject.name = "sodevsalaryguide"
 
-include("adapter-http-api")
+include("application-http-api")
+include("application-batch-worker-intake")
 include("adapter-frontend")
 include("adapter-persistence")
-include("adapter-batch")
 include("adapter-amqp")
 include("core")

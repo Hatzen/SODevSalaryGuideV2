@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=de.hartz.software.sodevsalaryguide.PersistenceConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceConfiguration

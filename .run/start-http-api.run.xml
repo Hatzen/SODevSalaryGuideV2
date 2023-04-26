@@ -2,9 +2,9 @@
   <configuration default="false" name="start-http-api" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="17" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.WebuiApplication" />
-    <module name="backend.adapter-http-api.main" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/adapter-http-api" />
+    <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.application.http.api.WebuiApplication" />
+    <module name="sodevsalaryguide.application-http-api.main" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/application-http-api" />
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="MakeProject" enabled="true" />

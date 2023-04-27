@@ -9,9 +9,11 @@ pluginManagement {
 
 rootProject.name = "sodevsalaryguide"
 
-include("application-http-api")
-include("application-batch-worker-intake")
-include("adapter-frontend")
-include("adapter-persistence")
-include("adapter-amqp")
-include("core")
+include(
+    "application-http-api",
+    "application-batch-worker-intake",
+    "adapter-frontend",
+    "adapter-persistence",
+    "adapter-amqp",
+    "core"
+)

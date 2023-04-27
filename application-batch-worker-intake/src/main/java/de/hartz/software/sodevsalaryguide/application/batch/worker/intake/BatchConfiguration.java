@@ -1,13 +1,15 @@
 package de.hartz.software.sodevsalaryguide.application.batch.worker.intake;
 
 import de.hartz.software.sodevsalaryguide.adapater.amqp.RabbitMQConfig;
-import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
-import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
+import de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceConfiguration;
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.InputProcessor;
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.InputReader;
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.OutputWriter;
+import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
+import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -19,8 +21,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.PlatformTransactionManager;
 
-@Import({RabbitMQConfig.class})
+// TODO: looks like autoconfiguration PersistenceConfiguration not loaded..
+@Import({RabbitMQConfig.class, PersistenceConfiguration.class})
+// @Import({RabbitMQConfig.class})
 @ComponentScan
+@EnableBatchProcessing
 @Configuration
 public class BatchConfiguration {
 

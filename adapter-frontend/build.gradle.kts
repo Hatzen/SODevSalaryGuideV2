@@ -3,6 +3,10 @@ plugins {
     id("org.siouan.frontend-jdk11") version "6.0.0"
 }
 
+tasks.named<Jar>("jar") {
+    archiveClassifier.set("")
+}
+
 dependencies {
     // http
     implementation("org.springframework.boot:spring-boot-starter-web")

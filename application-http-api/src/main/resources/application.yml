@@ -3,19 +3,3 @@ test: 12356
 spring:
   config:
     import: classpath:/application-prod.properties
-
-  hibernate:
-    connection:
-      url: jdbc:postgresql://localhost:9999/postgres
-    dialect: org.hibernate.dialect.PostgreSQL9Dialect
-
-
-hibernate:
-  connection:
-    url: jdbc:postgresql://localhost:9999/postgres
-  dialect: org.hibernate.dialect.PostgreSQL9Dialect
-javax:
-  persistence:
-    jdbc:
-      url: jdbc:postgresql://localhost:9999/postgres
-

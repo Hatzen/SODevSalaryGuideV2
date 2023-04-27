@@ -1,10 +1,12 @@
 plugins {
     application
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     archiveClassifier.set("boot")
-    mainClass.set("de.hartz.software.sodevsalaryguide.InputCsvWorkerBatchApplication")
+    mainClass.set("de.hartz.software.sodevsalaryguide.application.batch.worker.intake.InputCsvWorkerBatchApplication")
 }
 
 tasks.named<Jar>("jar") {
@@ -25,7 +27,9 @@ springBoot {
 dependencies {
     implementation(project(":core"))
     implementation(project(":adapter-amqp"))
+    annotationProcessor(project(":adapter-amqp"))
     implementation(project(":adapter-persistence"))
+    annotationProcessor(project(":adapter-persistence"))
 
     // http
     // TODO: Is there a smaller dependency?

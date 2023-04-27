@@ -1,12 +1,15 @@
 plugins {
     war
     application
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+
 }
 
 // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     archiveClassifier.set("boot")
-    mainClass.set("de.hartz.software.sodevsalaryguide.BackendApplication")
+    mainClass.set("de.hartz.software.sodevsalaryguide.application.http.api.WebuiApplication")
 }
 
 tasks.named<Jar>("jar") {

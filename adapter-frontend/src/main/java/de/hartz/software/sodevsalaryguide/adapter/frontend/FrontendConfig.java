@@ -1,6 +1,5 @@
 package de.hartz.software.sodevsalaryguide.adapter.frontend;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -9,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableAutoConfiguration
 @Configuration
-@RequiredArgsConstructor
 class FrontendConfig implements WebMvcConfigurer {
 
   @Override

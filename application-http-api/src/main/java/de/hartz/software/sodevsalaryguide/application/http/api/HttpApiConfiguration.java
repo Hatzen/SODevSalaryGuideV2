@@ -1,5 +1,6 @@
 package de.hartz.software.sodevsalaryguide.application.http.api;
 
+import de.hartz.software.sodevsalaryguide.adapter.frontend.FrontendConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

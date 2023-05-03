@@ -33,7 +33,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":adapter-frontend"))
     implementation(project(":adapter-persistence"))
-    annotationProcessor(project(":adapter-persistence"))
+    // annotationProcessor(project(":adapter-persistence"))
 
     // http
     implementation("org.springframework.boot:spring-boot-starter-actuator")

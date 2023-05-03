@@ -1,5 +1,5 @@
 create table surveyEntry (
-  id bigint not null auto_increment,
+  id serial not null,
   computationId bigint UNIQUE,
   salary float,
   currency text,
@@ -17,7 +17,7 @@ create table surveyEntry (
 );
 
 create table ability (
-  id bigint not null auto_increment,
+  id serial not null,
   surveyEntryId bigint UNIQUE,
   ability text,
   CONSTRAINT fk_ability_surveyEntry FOREIGN KEY (surveyEntryId) references surveyEntry (id),

@@ -4,7 +4,7 @@ plugins {
     java
     `java-test-fixtures`
     id("org.springframework.boot") apply false
-    id("io.spring.dependency-management") apply false
+    id("io.spring.dependency-management")
 }
 
 group = "de.hartz.software.sodevsalaryguide"

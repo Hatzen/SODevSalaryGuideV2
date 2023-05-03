@@ -1,5 +1,5 @@
 create table raw_survey_entries (
-  id bigint not null auto_increment,
+  id serial not null,
   computationId bigint not null UNIQUE,
 
 

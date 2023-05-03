@@ -1,13 +1,11 @@
-package de.hartz.software.sodevsalaryguide.adapter.frontend;
+package de.hartz.software.sodevsalaryguide.application.http.api;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@EnableAutoConfiguration
-@AutoConfiguration
+@Configuration
 public class FrontendConfig implements WebMvcConfigurer {
 
   @Override

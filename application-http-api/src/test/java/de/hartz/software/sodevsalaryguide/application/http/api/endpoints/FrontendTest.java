@@ -31,11 +31,17 @@ public class FrontendTest {
   }
 
   @Test
-  public void fgetApiOverallCount_withValidUrl_returnsNumber() throws Exception {
+  public void getApiOverallCount_withValidUrl_returnsNumber() throws Exception {
     mvc.perform(
             MockMvcRequestBuilders.get("/api/v1/participations/overall")
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().string(equalTo("1678737792891")));
+  }
+
+  @Test
+  public void getApp_withValidUrl_returnsFile() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/app/index.html").accept(MediaType.TEXT_PLAIN))
+        .andExpect(status().isOk());
   }
 }

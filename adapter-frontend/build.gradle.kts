@@ -1,7 +1,7 @@
 plugins {
     java
     id("org.siouan.frontend-jdk11") version "6.0.0"
-    id("org.springframework.boot") apply false
+    id("org.springframework.boot")
     id("io.spring.dependency-management")
 }
 

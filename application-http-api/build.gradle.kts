@@ -32,6 +32,7 @@ dependencies {
     // modules
     implementation(project(":core"))
     implementation(project(":adapter-frontend"))
+    annotationProcessor(project(":adapter-frontend"))
     implementation(project(":adapter-persistence"))
     // annotationProcessor(project(":adapter-persistence"))
 

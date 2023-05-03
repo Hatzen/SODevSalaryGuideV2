@@ -3,3 +3,16 @@ test: 12356
 spring:
   config:
     import: classpath:/application-prod.properties
+
+  # TODO: is persistence config enought? move at least to prod config
+  datasource:
+    # todo what is the proper format?
+    driverClassName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:9999/postgres
+    username: sodevuser
+    password: sodevuserpw
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQL95Dialect

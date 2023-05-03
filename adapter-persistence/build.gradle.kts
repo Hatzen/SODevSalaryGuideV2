@@ -1,6 +1,7 @@
 plugins {
     // https://stackoverflow.com/a/64302254/8524651
-    `java`
+    // `java-library`
+    java
     `java-test-fixtures`
     id("org.springframework.boot")
     id("io.spring.dependency-management")
@@ -12,22 +13,42 @@ version = "0.0.1-SNAPSHOT"
 tasks.named<Jar>("jar") {
     archiveClassifier.set("")
 }
+/*
+bootJar {
+    enabled = false
+}
+
+sun.tools.jar.resources.jar {
+    enabled = true
+}
+ */
 
 dependencies {
     implementation(project(":core"))
 
+    // api("org.springframework.boot:spring-boot-starter")
     // persistence
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc") // api("org.springframework.boot:spring-boot-starter-data-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa") // api("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc") // api("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc") // api("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.liquibase:liquibase-core") // api("org.liquibase:liquibase-core")
+
+    // TODO: Probably we dont want to use api as the dependencies get leaked to other modules..
+    // api("org.springframework.boot:spring-boot-starter-data-jdbc")
+    // api("org.springframework.boot:spring-boot-starter-data-jpa")
+    // api("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    // api("org.springframework.boot:spring-boot-starter-jdbc")
+    // api("org.liquibase:liquibase-core")
+
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.liquibase:liquibase-core")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:r2dbc")
 

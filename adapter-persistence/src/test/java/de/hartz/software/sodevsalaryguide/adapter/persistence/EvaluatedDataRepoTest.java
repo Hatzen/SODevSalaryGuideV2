@@ -16,7 +16,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = PersistenceTestConfig.class)
+@ContextConfiguration(classes = PersistenceConfiguration.class)
+// @ContextConfiguration(classes = PersistenceTestConfig.class)
+// @AutoConfigureTestDatabase
 @DataJpaTest
 @ActiveProfiles({"persistence-test"})
 public class EvaluatedDataRepoTest {

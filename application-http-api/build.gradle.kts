@@ -30,6 +30,7 @@ springBoot {
 
 dependencies {
     // modules
+    implementation(project(":core"))
     implementation(project(":adapter-frontend"))
     implementation(project(":adapter-persistence"))
     annotationProcessor(project(":adapter-persistence"))
@@ -41,6 +42,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
 
+    // https://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/html/boot-features-developing-auto-configuration.html#boot-features-custom-starter-module-autoconfigure
+    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
 
     runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

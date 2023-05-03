@@ -12,13 +12,11 @@ public class FrontendConfig implements WebMvcConfigurer {
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    // registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
     registry.addResourceHandler("/app/**").addResourceLocations("classpath:/public/");
   }
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    // registry.addViewController("/").setViewName("forward:/app/index.html");
     registry.addViewController("/app/").setViewName("forward:/app/index.html");
   }
 }

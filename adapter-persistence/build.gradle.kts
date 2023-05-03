@@ -3,17 +3,18 @@ plugins {
     // `java-library`
     java
     `java-test-fixtures`
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
+    id("org.springframework.boot") apply false
+    id("io.spring.dependency-management") apply false
 }
 
 group = "de.hartz.software.sodevsalaryguide"
 version = "0.0.1-SNAPSHOT"
 
+/*
 tasks.named<Jar>("jar") {
+    // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable.and-plain-archives
     archiveClassifier.set("")
 }
-/*
 bootJar {
     enabled = false
 }
@@ -26,31 +27,23 @@ sun.tools.jar.resources.jar {
 dependencies {
     implementation(project(":core"))
 
-    // api("org.springframework.boot:spring-boot-starter")
     // persistence
 
-    // TODO: Probably we dont want to use api as the dependencies get leaked to other modules..
-    // api("org.springframework.boot:spring-boot-starter-data-jdbc")
-    // api("org.springframework.boot:spring-boot-starter-data-jpa")
-    // api("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    // api("org.springframework.boot:spring-boot-starter-jdbc")
-    // api("org.liquibase:liquibase-core")
-
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    // implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    // implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    //implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
 
     runtimeOnly("com.h2database:h2")
-    runtimeOnly("io.r2dbc:r2dbc-h2")
+    //runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("org.postgresql:postgresql")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    //runtimeOnly("org.postgresql:r2dbc-postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:r2dbc")
+    //testImplementation("org.testcontainers:r2dbc")
 
 
     val queryDslVersion = "4.2.2"

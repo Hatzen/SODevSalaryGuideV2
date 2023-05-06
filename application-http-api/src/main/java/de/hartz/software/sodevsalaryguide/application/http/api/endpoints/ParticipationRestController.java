@@ -16,6 +16,6 @@ class ParticipationRestController {
 
   @GetMapping("/overall")
   public long getOverallParicipationCount() {
-    return 1678737792891L;
+    return evaluatedDataRepo.getAllSurveyEntries().size();
   }
 }

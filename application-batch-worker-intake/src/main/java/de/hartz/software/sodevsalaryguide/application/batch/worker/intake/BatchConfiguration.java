@@ -28,6 +28,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableBatchProcessing
 @Configuration
 public class BatchConfiguration {
+  // TODO: Maybe use extended features:
+  // https://docs.spring.io/spring-batch/docs/current/reference/html/job.html#advancedMetaData
 
   private static final int CHUNK_SIZE = 1000;
 

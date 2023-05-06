@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @AutoConfiguration
 @EnableAutoConfiguration // for hibernate autoconfiguration needed?
-@ComponentScan(basePackages = {"de.hartz.software.sodevsalaryguide"})
-@EnableJpaRepositories(basePackages = {"de.hartz.software.sodevsalaryguide"})
-@EntityScan({"de.hartz.software.sodevsalaryguide"})
+@ComponentScan
+@EnableJpaRepositories(
+    basePackages = {"de.hartz.software.sodevsalaryguide.adapter.persistence.repo"})
+@EntityScan({"de.hartz.software.sodevsalaryguide.adapter.persistence.model"})
 public class PersistenceConfiguration {}

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 
-@SpringBootApplication(scanBasePackages = "de.hartz.software.sodevsalaryguide")
+@SpringBootApplication
 @Import({HttpApiConfiguration.class})
 public class WebuiApplication {
 

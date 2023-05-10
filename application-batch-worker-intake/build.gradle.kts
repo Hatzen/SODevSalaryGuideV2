@@ -42,7 +42,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.batch:spring-batch-test")
 
+    testImplementation(testFixtures(project(":adapter-amqp")))
     // https://stackoverflow.com/a/60138176/8524651
     testImplementation(testFixtures(project(":adapter-persistence")))
-    testImplementation((project(":adapter-persistence")))
+    testImplementation(testFixtures(project(":adapter-amqp")))
 }

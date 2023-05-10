@@ -9,7 +9,6 @@ import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -25,7 +24,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Import({RabbitMQConfig.class, PersistenceConfiguration.class})
 // @Import({RabbitMQConfig.class})
 @ComponentScan
-@EnableBatchProcessing
+// @EnableBatchProcessing
 @Configuration
 public class BatchConfiguration {
   // TODO: Maybe use extended features:

@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBatchTest
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BatchTestConfig.class})
-@ActiveProfiles({"persistence-test", "batch-test"})
+@ActiveProfiles({"persistence-test", "batch-test", "amqp-test"})
 public class BatchComponentTest {
 
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;

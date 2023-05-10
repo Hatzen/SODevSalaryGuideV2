@@ -1,6 +1,6 @@
 plugins {
     // https://stackoverflow.com/a/64302254/8524651
-    // `java-library`
+    // `java-library` // TODO: Should we use the library plugin or the default java plugin?
     java
     `java-test-fixtures`
     id("org.springframework.boot") apply false
@@ -10,28 +10,15 @@ plugins {
 group = "de.hartz.software.sodevsalaryguide"
 version = "0.0.1-SNAPSHOT"
 
-/*
-tasks.named<Jar>("jar") {
-    // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable.and-plain-archives
-    archiveClassifier.set("")
-}
-bootJar {
-    enabled = false
-}
-
-sun.tools.jar.resources.jar {
-    enabled = true
-}
- */
-
 dependencies {
     implementation(project(":core"))
 
     // persistence
 
     implementation("org.springframework.boot:spring-boot-starter")
-    // implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // TODO: Probably leading to errors as introducing multiple datasources?
+    // implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     // implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     //implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
@@ -52,4 +39,7 @@ dependencies {
     // Unable to load class 'com.mysema.codegen.model.Type'.
     //implementation("com.querydsl:querydsl-sql:${queryDslVersion}")
     //annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:general")
+
+
+    testFixturesImplementation("org.springframework.boot:spring-boot-starter")
 }

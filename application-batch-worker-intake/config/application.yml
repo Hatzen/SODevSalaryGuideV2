@@ -1,23 +1,13 @@
 server:
   port: 8082
 
-spring:
-  batch:
-    initializer:
-      enabled: true
-    jdbc:
-      # https://stackoverflow.com/a/65473668/8524651
-      initialize-schema: always
-  config:
-    import: classpath:/application-prod.properties
+    #spring:
+    #  batch:
+    #    initializer:
+    #      enabled: true
+    #    jdbc:
+    # https://stackoverflow.com/a/65473668/8524651
+  # initialize-schema: never # always
+  #config:
+  #  import: classpath:/application-prod.properties
 
-  # https://www.cockroachlabs.com/blog/tutorial-spring-hibernate/
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:9999/postgres
-    username: sodevuser
-    password: sodevuserpw
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL95Dialect

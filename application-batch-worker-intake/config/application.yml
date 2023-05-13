@@ -1,6 +1,15 @@
 server:
   port: 8082
 
+spring:
+  batch:
+    jdbc:
+      #schema: classpath:org/springframework/batch/core/schema-postgres.sql
+      schema: classpath:org/springframework/batch/core/schema-h2.sql
+
+      initialize-schema: always
+    job:
+      enabled: true
     #spring:
     #  batch:
     #    initializer:

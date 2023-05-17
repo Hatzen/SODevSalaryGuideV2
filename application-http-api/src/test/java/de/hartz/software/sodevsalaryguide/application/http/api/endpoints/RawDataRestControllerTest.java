@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,14 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// @AutoConfigureMockMvc
-// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = {HttpApiTestConfiguration.class})
 @ActiveProfiles({"persistence-test"})
-// @ImportAutoConfiguration(
-//     classes = {
-//       de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceTestConfig.class
-//     }) // TODO: this doesnt seem to be more effective than ContextConfiguration with imports..
+@AutoConfigureWebClient // https://stackoverflow.com/a/43131830/8524651
+// TODO: Run Test with h2
 public class RawDataRestControllerTest {
 
   @Autowired MockMvc mockMvc;

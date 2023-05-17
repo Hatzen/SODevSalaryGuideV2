@@ -9,7 +9,6 @@ import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -23,13 +22,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 // TODO: looks like autoconfiguration PersistenceConfiguration not loaded..
 @Import({RabbitMQConfig.class, PersistenceConfiguration.class})
-// @Import({RabbitMQConfig.class})
 @ComponentScan
-// TODO: This annotation should not be necessary
-// https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide#enablebatchprocessing-is-now-discouraged
-// TODO: it cannot have to be to create it manually
-// https://github.com/eugenp/tutorials/blob/master/spring-batch/src/main/java/com/baeldung/batch/SpringBatchConfig.java
-@EnableBatchProcessing
 @Configuration
 public class BatchConfiguration {
   // TODO: Maybe use extended features:

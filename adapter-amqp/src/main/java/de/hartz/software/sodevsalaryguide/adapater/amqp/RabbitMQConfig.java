@@ -17,20 +17,10 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @Configuration
 public class RabbitMQConfig {
-
-  // @Value("${rabbitmq.queue.name}")
-  private String queue = "myRabbitQueue";
-
-  // @Value("${rabbitmq.queue.json.name}")
+  private String queue = "intakeFileNameQueueName";
   private String jsonQueue = "myJsonQueue";
-
-  // @Value("${rabbitmq.exchange.name}")
   private String exchange = "myExchange";
-
-  // @Value("${rabbitmq.routing.key}")
   private String routingKey = "myRoutingKey";
-
-  // @Value("${rabbitmq.routing.json.key}")
   private String routingJsonKey = "myJsonRoutingKey";
 
   // spring bean for rabbitmq queue
@@ -71,30 +61,19 @@ public class RabbitMQConfig {
   @Bean
   public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
     RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    rabbitTemplate.setDefaultReceiveQueue(queue);
     rabbitTemplate.setMessageConverter(converter());
     return rabbitTemplate;
   }
 
-  /*
-  TODO: Duplicate..
   @Bean
   public ConnectionFactory connectionFactory() {
     CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
     // TODO: configure proper docker params. https://stackoverflow.com/a/54002920/8524651
     connectionFactory.setAddresses("localhost");
-    connectionFactory.setUsername("test");
-    connectionFactory.setPassword("test");
-    return connectionFactory;
-  }
-   */
-
-  @Bean
-  public ConnectionFactory connectionFactory() {
-    CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-    // TODO: configure proper docker params. https://stackoverflow.com/a/54002920/8524651
-    connectionFactory.setAddresses("localhost");
-    connectionFactory.setUsername("test");
-    connectionFactory.setPassword("test");
+    connectionFactory.setPort(5672);
+    connectionFactory.setUsername("admin");
+    connectionFactory.setPassword("password123");
     return connectionFactory;
   }
 }

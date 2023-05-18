@@ -32,8 +32,11 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
     if (amqpReceiveService.queueFinished()) {
       return NO_DATA;
     }
-    if (hasCurrentFileHandlerMoreData()) {
+    if (!hasCurrentFileHandlerMoreData()) {
       RawDataSetName datasetName = amqpReceiveService.getDatasetName();
+      if (datasetName == null) {
+        return new RawRow(datasetName);
+      }
       currentFileHandler = new FileHandler(datasetName);
     }
 
@@ -54,6 +57,7 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
   }
 
   private boolean hasCurrentFileHandlerMoreData() {
-    return currentFileHandler == null;
+    // when filehandler is null there is no more content from file.
+    return currentFileHandler != null;
   }
 }

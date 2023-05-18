@@ -2,6 +2,9 @@ package de.hartz.software.sodevsalaryguide.application.batch.worker.intake;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
+import de.hartz.software.sodevsalaryguide.core.port.service.AMQPSendService;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.ExitStatus;
@@ -15,9 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureWebClient // https://stackoverflow.com/a/43131830/8524651
-// @DataJpaTest
 @SpringBootTest
 @SpringBatchTest
 @ExtendWith(SpringExtension.class)
@@ -25,13 +26,40 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"persistence-test", "batch-test", "amqp-test"})
 public class BatchComponentTest {
 
+  @Autowired private AMQPSendService amqpService;
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
 
   @Test
-  public void givenChunksJob_whenJobEnds_thenStatusCompleted() throws Exception {
+  public void providingChunksAsync_runningBatch_processesAllData() throws Exception {
+    setupDummyMessages();
 
     JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
     assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
+  }
+
+  @Test
+  public void noAmqpInput_runningBatch_successfullyFinishes() throws Exception {
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob();
+
+    assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
+  }
+
+  private void setupDummyMessages() {
+    val testName1 = new RawDataSetName("2011-chunk-1", 2011);
+    amqpService.queueDatasetName(testName1);
+
+    new Thread(
+            () -> {
+              try {
+                Thread.sleep(5000L);
+                val testName2 = new RawDataSetName("2012-chunk-1", 2012);
+                amqpService.queueDatasetName(testName2);
+                amqpService.setQueueFinished();
+              } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+              }
+            })
+        .start();
   }
 }

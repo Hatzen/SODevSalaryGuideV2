@@ -13,6 +13,12 @@ public class AMQPServiceImpl implements AMQPReceiveService, AMQPSendService {
   @Autowired AmqpTemplate amqpTemplate;
 
   public RawDataSetName getDatasetName() {
+    /*
+    RawDataSetName test = null;
+    while ((test = ((RawDataSetName) amqpTemplate.receiveAndConvert(5000))) == null)
+      ;
+    return test;
+     */
     return (RawDataSetName) amqpTemplate.receiveAndConvert();
   }
 

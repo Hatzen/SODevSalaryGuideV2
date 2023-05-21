@@ -1,8 +1,8 @@
 package de.hartz.software.sodevsalaryguide.adapter.persistence.repo;
 
-import de.hartz.software.sodevsalaryguide.adapter.persistence.mapper.JpaMapper;
-import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
+import de.hartz.software.sodevsalaryguide.adapter.persistence.mapper.SurveyEntryJpaMapper;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.model.SurveyEntryJpa;
+import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataWriteRepo;
 import jakarta.persistence.EntityManager;
@@ -26,14 +26,14 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
                 "SELECT a FROM SurveyEntryJpa a LEFT JOIN a.abilities b", SurveyEntryJpa.class)
             .getResultList();
     return list.stream()
-        .map(JpaMapper.INSTANCE::surveyEntryJpaToDomain)
+        .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
         .collect(Collectors.toList());
   }
 
   @Override
   public void insertAllSurveyEntries(List<SurveyEntry> entries) {
     entries.stream()
-        .map(JpaMapper.INSTANCE::surveyEntryDomainToJpa)
+        .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryDomainToJpa)
         .forEach(jpa -> entityManager.merge(jpa));
   }
 

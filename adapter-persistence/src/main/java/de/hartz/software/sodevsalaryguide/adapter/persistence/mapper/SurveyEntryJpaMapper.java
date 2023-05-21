@@ -1,9 +1,9 @@
 package de.hartz.software.sodevsalaryguide.adapter.persistence.mapper;
 
 import de.hartz.software.sodevsalaryguide.adapter.persistence.model.AbilityJpa;
+import de.hartz.software.sodevsalaryguide.adapter.persistence.model.SurveyEntryJpa;
 import de.hartz.software.sodevsalaryguide.core.model.Range;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
-import de.hartz.software.sodevsalaryguide.adapter.persistence.model.SurveyEntryJpa;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,9 +18,9 @@ import org.mapstruct.factory.Mappers;
 
 // https://mapstruct.org/documentation/stable/reference/html/#updating-bean-instances
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public interface JpaMapper {
+public interface SurveyEntryJpaMapper {
 
-  JpaMapper INSTANCE = Mappers.getMapper(JpaMapper.class);
+  SurveyEntryJpaMapper INSTANCE = Mappers.getMapper(SurveyEntryJpaMapper.class);
 
   @InheritInverseConfiguration
   @Mapping(target = "convertedSalary", ignore = true)

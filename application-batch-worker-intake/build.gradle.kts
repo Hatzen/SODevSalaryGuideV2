@@ -41,6 +41,16 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.batch:spring-batch-test")
+    /*
+    // https://github.com/wiremock/wiremock/issues/1760
+    testImplementation("com.github.tomakehurst:wiremock-standalone:3.0.0-beta-8") {
+        exclude("org.yaml", "snakeyaml")
+
+    }
+     */
+    // testImplementation("com.github.tomakehurst:wiremock-jre8:2.35.0")
+    // https://stackoverflow.com/a/43204150/8524651
+    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
 
     testImplementation(testFixtures(project(":adapter-amqp")))
     // https://stackoverflow.com/a/60138176/8524651

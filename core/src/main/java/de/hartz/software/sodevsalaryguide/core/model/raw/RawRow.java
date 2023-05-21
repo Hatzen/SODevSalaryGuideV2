@@ -1,13 +1,15 @@
 package de.hartz.software.sodevsalaryguide.core.model.raw;
 
+import de.hartz.software.sodevsalaryguide.core.model.Computation;
 import java.util.HashMap;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @RequiredArgsConstructor
 public class RawRow extends HashMap<HeaderMeta<?>, String> {
-
   @Getter private final RawDataSetName rawDataSetName;
+  @Getter @Setter private Computation computation;
 
   public String get(String columName) {
     return getValueForColumnName(columName);

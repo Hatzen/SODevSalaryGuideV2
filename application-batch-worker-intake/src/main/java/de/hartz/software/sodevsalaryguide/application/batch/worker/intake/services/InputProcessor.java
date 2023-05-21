@@ -1,9 +1,10 @@
 package de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services;
 
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.RawRowMapper;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import de.hartz.software.sodevsalaryguide.core.port.repo.RawDataRepo;
+import de.hartz.software.sodevsalaryguide.core.rawsurveydata.RawRowMapper;
+import lombok.NonNull;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +23,13 @@ public class InputProcessor implements ItemProcessor<RawRow, SurveyEntry>, StepE
   private RawRowMapper rawRowMapper;
 
   @Override
-  public void beforeStep(StepExecution stepExecution) {
+  public void beforeStep(@NonNull StepExecution stepExecution) {
     rawRowMapper = new RawRowMapper();
     logger.debug("Line Processor initialized.");
   }
 
   @Override
-  public SurveyEntry process(RawRow line) throws Exception {
-    // TODO: Persist Chunks...
+  public SurveyEntry process(@NonNull RawRow line) throws Exception {
     rawDataRepo.insertRawRow(line);
     val result = rawRowMapper.map(line);
     if (!rawRowMapper.isValidEntry(result)) {
@@ -39,7 +39,7 @@ public class InputProcessor implements ItemProcessor<RawRow, SurveyEntry>, StepE
   }
 
   @Override
-  public ExitStatus afterStep(StepExecution stepExecution) {
+  public ExitStatus afterStep(@NonNull StepExecution stepExecution) {
     logger.debug("Line Processor ended.");
     return ExitStatus.COMPLETED;
   }

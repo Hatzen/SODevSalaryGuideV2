@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 public class ComputationJpa {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  // @Column(nullable = false)
   private Long computationid;
 
   // @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

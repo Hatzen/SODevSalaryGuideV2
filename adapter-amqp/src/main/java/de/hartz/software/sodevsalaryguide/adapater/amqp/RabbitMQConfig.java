@@ -17,17 +17,10 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @Configuration
 public class RabbitMQConfig {
-  private String queue = "intakeFileNameQueueName";
-  private String jsonQueue = "myJsonQueue";
+  private String jsonQueue = "intakeFileNameQueueName";
   private String exchange = "myExchange";
   private String routingKey = "myRoutingKey";
   private String routingJsonKey = "myJsonRoutingKey";
-
-  // spring bean for rabbitmq queue
-  @Bean
-  public Queue queue() {
-    return new Queue(queue);
-  }
 
   // spring bean for queue (store json messages)
   @Bean
@@ -44,7 +37,7 @@ public class RabbitMQConfig {
   // binding between queue and exchange using routing key
   @Bean
   public Binding binding() {
-    return BindingBuilder.bind(queue()).to(exchange()).with(routingKey);
+    return BindingBuilder.bind(jsonQueue()).to(exchange()).with(routingKey);
   }
 
   // binding between json queue and exchange using routing key
@@ -61,7 +54,9 @@ public class RabbitMQConfig {
   @Bean
   public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
     RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-    rabbitTemplate.setDefaultReceiveQueue(queue);
+    rabbitTemplate.setDefaultReceiveQueue(jsonQueue);
+    rabbitTemplate.setRoutingKey(routingJsonKey);
+    rabbitTemplate.setExchange(exchange);
     rabbitTemplate.setMessageConverter(converter());
     return rabbitTemplate;
   }

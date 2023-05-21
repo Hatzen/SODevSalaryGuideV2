@@ -2,10 +2,13 @@ package de.hartz.software.sodevsalaryguide.application.batch.worker.intake.helpe
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.model.CsvChunkException;
+import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.DataRestClient;
 import de.hartz.software.sodevsalaryguide.core.model.raw.HeaderMetaUntyped;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,14 +20,20 @@ public class FileHandler {
 
   private final Logger logger = LoggerFactory.getLogger(FileHandler.class);
 
+  private final DataRestClient dataRestClient;
   private final RawDataSetName rawDataSetName;
   private CSVReader cSVReader;
   private List<HeaderMetaUntyped> headerMetaUntyped;
 
-  public FileHandler(RawDataSetName rawDataSetName) throws Exception {
+  public FileHandler(RawDataSetName rawDataSetName, DataRestClient dataRestClient) {
     this.rawDataSetName = rawDataSetName;
-    initReader();
-    initHeaders();
+    this.dataRestClient = dataRestClient;
+    try {
+      initReader();
+      initHeaders();
+    } catch (IOException | CsvValidationException e) {
+      throw new CsvChunkException();
+    }
   }
 
   public RawRow readLine() {
@@ -36,7 +45,7 @@ public class FileHandler {
         rawRow.put(headerMetaUntyped.get(i), line[i]);
       }
       return rawRow;
-    } catch (Exception e) {
+    } catch (IOException | CsvValidationException e) {
       logger.error("Error while reading line in file: " + this.rawDataSetName);
       return null;
     }
@@ -50,10 +59,19 @@ public class FileHandler {
     }
   }
 
-  private void initReader() throws Exception {
+  private void initReader() throws FileNotFoundException {
+    /*
+    // TODO: getting by file only for testing purpose.
     ClassLoader classLoader = this.getClass().getClassLoader();
-    // TODO: Get by http
-    File file = new File(classLoader.getResource(rawDataSetName.getFileName()).getFile());
+    // classLoader.getResource("classpath:csvchunks/" + rawDataSetName.getFileName())
+    // classLoader.getResource("csvchunks/" + rawDataSetName.getFileName() + ".csv")
+    File file =
+        new File(
+            classLoader
+                .getResource("csvchunks/" + rawDataSetName.getFileName() + ".csv")
+                .getFile());
+     */
+    File file = dataRestClient.getFileForDatasetName(rawDataSetName);
     cSVReader = new CSVReader(new FileReader(file));
   }
 

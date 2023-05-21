@@ -16,17 +16,6 @@ public class DataRestClient {
   public static final String PATH = "/api/v1/rawdata/csv/";
   @Autowired RestTemplateBuilder restTemplateBuilder;
 
-  /*
-  // TODO:
-  // https://stackoverflow.com/questions/51845228/proper-way-of-streaming-using-responseentity-and-making-sure-the-inputstream-get
-  public void getFile() {
-    String csvName = "testCsv.csv";
-    ResponseEntity<Resource> response =
-        restTemplateBuilder.build().getForEntity(HOST + PATH + "/" + csvName, Resource.class);
-    // Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
-  }
-   */
-
   // https://stackoverflow.com/questions/51845228/proper-way-of-streaming-using-responseentity-and-making-sure-the-inputstream-get
   public File getFileForDatasetName(RawDataSetName rawDataSetName) {
     ResponseEntity<Resource> response =
@@ -34,7 +23,7 @@ public class DataRestClient {
             .build()
             .getForEntity(HOST + PATH + "/" + rawDataSetName.getFileName(), Resource.class);
     try {
-      return response.getBody().getFile();
+      return response.getBody().getContentAsByteArray();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

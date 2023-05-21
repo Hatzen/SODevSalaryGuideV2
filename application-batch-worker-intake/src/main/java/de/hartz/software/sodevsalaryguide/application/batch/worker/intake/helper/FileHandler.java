@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Reader;import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,18 +60,8 @@ public class FileHandler {
   }
 
   private void initReader() throws FileNotFoundException {
-    /*
-    // TODO: getting by file only for testing purpose.
-    ClassLoader classLoader = this.getClass().getClassLoader();
-    // classLoader.getResource("classpath:csvchunks/" + rawDataSetName.getFileName())
-    // classLoader.getResource("csvchunks/" + rawDataSetName.getFileName() + ".csv")
-    File file =
-        new File(
-            classLoader
-                .getResource("csvchunks/" + rawDataSetName.getFileName() + ".csv")
-                .getFile());
-     */
     File file = dataRestClient.getFileForDatasetName(rawDataSetName);
+    new Reader()
     cSVReader = new CSVReader(new FileReader(file));
   }
 

@@ -1,17 +1,18 @@
 package de.hartz.software.sodevsalaryguide.application.batch.worker.intake;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.http.Body;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.DataRestClient;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPSendService;
 import lombok.val;
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
@@ -30,9 +31,9 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = {BatchTestConfig.class})
 @ActiveProfiles({"persistence-test", "batch-test", "amqp-test"})
 public class BatchComponentTest {
-
   private static final String TEST_FILE_1_NAME = "2011-chunk-1";
   private static final String TEST_FILE_2_NAME = "2012-chunk-1";
+  @Rule public WireMockRule wireMockRule = new WireMockRule(8080);
   @Autowired private AMQPSendService amqpService;
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
   @Autowired private EvaluatedDataReadRepo evaluatedDataReadRepo;
@@ -49,9 +50,11 @@ public class BatchComponentTest {
   }
 
   private void setupDummyService() {
+    wireMockRule.start();
+    wireMockRule.baseUrl();
     ClassLoader classLoader = this.getClass().getClassLoader();
-    stubFor(
-        get(DataRestClient.HOST + DataRestClient.PATH + "/" + TEST_FILE_1_NAME)
+    wireMockRule.stubFor(
+        get(DataRestClient.PATH + TEST_FILE_1_NAME)
             .willReturn(
                 ResponseDefinitionBuilder.responseDefinition()
                     // .withBodyFile("")
@@ -61,8 +64,8 @@ public class BatchComponentTest {
                                 .getResource("csvchunks/" + TEST_FILE_1_NAME + ".csv")
                                 .getFile()
                                 .getBytes()))));
-    stubFor(
-        get(DataRestClient.HOST + DataRestClient.PATH + "/" + TEST_FILE_2_NAME)
+    wireMockRule.stubFor(
+        get(DataRestClient.PATH + TEST_FILE_2_NAME)
             .willReturn(
                 ResponseDefinitionBuilder.responseDefinition()
                     // .withBodyFile("")

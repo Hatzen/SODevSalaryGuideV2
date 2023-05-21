@@ -3,10 +3,10 @@ package de.hartz.software.sodevsalaryguide.application.batch.worker.intake;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
+import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPSendService;
 import lombok.val;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
@@ -16,18 +16,18 @@ import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebCl
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @AutoConfigureWebClient // https://stackoverflow.com/a/43131830/8524651
 @SpringBootTest
 @SpringBatchTest
-@ExtendWith(SpringExtension.class)
+// @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BatchTestConfig.class})
 @ActiveProfiles({"persistence-test", "batch-test", "amqp-test"})
 public class BatchComponentTest {
 
   @Autowired private AMQPSendService amqpService;
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
+  @Autowired private EvaluatedDataReadRepo evaluatedDataReadRepo;
 
   @Test
   public void providingChunksAsync_runningBatch_processesAllData() throws Exception {
@@ -36,6 +36,7 @@ public class BatchComponentTest {
     JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
     assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
+    assertEquals(1234, getEntryCount());
   }
 
   @Test
@@ -43,6 +44,11 @@ public class BatchComponentTest {
     JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
     assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
+    assertEquals(0, getEntryCount());
+  }
+
+  private long getEntryCount() {
+    return evaluatedDataReadRepo.getAllSurveyEntries().size();
   }
 
   private void setupDummyMessages() {

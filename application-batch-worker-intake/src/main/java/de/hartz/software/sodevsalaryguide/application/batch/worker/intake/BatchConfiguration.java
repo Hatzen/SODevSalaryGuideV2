@@ -14,6 +14,7 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ public class BatchConfiguration {
   // TODO: Maybe use extended features:
   // https://docs.spring.io/spring-batch/docs/current/reference/html/job.html#advancedMetaData
 
+  @Value("${sodevsalaryguide.intake-chunk-size}")
   private static final int CHUNK_SIZE = 1000;
 
   @Autowired private InputReader inputReader;

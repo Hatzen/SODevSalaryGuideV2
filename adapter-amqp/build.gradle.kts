@@ -18,6 +18,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.github.fridujo:rabbitmq-mock:1.2.0")
 
+    // TODO: jackson conveter
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    // testImplementation("com.fasterxml.jackson.core:jackson-dataformat-xml:2.14.2")
+
 
     testFixturesImplementation("com.github.fridujo:rabbitmq-mock:1.2.0")
     testFixturesImplementation("com.rabbitmq:amqp-client:5.16.0")

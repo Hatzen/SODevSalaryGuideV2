@@ -3,6 +3,7 @@ package de.hartz.software.sodevsalaryguide.application.batch.worker.intake.servi
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.helper.FileHandler;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
+import de.hartz.software.sodevsalaryguide.core.port.exchange.NoMoreDataAvailableException;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPReceiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +30,15 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
 
   @Override
   public RawRow read() throws Exception {
-    if (amqpReceiveService.queueFinished()) {
-      return NO_DATA;
-    }
     if (!hasCurrentFileHandlerMoreData()) {
-      RawDataSetName datasetName = amqpReceiveService.getDatasetName();
-      if (datasetName == null) {
-        return new RawRow(datasetName);
+      if (amqpReceiveService.queueFinished()) {
+        return NO_DATA;
+      }
+      RawDataSetName datasetName;
+      try {
+        datasetName = amqpReceiveService.getDatasetName();
+      } catch (NoMoreDataAvailableException e) {
+        return NO_DATA;
       }
       currentFileHandler = new FileHandler(datasetName);
     }
@@ -51,7 +54,10 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
 
   @Override
   public ExitStatus afterStep(StepExecution stepExecution) {
-    currentFileHandler.closeReader();
+    // When there were no data in queue
+    if (currentFileHandler != null) {
+      currentFileHandler.closeReader();
+    }
     logger.debug("Line Reader ended.");
     return ExitStatus.COMPLETED;
   }

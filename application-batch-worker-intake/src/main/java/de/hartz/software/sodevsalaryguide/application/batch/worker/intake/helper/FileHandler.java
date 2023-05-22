@@ -7,12 +7,12 @@ import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.servic
 import de.hartz.software.sodevsalaryguide.core.model.raw.HeaderMetaUntyped;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;import java.util.ArrayList;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,9 +60,8 @@ public class FileHandler {
   }
 
   private void initReader() throws FileNotFoundException {
-    File file = dataRestClient.getFileForDatasetName(rawDataSetName);
-    new Reader()
-    cSVReader = new CSVReader(new FileReader(file));
+    val file = dataRestClient.getFileForDatasetName(rawDataSetName);
+    cSVReader = new CSVReader(new InputStreamReader(file));
   }
 
   public void closeReader() {

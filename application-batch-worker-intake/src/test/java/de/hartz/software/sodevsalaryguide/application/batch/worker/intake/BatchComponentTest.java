@@ -10,7 +10,9 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.DataRestClient;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
+import de.hartz.software.sodevsalaryguide.core.port.repo.RawDataRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPSendService;
+import java.io.IOException;
 import lombok.val;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
@@ -33,75 +35,23 @@ import org.springframework.test.context.ContextConfiguration;
 public class BatchComponentTest {
   private static final String TEST_FILE_1_NAME = "2011-chunk-1";
   private static final String TEST_FILE_2_NAME = "2012-chunk-1";
+  // TODO: dont use rule, but use WireMockTest??
   @Rule public WireMockRule wireMockRule = new WireMockRule(8080);
   @Autowired private AMQPSendService amqpService;
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
+  @Autowired private RawDataRepo rawDataRepo;
   @Autowired private EvaluatedDataReadRepo evaluatedDataReadRepo;
 
   @Test
   public void providingChunksAsync_runningBatch_processesAllData() throws Exception {
-    setupDummyMessages();
-    setupDummyService();
+    setupMockAmqpWithData();
+    setupMockDataService();
 
     JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
     assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
-    assertEquals(1234, getEntryCount());
-  }
-
-  private void setupDummyService() {
-    wireMockRule.start();
-    wireMockRule.baseUrl();
-    ClassLoader classLoader = this.getClass().getClassLoader();
-    wireMockRule.stubFor(
-        get(DataRestClient.PATH + TEST_FILE_1_NAME)
-            .willReturn(
-                ResponseDefinitionBuilder.responseDefinition()
-                    // .withBodyFile("")
-                    .withResponseBody(
-                        new Body(
-                            classLoader
-                                .getResource("csvchunks/" + TEST_FILE_1_NAME + ".csv")
-                                .getFile()
-                                .getBytes()))));
-    wireMockRule.stubFor(
-        get(DataRestClient.PATH + TEST_FILE_2_NAME)
-            .willReturn(
-                ResponseDefinitionBuilder.responseDefinition()
-                    // .withBodyFile("")
-                    .withResponseBody(
-                        new Body(
-                            classLoader
-                                .getResource("csvchunks/" + TEST_FILE_2_NAME + ".csv")
-                                .getFile()
-                                .getBytes()))));
-    /*
-    // TODO: upgrade to wiremock 3?
-    // https://wiremock.org/3.x/docs/junit-jupiter/
-    stubFor(
-        get(DataRestClient.HOST + DataRestClient.PATH + "/" + TEST_FILE_1_NAME)
-            .willReturn(
-                ResponseDefinitionBuilder.responseDefinition()
-                    // .withBodyFile("")
-                    .withResponseBody(
-                        new Body(
-                            classLoader
-                                .getResource("csvchunks/" + TEST_FILE_1_NAME + ".csv")
-                                .getFile()
-                                .getBytes()))));
-    stubFor(
-        get(DataRestClient.HOST + DataRestClient.PATH + "/" + TEST_FILE_2_NAME)
-            .willReturn(
-                ResponseDefinitionBuilder.responseDefinition()
-                    // .withBodyFile("")
-                    .withResponseBody(
-                        new Body(
-                            classLoader
-                                .getResource("csvchunks/" + TEST_FILE_2_NAME + ".csv")
-                                .getFile()
-                                .getBytes()))));
-
-     */
+    assertEquals(2814, getRawEntryCount());
+    assertEquals(2814, getEntryCount());
   }
 
   @Test
@@ -112,11 +62,34 @@ public class BatchComponentTest {
     assertEquals(0, getEntryCount());
   }
 
+  private void setupMockDataService() throws IOException {
+    wireMockRule.start();
+    stubFile(TEST_FILE_1_NAME);
+    stubFile(TEST_FILE_2_NAME);
+  }
+
+  private void stubFile(String fileName) throws IOException {
+    ClassLoader classLoader = this.getClass().getClassLoader();
+    wireMockRule.stubFor(
+        get(DataRestClient.PATH + fileName)
+            .willReturn(
+                ResponseDefinitionBuilder.responseDefinition()
+                    .withResponseBody(
+                        new Body(
+                            classLoader
+                                .getResourceAsStream("csvchunks/" + fileName + ".csv")
+                                .readAllBytes()))));
+  }
+
   private long getEntryCount() {
     return evaluatedDataReadRepo.getAllSurveyEntries().size();
   }
 
-  private void setupDummyMessages() {
+  private long getRawEntryCount() {
+    return rawDataRepo.getAll().size();
+  }
+
+  private void setupMockAmqpWithData() {
     val testName1 = new RawDataSetName(TEST_FILE_1_NAME, 2011);
     amqpService.queueDatasetName(testName1);
 

@@ -3,6 +3,7 @@ package de.hartz.software.sodevsalaryguide.application.batch.worker.intake.servi
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataWriteRepo;
 import java.util.List;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,18 +22,18 @@ public class OutputWriter implements ItemWriter<SurveyEntry>, StepExecutionListe
   private final Logger logger = LoggerFactory.getLogger(OutputWriter.class);
 
   @Override
-  public void beforeStep(StepExecution stepExecution) {
+  public void beforeStep(@NonNull StepExecution stepExecution) {
     logger.debug("Line Writer initialized.");
   }
 
   @Override
-  public ExitStatus afterStep(StepExecution stepExecution) {
+  public ExitStatus afterStep(@NonNull StepExecution stepExecution) {
     logger.debug("Line Writer ended.");
     return ExitStatus.COMPLETED;
   }
 
   @Override
-  public void write(Chunk<? extends SurveyEntry> chunk) throws Exception {
+  public void write(Chunk<? extends SurveyEntry> chunk) {
     evaluatedDataWriteRepo.insertAllSurveyEntries((List<SurveyEntry>) chunk.getItems());
     logger.debug("Chunk persisted");
   }

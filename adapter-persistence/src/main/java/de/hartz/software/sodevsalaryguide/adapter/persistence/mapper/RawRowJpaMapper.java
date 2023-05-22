@@ -14,5 +14,7 @@ public interface RawRowJpaMapper {
   RawRowJpaMapper INSTANCE = Mappers.getMapper(RawRowJpaMapper.class);
 
   @Mapping(target = "id", ignore = true)
-  RawRowJpa surveyEntryDomainToJpa(RawRow rawRow);
+  RawRowJpa rawRowToJpa(RawRow rawRow);
+
+  RawRow rawRowJpaToDomain(RawRowJpa rawRow);
 }

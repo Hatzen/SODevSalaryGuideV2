@@ -16,7 +16,8 @@ public class RawRow extends HashMap<HeaderMeta<?>, String> {
   }
 
   public String getValueForColumnName(String columName) {
-    return super.get(columName);
+    // TODO: is there a better and performant way?
+    return super.get(new HeaderMeta<>(columName, null));
   }
 
   // TODO: This will obviously not work deterministicly with Hash implementation

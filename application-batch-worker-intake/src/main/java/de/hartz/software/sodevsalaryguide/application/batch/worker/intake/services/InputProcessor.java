@@ -29,7 +29,7 @@ public class InputProcessor implements ItemProcessor<RawRow, SurveyEntry>, StepE
   }
 
   @Override
-  public SurveyEntry process(@NonNull RawRow line) throws Exception {
+  public SurveyEntry process(@NonNull RawRow line) {
     rawDataRepo.insertRawRow(line);
     val result = rawRowMapper.map(line);
     if (!rawRowMapper.isValidEntry(result)) {

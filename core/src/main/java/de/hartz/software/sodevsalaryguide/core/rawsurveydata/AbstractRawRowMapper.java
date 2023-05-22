@@ -64,7 +64,9 @@ public abstract class AbstractRawRowMapper {
   }
 
   void setAbilities(RawRow csvRow, SurveyEntry result) {
-    // TODO we need to handle result.getAbilities() == null?
+    if (result.getAbilities() == null) {
+      result.setAbilities(new HashSet<>());
+    }
     List<String> abilities = new ArrayList<>(result.getAbilities());
     if (getAbilitiesColumnName().isPresent()) {
       String abilitiesSeperatedBySemicolon = csvRow.get(getAbilitiesColumnName().get());
@@ -224,7 +226,7 @@ public abstract class AbstractRawRowMapper {
       result.setCurrency(getCurrency(currency));
     }
 
-    if (result.getSalary() > 250000) {
+    if (result.getSalary() != null && result.getSalary() > 250000) {
       // System.err.println("Bad ratio: " + result.currency + " with value " + result._salary);
       result.setSalary(-1.);
     }
@@ -327,7 +329,11 @@ public abstract class AbstractRawRowMapper {
       return 10000;
     } else if (value.contains("$") && value.contains("-")) {
       String firstValue =
-          value.replaceAll("\\$", "").replaceAll(",", "").substring(0, value.indexOf("-"));
+          value
+              .replaceAll("\\$", "")
+              .replaceAll(",", "")
+              .substring(0, value.indexOf("-") - 2)
+              .trim();
       return Integer.parseInt(firstValue) + 10000;
     }
     try {

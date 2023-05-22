@@ -1,8 +1,8 @@
 package de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services;
 
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.Resource;
@@ -17,13 +17,13 @@ public class DataRestClient {
   @Autowired RestTemplateBuilder restTemplateBuilder;
 
   // https://stackoverflow.com/questions/51845228/proper-way-of-streaming-using-responseentity-and-making-sure-the-inputstream-get
-  public File getFileForDatasetName(RawDataSetName rawDataSetName) {
+  public InputStream getFileForDatasetName(RawDataSetName rawDataSetName) {
     ResponseEntity<Resource> response =
         restTemplateBuilder
             .build()
             .getForEntity(HOST + PATH + "/" + rawDataSetName.getFileName(), Resource.class);
     try {
-      return response.getBody().getContentAsByteArray();
+      return response.getBody().getInputStream();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

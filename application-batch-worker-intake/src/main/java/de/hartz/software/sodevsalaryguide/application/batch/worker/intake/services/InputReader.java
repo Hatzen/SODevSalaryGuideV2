@@ -40,12 +40,11 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
     }
 
     RawRow line = currentFileHandler.readLine();
-    line.setComputation(intakeContext.getCurrentComputation());
-
-    if (line == NO_DATA) {
-      return read();
+    if (line != NO_DATA) {
+      line.setComputation(intakeContext.getCurrentComputation());
+      logger.debug("Read line: " + line);
     }
-    logger.debug("Read line: " + line.toString());
+
     return line;
   }
 
@@ -63,6 +62,7 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
                 .starttime(LocalDateTime.now())
                 .chunk(datasetName.getChunk())
                 .build();
+        // TODO: Persist and persist finished last computation?
         intakeContext.setCurrentComputation(computation);
       } catch (NoMoreDataAvailableException e) {
         return false;

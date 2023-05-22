@@ -56,6 +56,6 @@ public class RawRowMapper {
   }
 
   public boolean isValidEntry(SurveyEntry surveyEntry) {
-    return surveyEntry == RawRowMapper.INVALID_ENTRY;
+    return surveyEntry != RawRowMapper.INVALID_ENTRY;
   }
 }

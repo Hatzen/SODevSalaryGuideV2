@@ -15,7 +15,7 @@ public class AMQPServiceImpl implements AMQPReceiveService, AMQPSendService {
   @Autowired AmqpTemplate amqpTemplate;
 
   public RawDataSetName getDatasetName() throws NoMoreDataAvailableException {
-    val seconds15 = 5000;
+    val seconds15 = 15000;
     val result = (RawDataSetName) amqpTemplate.receiveAndConvert(seconds15);
     if (result == null) {
       throw new NoMoreDataAvailableException();

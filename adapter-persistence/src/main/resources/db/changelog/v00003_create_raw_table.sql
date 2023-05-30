@@ -1,6 +1,6 @@
 create table raw_survey_entries (
   id serial not null,
-  computationId bigint not null UNIQUE,
+  computationId bigint not null,
 
 
   CONSTRAINT fk_raw_survey_entries_2011_computations FOREIGN KEY (computationId) references computations (computationId),

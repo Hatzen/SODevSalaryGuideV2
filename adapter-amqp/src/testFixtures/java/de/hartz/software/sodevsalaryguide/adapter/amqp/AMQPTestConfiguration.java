@@ -1,6 +1,7 @@
 package de.hartz.software.sodevsalaryguide.adapter.amqp;
 
 import com.github.fridujo.rabbitmq.mock.compatibility.MockConnectionFactoryFactory;
+import com.github.fridujo.rabbitmq.mock.exchange.*;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.Queue;
@@ -16,15 +17,19 @@ public class AMQPTestConfiguration {
 
   @Primary
   @Bean
-  ConnectionFactory connectionFactory() {
+  public ConnectionFactory connectionFactory() {
     return new CachingConnectionFactory(
-        MockConnectionFactoryFactory.build().enableConsistentHashPlugin());
+        MockConnectionFactoryFactory.build().enableConsistentHashPlugin()
+        // .withAdditionalExchange(
+        //     MockExchangeCreator.creatorWithExchangeType(
+        //         MockDefaultExchange.TYPE, new MockDefaultExchange(new MockNode())))
+        );
     // .withAdditionalExchange(
     //    creatorWithExchangeType("x-fix-delayed-message", FixDelayExchange::new)));
   }
 
   @Bean
-  RabbitAdmin rabbitAdmin(
+  public RabbitAdmin rabbitAdmin(
       ConnectionFactory connectionFactory, Queue queue, Exchange exchange, Binding binding) {
     RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
     rabbitAdmin.declareQueue(queue);

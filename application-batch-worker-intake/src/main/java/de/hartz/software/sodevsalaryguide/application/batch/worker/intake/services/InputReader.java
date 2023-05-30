@@ -6,9 +6,11 @@ import de.hartz.software.sodevsalaryguide.core.model.Computation;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import de.hartz.software.sodevsalaryguide.core.port.exchange.NoMoreDataAvailableException;
+import de.hartz.software.sodevsalaryguide.core.port.repo.ComputationRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPReceiveService;
 import java.time.LocalDateTime;
 import lombok.NonNull;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -27,6 +29,7 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
   private @Autowired DataRestClient dataRestClient;
   private @Autowired IntakeContext intakeContext;
   private FileHandler currentFileHandler;
+  @Autowired private ComputationRepo computationCrudRepo;
 
   @Override
   public void beforeStep(@NonNull StepExecution stepExecution) {
@@ -43,6 +46,10 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
     if (line != NO_DATA) {
       line.setComputation(intakeContext.getCurrentComputation());
       logger.debug("Read line: " + line);
+    } else {
+      currentFileHandler.closeReader();
+      currentFileHandler = null;
+      return read();
     }
 
     return line;
@@ -50,20 +57,25 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
 
   private boolean isMoreDataAvailableAndInitilize() {
     if (!hasCurrentFileHandlerMoreData()) {
+      val currentComputation = intakeContext.getCurrentComputation();
+      if (currentComputation != null) {
+        currentComputation.setEndtime(LocalDateTime.now());
+        computationCrudRepo.save(currentComputation);
+      }
       if (amqpReceiveService.queueFinished()) {
         return false;
       }
       RawDataSetName datasetName;
       try {
         datasetName = amqpReceiveService.getDatasetName();
-        Computation computation =
+        Computation nextComputation =
             Computation.builder()
                 .year(datasetName.getYear())
                 .starttime(LocalDateTime.now())
                 .chunk(datasetName.getChunk())
                 .build();
-        // TODO: Persist and persist finished last computation?
-        intakeContext.setCurrentComputation(computation);
+        nextComputation = computationCrudRepo.save(nextComputation);
+        intakeContext.setCurrentComputation(nextComputation);
       } catch (NoMoreDataAvailableException e) {
         return false;
       }

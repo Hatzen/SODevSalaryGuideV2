@@ -1,6 +1,6 @@
 create table surveyEntry (
   id serial not null,
-  computationId bigint UNIQUE,
+  computationId bigint,
   salary float,
   currency text,
   expirienceInYearsMin int,

@@ -12,7 +12,7 @@ public interface ComputationJpaMapper {
 
   ComputationJpaMapper INSTANCE = Mappers.getMapper(ComputationJpaMapper.class);
 
-  ComputationJpa map(Computation computation);
+  ComputationJpa mapToJpa(Computation computation);
 
-  Computation map(ComputationJpa computation);
+  Computation mapToDomain(ComputationJpa computation);
 }

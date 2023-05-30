@@ -25,7 +25,7 @@ public class RabbitMQConfig {
   // spring bean for queue (store json messages)
   @Bean
   public Queue jsonQueue() {
-    return new Queue(jsonQueue);
+    return new Queue(jsonQueue, false, false, true);
   }
 
   // spring bean for rabbitmq exchange
@@ -58,6 +58,13 @@ public class RabbitMQConfig {
     rabbitTemplate.setRoutingKey(routingJsonKey);
     rabbitTemplate.setExchange(exchange);
     rabbitTemplate.setMessageConverter(converter());
+
+    /*rabbitTemplate.setMandatory(true);
+    rabbitTemplate.setConfirmCallback(
+        (correlationData, ack, cause) -> {
+          System.err.println("test");
+        });
+    rabbitTemplate.containerAckMode(AcknowledgeMode.AUTO);*/
     return rabbitTemplate;
   }
 

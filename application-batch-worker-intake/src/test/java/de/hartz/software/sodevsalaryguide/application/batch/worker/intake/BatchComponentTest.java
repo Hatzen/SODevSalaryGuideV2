@@ -9,6 +9,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.hartz.software.sodevsalaryguide.application.batch.worker.intake.services.DataRestClient;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawDataSetName;
+import de.hartz.software.sodevsalaryguide.core.port.repo.ComputationRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.RawDataRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPSendService;
@@ -41,6 +42,7 @@ public class BatchComponentTest {
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
   @Autowired private RawDataRepo rawDataRepo;
   @Autowired private EvaluatedDataReadRepo evaluatedDataReadRepo;
+  @Autowired private ComputationRepo computationCrudRepo;
 
   @Test
   public void providingChunksAsync_runningBatch_processesAllData() throws Exception {
@@ -52,6 +54,7 @@ public class BatchComponentTest {
     assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
     assertEquals(2814, getRawEntryCount());
     assertEquals(2814, getEntryCount());
+    assertEquals(2, getComputations());
   }
 
   @Test
@@ -81,6 +84,10 @@ public class BatchComponentTest {
                                 .readAllBytes()))));
   }
 
+  private long getComputations() {
+    return computationCrudRepo.getAll().size();
+  }
+
   private long getEntryCount() {
     return evaluatedDataReadRepo.getAllSurveyEntries().size();
   }
@@ -90,9 +97,9 @@ public class BatchComponentTest {
   }
 
   private void setupMockAmqpWithData() {
+    // TODO: Maybe it is better to send from same thread?
     val testName1 = new RawDataSetName(TEST_FILE_1_NAME, 2011);
     amqpService.queueDatasetName(testName1);
-
     new Thread(
             () -> {
               try {

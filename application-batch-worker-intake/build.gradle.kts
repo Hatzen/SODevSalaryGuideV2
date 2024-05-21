@@ -43,7 +43,7 @@ dependencies {
     testImplementation("org.springframework.batch:spring-batch-test")
     
     // https://stackoverflow.com/a/43204150/8524651
-    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
+    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.1")
 
     testImplementation(testFixtures(project(":adapter-amqp")))
     // https://stackoverflow.com/a/60138176/8524651

@@ -1,10 +1,6 @@
 package de.hartz.software.sodevsalaryguide.adapater.amqp;
 
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,15 +13,15 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @Configuration
 public class RabbitMQConfig {
-  private String jsonQueue = "intakeFileNameQueueName";
-  private String exchange = "myExchange";
-  private String routingKey = "myRoutingKey";
-  private String routingJsonKey = "myJsonRoutingKey";
+  public static final String jsonQueue = "intakeFileNameQueueName";
+  public static final String exchange = "myExchange";
+  public static final String routingKey = "myRoutingKey";
+  public static final String routingJsonKey = "myJsonRoutingKey";
 
   // spring bean for queue (store json messages)
   @Bean
   public Queue jsonQueue() {
-    return new Queue(jsonQueue, false, false, true);
+    return new Queue(jsonQueue, true, false, false);
   }
 
   // spring bean for rabbitmq exchange
@@ -36,14 +32,14 @@ public class RabbitMQConfig {
 
   // binding between queue and exchange using routing key
   @Bean
-  public Binding binding() {
-    return BindingBuilder.bind(jsonQueue()).to(exchange()).with(routingKey);
+  public Binding binding(Queue jsonQueue, TopicExchange exchange) {
+    return BindingBuilder.bind(jsonQueue).to(exchange).with(routingKey);
   }
 
   // binding between json queue and exchange using routing key
   @Bean
-  public Binding jsonBinding() {
-    return BindingBuilder.bind(jsonQueue()).to(exchange()).with(routingJsonKey);
+  public Binding jsonBinding(Queue jsonQueue, TopicExchange exchange) {
+    return BindingBuilder.bind(jsonQueue).to(exchange).with(routingJsonKey);
   }
 
   @Bean
@@ -52,19 +48,20 @@ public class RabbitMQConfig {
   }
 
   @Bean
-  public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
+  public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory, MessageConverter converter) {
     RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
     rabbitTemplate.setDefaultReceiveQueue(jsonQueue);
     rabbitTemplate.setRoutingKey(routingJsonKey);
     rabbitTemplate.setExchange(exchange);
-    rabbitTemplate.setMessageConverter(converter());
+    rabbitTemplate.setMessageConverter(converter);
 
-    /*rabbitTemplate.setMandatory(true);
+    rabbitTemplate.setMandatory(true);
     rabbitTemplate.setConfirmCallback(
         (correlationData, ack, cause) -> {
           System.err.println("test");
         });
-    rabbitTemplate.containerAckMode(AcknowledgeMode.AUTO);*/
+    // rabbitTemplate.containerAckMode(AcknowledgeMode.AUTO);
+    rabbitTemplate.containerAckMode(AcknowledgeMode.AUTO);
     return rabbitTemplate;
   }
 
@@ -78,4 +75,5 @@ public class RabbitMQConfig {
     connectionFactory.setPassword("password123");
     return connectionFactory;
   }
+
 }

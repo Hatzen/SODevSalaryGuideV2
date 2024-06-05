@@ -5,9 +5,6 @@ import de.hartz.software.sodevsalaryguide.adapter.persistence.model.RawRowJpa;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.repo.ComputationCrudRepo;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.repo.RawDataCrudRepo;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.repo.RawDataRepoJpa;
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,6 +14,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = PersistenceConfiguration.class)
@@ -39,7 +40,7 @@ public class RawDataCrudRepoTest {
             .starttime(LocalDateTime.MIN)
             .build();
 
-    // computation = computationCrudRepo.save(computation);
+    computation = computationCrudRepo.save(computation);
 
     RawRowJpa rawRow = RawRowJpa.builder().computation(computation).build();
     rawDataCrudRepo.save(rawRow);

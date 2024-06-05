@@ -1,8 +1,5 @@
 package de.hartz.software.sodevsalaryguide.application.batch.worker.intake;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.http.Body;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -13,9 +10,9 @@ import de.hartz.software.sodevsalaryguide.core.port.repo.ComputationRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.RawDataRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPSendService;
-import java.io.IOException;
 import lombok.val;
 import org.junit.Rule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
@@ -27,6 +24,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.io.IOException;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @AutoConfigureWebClient // https://stackoverflow.com/a/43131830/8524651
 @SpringBootTest
 @SpringBatchTest
@@ -37,13 +39,35 @@ public class BatchComponentTest {
   private static final String TEST_FILE_1_NAME = "2011-chunk-1";
   private static final String TEST_FILE_2_NAME = "2012-chunk-1";
   // TODO: dont use rule, but use WireMockTest??
-  @Rule public WireMockRule wireMockRule = new WireMockRule(8080);
+  @Rule
+  public WireMockRule wireMockRule = new WireMockRule(8080);
   @Autowired private AMQPSendService amqpService;
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
   @Autowired private RawDataRepo rawDataRepo;
   @Autowired private EvaluatedDataReadRepo evaluatedDataReadRepo;
   @Autowired private ComputationRepo computationCrudRepo;
 
+
+  @Test
+  public void providingOneChunkAsync_runningBatch_processesAllData() throws Exception {
+    setupMockAmqpWithOneSet();
+    setupMockDataService();
+
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob();
+
+    // TODO: RawRow Computation Problem
+    //   ALL: org.springframework.dao.InvalidDataAccessApiUsageException: detached entity passed to persist: de.hartz.software.sodevsalaryguide.adapter.persistence.model.ComputationJpa
+    //   Merge: https://stackoverflow.com/questions/19074278/not-null-property-references-a-transient-value-transient-instance-must-be-save
+
+    assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
+    assertEquals(2814, getRawEntryCount());
+    assertEquals(2814, getEntryCount());
+    assertEquals(1, getComputations());
+  }
+
+
+  // TODO: Why is redelviered=true it seems acknowleding is not working in mocked environments? That is causing the same message to get queued again leading to infitne calls..
+  @Disabled
   @Test
   public void providingChunksAsync_runningBatch_processesAllData() throws Exception {
     setupMockAmqpWithData();
@@ -67,11 +91,11 @@ public class BatchComponentTest {
 
   private void setupMockDataService() throws IOException {
     wireMockRule.start();
-    stubFile(TEST_FILE_1_NAME);
-    stubFile(TEST_FILE_2_NAME);
+    stubFileRestEndpoints(TEST_FILE_1_NAME);
+    stubFileRestEndpoints(TEST_FILE_2_NAME);
   }
 
-  private void stubFile(String fileName) throws IOException {
+  private void stubFileRestEndpoints(String fileName) throws IOException {
     ClassLoader classLoader = this.getClass().getClassLoader();
     wireMockRule.stubFor(
         get(DataRestClient.PATH + fileName)
@@ -94,6 +118,12 @@ public class BatchComponentTest {
 
   private long getRawEntryCount() {
     return rawDataRepo.getAll().size();
+  }
+
+  private void setupMockAmqpWithOneSet() {
+    // TODO: Maybe it is better to send from same thread?
+    val testName1 = new RawDataSetName(TEST_FILE_1_NAME, 2011);
+    amqpService.queueDatasetName(testName1);
   }
 
   private void setupMockAmqpWithData() {

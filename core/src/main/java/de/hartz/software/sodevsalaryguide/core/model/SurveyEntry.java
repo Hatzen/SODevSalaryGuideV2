@@ -2,15 +2,16 @@ package de.hartz.software.sodevsalaryguide.core.model;
 
 import de.hartz.software.sodevsalaryguide.core.model.enums.Currency;
 import de.hartz.software.sodevsalaryguide.core.model.enums.Gender;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder=true)
 @Data
 public class SurveyEntry {
 

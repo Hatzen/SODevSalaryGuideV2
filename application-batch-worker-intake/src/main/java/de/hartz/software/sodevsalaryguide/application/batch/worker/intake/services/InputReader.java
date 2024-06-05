@@ -8,7 +8,6 @@ import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import de.hartz.software.sodevsalaryguide.core.port.exchange.NoMoreDataAvailableException;
 import de.hartz.software.sodevsalaryguide.core.port.repo.ComputationRepo;
 import de.hartz.software.sodevsalaryguide.core.port.service.AMQPReceiveService;
-import java.time.LocalDateTime;
 import lombok.NonNull;
 import lombok.val;
 import org.slf4j.Logger;
@@ -19,6 +18,8 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
@@ -77,6 +78,7 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
         nextComputation = computationCrudRepo.save(nextComputation);
         intakeContext.setCurrentComputation(nextComputation);
       } catch (NoMoreDataAvailableException e) {
+        logger.warn("NoMoreDataAvailableException", e);
         return false;
       }
       currentFileHandler = new FileHandler(datasetName, dataRestClient);

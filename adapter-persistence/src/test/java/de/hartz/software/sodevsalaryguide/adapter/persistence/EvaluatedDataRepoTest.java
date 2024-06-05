@@ -4,8 +4,6 @@ import de.hartz.software.sodevsalaryguide.adapter.persistence.repo.EvaluatedData
 import de.hartz.software.sodevsalaryguide.core.model.Range;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.enums.Gender;
-import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = PersistenceConfiguration.class)
@@ -42,8 +43,18 @@ public class EvaluatedDataRepoTest {
     evaluatedDataRepoJpa.insertAllSurveyEntries(testEntries);
     List<SurveyEntry> actualEntries = evaluatedDataRepoJpa.getAllSurveyEntries();
 
-    // TODO: ability set may conntain in different order and mapped mapstruct Ranges are filled with
-    // null..
-    Assertions.assertEquals(testEntries, actualEntries);
+    // ability set may conntain in different order and mapped mapstruct Ranges are filled with null..
+    final var expectedMax = testEntryMax.toBuilder()
+            .abilities(Set.of("SQL", "JAVA", "FUN"))
+            .expirienceInYears(new Range(null, null))
+            .build();
+    final var expectedMin = testEntryMin.toBuilder()
+            .abilities(Set.of())
+            .expirienceInYears(new Range(null, null))
+            .companySize(new Range(null, null))
+            .build();
+    List<SurveyEntry> expectedEntries = List.of(expectedMax, expectedMin);
+
+    Assertions.assertEquals(expectedEntries, actualEntries);
   }
 }

@@ -32,6 +32,7 @@ public class RawRowJpa {
   // private ComputationJpa computation;
 
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  // @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(
       name = "computationid",
       referencedColumnName = "computationid",

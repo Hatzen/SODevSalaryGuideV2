@@ -17,6 +17,7 @@ allprojects {
     apply(plugin = "io.spring.dependency-management")
     repositories {
         mavenCentral()
+        maven(url = "https://jitpack.io")
     }
     configurations {
         compileOnly {

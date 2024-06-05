@@ -1,7 +1,16 @@
 server:
   port: 8082
 
+
+
+# TODO: activate logs and optimize bulk inserts
 spring:
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        show_sql: false
+
   batch:
     jdbc:
       #schema: classpath:org/springframework/batch/core/schema-postgres.sql

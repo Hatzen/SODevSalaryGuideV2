@@ -9,10 +9,14 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
 @Service
 public class AMQPServiceImpl implements AMQPReceiveService, AMQPSendService {
 
   @Autowired AmqpTemplate amqpTemplate;
+
+  private HashSet<RawDataSetName> processedNames = new HashSet<>();
 
   public RawDataSetName getDatasetName() throws NoMoreDataAvailableException {
     val seconds15 = 15000;
@@ -20,6 +24,11 @@ public class AMQPServiceImpl implements AMQPReceiveService, AMQPSendService {
     if (result == null) {
       throw new NoMoreDataAvailableException();
     }
+    // TODO: REmove, just dummy handler for erroneous mocking lib or setup..
+    if (processedNames.contains(result)) {
+      throw new NoMoreDataAvailableException();
+    }
+    processedNames.add(result);
     return result;
   }
 

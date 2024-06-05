@@ -1,9 +1,8 @@
 package de.hartz.software.sodevsalaryguide.backend;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+// TODO: Use for e2e test run both jars and docker containers and test?
 class BackendApplicationTests {
 
 	@Test

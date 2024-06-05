@@ -1,7 +1,6 @@
 package de.hartz.software.sodevsalaryguide.adapter.amqp;
 
 import com.github.fridujo.rabbitmq.mock.compatibility.MockConnectionFactoryFactory;
-import com.github.fridujo.rabbitmq.mock.exchange.*;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.Queue;
@@ -12,10 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+@Primary
 @Configuration
 public class AMQPTestConfiguration {
 
-  @Primary
   @Bean
   public ConnectionFactory connectionFactory() {
     return new CachingConnectionFactory(
@@ -30,11 +29,12 @@ public class AMQPTestConfiguration {
 
   @Bean
   public RabbitAdmin rabbitAdmin(
-      ConnectionFactory connectionFactory, Queue queue, Exchange exchange, Binding binding) {
+          ConnectionFactory connectionFactory, Queue queue, Exchange exchange, Binding binding) {
     RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
     rabbitAdmin.declareQueue(queue);
     rabbitAdmin.declareExchange(exchange);
     rabbitAdmin.declareBinding(binding);
     return rabbitAdmin;
   }
+
 }

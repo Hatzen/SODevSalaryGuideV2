@@ -1,17 +1,15 @@
 package de.hartz.software.sodevsalaryguide.application.http.api.endpoints;
 
+import de.hartz.software.sodevsalaryguide.adapter.frontend.FrontendConfig;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceConfiguration;
 import de.hartz.software.sodevsalaryguide.application.http.api.HttpApiConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-  // https://stackoverflow.com/a/48264995/8524651
-  ServletWebServerFactoryAutoConfiguration.class,
-  HttpApiConfiguration.class,
-  PersistenceConfiguration.class,
-  // de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceTestConfig.class
+    FrontendConfig.class,
+    HttpApiConfiguration.class,
+    PersistenceConfiguration.class
 })
 public class HttpApiTestConfiguration {}

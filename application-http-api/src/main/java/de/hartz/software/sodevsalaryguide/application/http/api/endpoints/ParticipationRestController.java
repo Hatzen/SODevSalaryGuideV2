@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/participations")
+@RequestMapping(ParticipationRestController.ENDPOINT_URL)
 class ParticipationRestController {
+
+  public static final String ENDPOINT_URL = "/api/v1/participations";
+  public static final String OVERALL = "/overall";
 
   @Autowired EvaluatedDataReadRepo evaluatedDataRepo;
 
-  @GetMapping("/overall")
+  @GetMapping(OVERALL)
   public long getOverallParicipationCount() {
     return evaluatedDataRepo.getAllSurveyEntries().size();
   }

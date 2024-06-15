@@ -17,6 +17,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
   @Override
   public void onApplicationEvent(final ApplicationReadyEvent event) {
 
-    System.err.println(System.getProperty("test"));
+    // TODO: Proper setup
+    System.err.println(System.getProperty("Launched application start workers.."));
   }
 }

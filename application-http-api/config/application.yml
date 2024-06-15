@@ -1,16 +1,5 @@
 test: 12356
-
+# TODO: use proper liqui base initialization?
 spring:
-  config:
-    import: classpath:/application-prod.properties
-
-  # https://www.cockroachlabs.com/blog/tutorial-spring-hibernate/
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:9999/postgres
-    username: sodevuser
-    password: sodevuserpw
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+    initialization-mode: always

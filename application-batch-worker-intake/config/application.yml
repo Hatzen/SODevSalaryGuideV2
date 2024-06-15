@@ -1,8 +1,6 @@
 server:
   port: 8082
 
-
-
 # TODO: activate logs and optimize bulk inserts
 spring:
   jpa:
@@ -13,19 +11,6 @@ spring:
 
   batch:
     jdbc:
-      #schema: classpath:org/springframework/batch/core/schema-postgres.sql
-      #schema: classpath:org/springframework/batch/core/schema-h2.sql
-
+      # init custom spring batch tables. Seems to initialize our tablesas well.
       initialize-schema: always
-    #job:
-    #   enabled: true
-    #spring:
-    #  batch:
-    #    initializer:
-    #      enabled: true
-    #    jdbc:
-    # https://stackoverflow.com/a/65473668/8524651
-  # initialize-schema: never # always
-  #config:
-  #  import: classpath:/application-prod.properties
 

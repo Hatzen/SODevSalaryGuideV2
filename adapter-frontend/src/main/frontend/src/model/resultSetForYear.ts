@@ -6,7 +6,4 @@ export default class ResultSetForYear {
     invalidEntryCount = 0
 
     year = -1
-
-    chunksAvailable = -1
-    chunksParsed = -1
 }

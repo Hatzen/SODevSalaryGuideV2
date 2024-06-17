@@ -3,14 +3,16 @@ package de.hartz.software.sodevsalaryguide.adapter.persistence.repo;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.mapper.SurveyEntryJpaMapper;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.model.SurveyEntryJpa;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
+import de.hartz.software.sodevsalaryguide.core.model.dto.FilterDto;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataWriteRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.val;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDataReadRepo {
@@ -30,6 +32,21 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         .collect(Collectors.toList());
   }
 
+  public List<SurveyEntry> getMatchingSurveyEntries(FilterDto filterDto) {
+    // https://www.baeldung.com/hibernate-select-all
+    val list =
+            entityManager
+                    .createQuery(
+                            "SELECT a FROM SurveyEntryJpa a LEFT JOIN a.abilities b WHERE", SurveyEntryJpa.class)
+                    .getResultList();
+    return list.stream()
+            .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
+            .collect(Collectors.toList());
+  }
+
+  // TODO: Method to get all distinct education, gender, abilities etc..
+
+
   @Override
   public void insertAllSurveyEntries(List<SurveyEntry> entries) {
     entries.stream()
@@ -43,6 +60,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         .getSingleResult();
   }
 
+  // Wont be done, we simply filter all entries..
   // TODO: Get sql data for returning calculated boxplot data
   // https://mode.com/blog/how-to-make-box-and-whisker-plot-sql/
 }

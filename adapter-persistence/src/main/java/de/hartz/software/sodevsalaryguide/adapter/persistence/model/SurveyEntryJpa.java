@@ -2,19 +2,11 @@ package de.hartz.software.sodevsalaryguide.adapter.persistence.model;
 
 import de.hartz.software.sodevsalaryguide.core.model.enums.Currency;
 import de.hartz.software.sodevsalaryguide.core.model.enums.Gender;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import java.util.Set;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @Entity
@@ -26,6 +18,9 @@ public class SurveyEntryJpa {
   private Long id;
 
   private Double salary;
+
+  // TODO: Implement for persisting
+  private Integer yearOfSurvey;
 
   // https://www.baeldung.com/jpa-persisting-enums-in-jpa
   @Enumerated(EnumType.STRING)

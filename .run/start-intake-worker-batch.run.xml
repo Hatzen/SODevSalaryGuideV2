@@ -2,8 +2,11 @@
   <configuration default="false" name="start-intake-worker-batch" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.application.batch.worker.intake.InputCsvWorkerBatchApplication" />
     <module name="sodevsalaryguide.application-batch-worker-intake.main" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=prod" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/application-batch-worker-intake" />
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="MakeProject" enabled="true" />
     </method>
   </configuration>
 </component>

@@ -1,6 +1,3 @@
-server:
-  port: 8082
-
 # TODO: activate logs and optimize bulk inserts
 spring:
   jpa:
@@ -11,6 +8,7 @@ spring:
 
   batch:
     jdbc:
+      # https://stackoverflow.com/a/75480766/8524651
       # init custom spring batch tables. Seems to initialize our tablesas well.
       initialize-schema: always
 

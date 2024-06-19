@@ -1,4 +1,6 @@
 spring:
+  config:
+    imports: classpath:/application-prod-persistence.properties
   # https://www.cockroachlabs.com/blog/tutorial-spring-hibernate/
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -9,3 +11,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
+server:
+  port: 8081

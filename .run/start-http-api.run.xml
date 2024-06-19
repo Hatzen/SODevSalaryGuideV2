@@ -4,6 +4,7 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="de.hartz.software.sodevsalaryguide.application.http.api.WebuiApplication" />
     <module name="sodevsalaryguide.application-http-api.main" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=prod" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/application-http-api" />
     <method v="2">
       <option name="Make" enabled="true" />

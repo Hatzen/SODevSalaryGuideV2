@@ -78,7 +78,8 @@ public class InputReader implements ItemReader<RawRow>, StepExecutionListener {
         nextComputation = computationCrudRepo.save(nextComputation);
         intakeContext.setCurrentComputation(nextComputation);
       } catch (NoMoreDataAvailableException e) {
-        logger.warn("NoMoreDataAvailableException", e);
+        logger.info("NoMoreDataAvailableException");
+        // logger.warn("NoMoreDataAvailableException", e);
         return false;
       }
       currentFileHandler = new FileHandler(datasetName, dataRestClient);

@@ -1,5 +1,6 @@
 package de.hartz.software.sodevsalaryguide.application.batch.worker.intake;
 
+import lombok.val;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,7 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InputCsvWorkerBatchApplication {
 
   public static void main(String[] args) {
-    System.exit(
-        SpringApplication.exit(SpringApplication.run(InputCsvWorkerBatchApplication.class, args)));
+    val application = SpringApplication.run(InputCsvWorkerBatchApplication.class, args);
+    val springExit = SpringApplication.exit(application);
+    System.exit(springExit);
   }
 }

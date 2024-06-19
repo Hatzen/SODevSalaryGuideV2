@@ -23,7 +23,13 @@ dependencies {
     //implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
 
-    runtimeOnly("com.h2database:h2")
+    //runtimeOnly("com.h2database:h2")
+    // TODO: H2 only needed in test but componenttest will fail with missing h2 driver..
+    //testRuntimeOnly("com.h2database:h2")
+    testFixturesRuntimeOnly("com.h2database:h2")
+
+
+
     //runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("org.postgresql:postgresql")
     //runtimeOnly("org.postgresql:r2dbc-postgresql")

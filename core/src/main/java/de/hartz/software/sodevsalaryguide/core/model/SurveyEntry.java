@@ -19,6 +19,8 @@ public class SurveyEntry {
   /** Salary converted from origin currency to target currency. */
   private Double convertedSalary;
 
+  private Integer yearOfSurvey;
+
   @Builder.Default private Currency currency = Currency.USD;
 
   // 2011-2014: How many years of IT/Programming experience do you have?

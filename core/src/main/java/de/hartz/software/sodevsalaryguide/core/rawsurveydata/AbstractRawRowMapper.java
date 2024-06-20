@@ -6,17 +6,11 @@ import de.hartz.software.sodevsalaryguide.core.model.enums.Currency;
 import de.hartz.software.sodevsalaryguide.core.model.enums.Gender;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
 import de.hartz.software.sodevsalaryguide.core.rawsurveydata.model.raw.ColumnList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import lombok.val;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.val;
 
 public abstract class AbstractRawRowMapper {
   public static String COLUMN_DONT_EXIST = "COLUMN_DONT_EXIST";
@@ -51,7 +45,7 @@ public abstract class AbstractRawRowMapper {
 
   protected abstract Integer MAPPER_FOR_YEAR();
 
-  public SurveyEntry map(RawRow csvRow) {
+  public SurveyEntry map(RawRow csvRow, int year) {
     val result = new SurveyEntry();
     this.setSalary(csvRow, result);
     this.setGender(csvRow, result);
@@ -60,6 +54,7 @@ public abstract class AbstractRawRowMapper {
     this.setCompanySize(csvRow, result);
     this.setCountry(csvRow, result);
     this.setDegree(csvRow, result);
+    result.setYearOfSurvey(year);
     return result;
   }
 

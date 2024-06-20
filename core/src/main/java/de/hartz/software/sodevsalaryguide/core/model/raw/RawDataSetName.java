@@ -1,13 +1,14 @@
 package de.hartz.software.sodevsalaryguide.core.model.raw;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// No Args needed for deserialization via Jackson
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+// No Args constructor needed for deserialization via Jackson
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

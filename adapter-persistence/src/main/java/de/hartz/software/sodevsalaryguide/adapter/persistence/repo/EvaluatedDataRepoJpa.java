@@ -39,6 +39,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         .collect(Collectors.toList());
   }
 
+  @Override
   public List<SurveyEntry> getMatchingSurveyEntries(FilterDto filterDto) {
     // https://www.baeldung.com/hibernate-criteria-queries
     CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -57,23 +58,23 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
       predicates.add(builder.le(root.get("expirienceInYearsMax"), filterDto.expirienceInYears().max()));
     }
 
-    if (!filterDto.abilities().isEmpty()) {
+    if (filterDto.abilities() != null && !filterDto.abilities().isEmpty()) {
       predicates.add(root.join("abilities").get("ability").in(filterDto.abilities().toArray()));
     }
 
-    if (!filterDto.countries().isEmpty()) {
+    if (filterDto.countries() != null && !filterDto.countries().isEmpty()) {
       predicates.add(root.get("country").in(filterDto.countries().toArray()));
     }
 
-    if (!filterDto.degrees().isEmpty()) {
+    if (filterDto.degrees() != null && !filterDto.degrees().isEmpty()) {
       predicates.add(root.get("highestDegree").in(filterDto.degrees().toArray()));
     }
 
-    if (!filterDto.genders().isEmpty()) {
+    if (filterDto.genders() != null && !filterDto.genders().isEmpty()) {
       predicates.add(root.get("gender").in(filterDto.genders().stream().map(Enum::name).toArray()));
     }
 
-    if (!filterDto.selectedYears().isEmpty()) {
+    if (filterDto.selectedYears() != null && !filterDto.selectedYears().isEmpty()) {
       predicates.add(root.get("yearOfSurvey").in(filterDto.selectedYears().toArray()));
     }
 
@@ -87,16 +88,18 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
             .collect(Collectors.toList());
   }
 
+  @Override
   public Set<String> getAllAbilities() {
     // https://www.baeldung.com/hibernate-select-all
     val list =
             entityManager
                     .createQuery(
-                            "SELECT DISTINCT a.ability FROM AbilityJpa", String.class)
+                            "SELECT DISTINCT a.ability FROM AbilityJpa a", String.class)
                     .getResultList();
     return new HashSet<>(list);
   }
 
+  @Override
   public Set<String> getAllEducations() {
     // https://www.baeldung.com/hibernate-select-all
     val list =
@@ -107,6 +110,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
     return new HashSet<>(list);
   }
 
+  @Override
   public Set<String> getAllCountries() {
     // https://www.baeldung.com/hibernate-select-all
     val list =

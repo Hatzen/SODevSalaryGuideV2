@@ -32,9 +32,12 @@ dependencies {
     // modules
     implementation(project(":core"))
     implementation(project(":adapter-frontend"))
-    annotationProcessor(project(":adapter-frontend"))
+    // annotationProcessor(project(":adapter-frontend"))
     implementation(project(":adapter-persistence"))
     // annotationProcessor(project(":adapter-persistence"))
+
+    implementation(project(":adapter-amqp"))
+    annotationProcessor(project(":adapter-amqp"))
 
     // http
     implementation("org.springframework.boot:spring-boot-starter-actuator")

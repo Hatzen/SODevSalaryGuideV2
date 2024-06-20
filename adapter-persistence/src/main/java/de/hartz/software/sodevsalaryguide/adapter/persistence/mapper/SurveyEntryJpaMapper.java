@@ -4,17 +4,12 @@ import de.hartz.software.sodevsalaryguide.adapter.persistence.model.AbilityJpa;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.model.SurveyEntryJpa;
 import de.hartz.software.sodevsalaryguide.core.model.Range;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ObjectFactory;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
 
 // https://mapstruct.org/documentation/stable/reference/html/#updating-bean-instances
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)

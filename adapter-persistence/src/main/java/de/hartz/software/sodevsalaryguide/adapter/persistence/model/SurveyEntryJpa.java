@@ -19,7 +19,6 @@ public class SurveyEntryJpa {
 
   private Double salary;
 
-  // TODO: Implement for persisting
   private Integer yearOfSurvey;
 
   // https://www.baeldung.com/jpa-persisting-enums-in-jpa

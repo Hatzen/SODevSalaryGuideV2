@@ -2,17 +2,8 @@ package de.hartz.software.sodevsalaryguide.core.rawsurveydata;
 
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.raw.RawRow;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2011;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2012;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2013;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2014;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2015;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2016;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2017;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2018;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2019;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2021;
-import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.RawRowMapper2022;
+import de.hartz.software.sodevsalaryguide.core.rawsurveydata.impl.*;
+import lombok.val;
 
 public class RawRowMapper {
   static final SurveyEntry INVALID_ENTRY = new SurveyEntry();
@@ -34,7 +25,8 @@ public class RawRowMapper {
 
   public SurveyEntry map(RawRow row) {
     AbstractRawRowMapper mapper;
-    switch (row.getRawDataSetName().getYear()) {
+    val year = row.getRawDataSetName().getYear();
+    switch (year) {
       case 2011 -> mapper = this.MAPPER_2011;
       case 2012 -> mapper = this.MAPPER_2012;
       case 2013 -> mapper = this.MAPPER_2013;
@@ -52,7 +44,7 @@ public class RawRowMapper {
         return RawRowMapper.INVALID_ENTRY;
       }
     }
-    return mapper.map(row);
+    return mapper.map(row, year);
   }
 
   public boolean isValidEntry(SurveyEntry surveyEntry) {

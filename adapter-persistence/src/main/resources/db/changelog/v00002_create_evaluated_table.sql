@@ -2,6 +2,7 @@ create table surveyEntry (
   id serial not null,
   computationId bigint,
   salary float,
+  yearOfSurvey int,
   currency text,
   expirienceInYearsMin int,
   expirienceInYearsMax int,

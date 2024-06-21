@@ -3,9 +3,9 @@ import { Checkbox, FormGroup, FormControl, FormControlLabel, Grid, Slider, FormL
 import { inject, observer } from 'mobx-react'
 import { injectClause, StoreProps } from '../stores/storeHelper'
 import Autocomplete from '@mui/material/Autocomplete'
-import { AbstractCsvRowMapper } from '../mapper/AbstractCsvRowMapper'
 import { Gender } from '../model/gender'
 import ControlComponentWrapper from './controlComponentWrapper'
+import entryStore from '../stores/entryStore'
 
 class ControlPane extends React.Component<StoreProps> {
     private key = 0
@@ -62,12 +62,7 @@ class ControlPane extends React.Component<StoreProps> {
     }
     
     get abilities(): any {
-        const filterdValues =
-            [...AbstractCsvRowMapper.abilities]
-                .filter(([k, v]) => v > 10 )
-                .map(([k, v]) => k as string)
-                // .map(([k, v]) => k as string +  ' (' + v + ')')
-        //
+        const filterdValues = entryStore.values?.abilities || []
         const autoCompleteComponent = (<Autocomplete
             multiple
             id="checkboxes-tags-demo"
@@ -126,11 +121,7 @@ class ControlPane extends React.Component<StoreProps> {
     }
     
     get countries(): any {
-        const filterdValues =
-            [...AbstractCsvRowMapper.countries]
-                .filter(([k, v]) => v > 10 )
-                .map(([k, v]) => k as string)
-                // .map(([k, v]) => k as string +  ' (' + v + ')')
+        const filterdValues = entryStore.values?.countries || []
         const autoCompleteComponent = (<Autocomplete
             multiple
             id="checkboxes-tags-demo"
@@ -163,11 +154,7 @@ class ControlPane extends React.Component<StoreProps> {
     }
     
     get degrees(): any {
-        const filterdValues =
-            [...AbstractCsvRowMapper.educations]
-                .filter(([k, v]) => v > 10 )
-                .map(([k, v]) => k as string)
-                // .map(([k, v]) => k as string +  ' (' + v + ')')
+        const filterdValues = entryStore.values?.educations || []
         const autoCompleteComponent = (<Autocomplete
             multiple
             id="checkboxes-tags-demo"

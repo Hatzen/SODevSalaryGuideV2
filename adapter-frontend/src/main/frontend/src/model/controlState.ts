@@ -19,7 +19,7 @@ export default class ControlState {
     countriesFilterActive = false
     
 
-    constructor (partial: ControlState) {
+    constructor (partial: Partial<ControlState>) {
         Object.assign(this, partial)
     }
 

@@ -4,7 +4,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import { Typography } from '@material-ui/core'
-import { CHUNK_COUNT_PER_YEAR } from '../model/constantMetaData'
 import { injectClause, StoreProps } from '../stores/storeHelper'
 import { inject, observer } from 'mobx-react'
 import Loader from 'react-loader-spinner'
@@ -53,7 +52,7 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
     }
 
     get loader(): JSX.Element {
-        const maxChunks = Object.values(CHUNK_COUNT_PER_YEAR)
+        /*const maxChunks = Object.values(CHUNK_COUNT_PER_YEAR)
             .reduce((previousValue: number, currentValue: number) => {
                 return 0 + previousValue + currentValue
             })
@@ -66,12 +65,12 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
         const loadingPercentage = Math.round(chunksDownloaded / maxChunks * 100)
         if (loadingPercentage > 99) {
             return <div></div>
-        }
+        }*/
         return (
             <div style={{padding: 'auto', position: 'absolute', right: '25px'}}>
                 <Typography variant='body1'>
                     <div style={{}}>
-                        {loadingPercentage} %
+                         %
                     </div>
                 </Typography>
                 <Loader
@@ -84,6 +83,7 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
         )
     }
 
+    /*
     getNetworkConnectionInfo(): any {
         const connection = this.getNetworkConnection()
         if (!connection) {
@@ -98,14 +98,14 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
             downLinkMax: connection.downLinkMax,
             effectiveType: connection.effectiveType,
         }
-    }
+    }*/
     
     useNetwork(): any {
         const [state, setState] = useState(() => {
             return {
                 since: undefined,
                 online: navigator.onLine,
-                ...this.getNetworkConnectionInfo(),
+                // ...this.getNetworkConnectionInfo(),
             }
         })
         useEffect(() => {
@@ -130,11 +130,12 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
             const handleConnectionChange = (): any => {
                 setState((prevState: any) => ({
                     ...prevState,
-                    ...this.getNetworkConnectionInfo(),
+                    // ...this.getNetworkConnectionInfo(),
                 }))
             }
             window.addEventListener('online', handleOnline)
             window.addEventListener('offline', handleOffline)
+            /*
             const connection = this.getNetworkConnection()
             connection?.addEventListener('change', handleConnectionChange)
             return () => {
@@ -142,10 +143,12 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
                 window.removeEventListener('offline', handleOffline)
                 connection?.removeEventListener('change', handleConnectionChange)
             }
+                */
         }, [])
         return state
     }
 
+    /*
     getNetworkConnection(): NetworkInformation & any {
         return (
             navigator.connection
@@ -155,7 +158,7 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
             // null
         )
     }
-
+        */
 }
 
 export default inject(...injectClause)(observer(MenuAppBar))

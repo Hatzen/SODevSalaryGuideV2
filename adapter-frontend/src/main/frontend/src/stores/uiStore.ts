@@ -63,23 +63,13 @@ export class UiStore {
     }
 
     private resetRenderSchedule (): void {
-        window.clearInterval(this.timeoutId)
-        this.timeoutId = window.setInterval(this.udpateFilteredData.bind(this), UiStore.renderPeriodInMs)
+        // TODO: get rid of schedule and use a simple button...
+        // window.clearInterval(this.timeoutId)
+        // this.timeoutId = window.setInterval(this.udpateFilteredData.bind(this), UiStore.renderPeriodInMs)
     }
 
-    // TODO: Maybe do in worker? https://medium.com/launch-school/what-are-web-workers-4a0e1ded7a67
     udpateFilteredData (): void {
-        // // TODO: this.dataChanged only changes when applying observer.. Which is failing in constructor as objects are not initialized???
-        // For better performance only render every 3 seconds (to avoid rendering every 20ms and freeze ui) and only when anything changed.
-        //if (this.dataChanged === true) {
-        this.dataChanged = false
-        Object.keys(this.entryStore.parsedDataByYear).forEach((year: any) => {
-            const parsedData = this.entryStore.parsedDataByYear[year]
-            const controlState = this.controlStore.controlState
-            this.filteredData[year] = parsedData.resultSet
-                .filter(controlState.filterByState.bind(controlState))
-        })
-        //}
+        this.entryStore.loadData()
     }
 
 }

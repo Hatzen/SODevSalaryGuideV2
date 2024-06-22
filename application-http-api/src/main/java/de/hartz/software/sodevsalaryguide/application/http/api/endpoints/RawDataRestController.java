@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/rawdata")
 class RawDataRestController {
 
-  @GetMapping(value = "/csv/{csvName}")
-  public ResponseEntity<Resource> getCsvFile(@PathVariable String csvName) {
-    ClassPathResource resource = new ClassPathResource("csvchunks/" + csvName + ".csv");
-
-    return ResponseEntity.ok()
-        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + csvName + ".csv")
-        .contentType(MediaType.TEXT_PLAIN)
-        .body(resource);
-  }
+    @GetMapping(value = "/csv/{csvName}")
+    public ResponseEntity<Resource> getCsvFile(@PathVariable String csvName) {
+        ClassPathResource resource = new ClassPathResource("csvchunks/" + csvName);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + csvName)
+                .contentType(MediaType.TEXT_PLAIN)
+                .body(resource);
+    }
 }

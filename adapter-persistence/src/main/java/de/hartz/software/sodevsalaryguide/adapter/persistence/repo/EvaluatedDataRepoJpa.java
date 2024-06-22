@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 
@@ -24,117 +25,119 @@ import java.util.stream.Collectors;
 @Repository
 public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDataReadRepo {
 
-  @PersistenceContext private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-  @Override
-  public List<SurveyEntry> getAllSurveyEntries() {
-    // https://www.baeldung.com/hibernate-select-all
-    val list =
-        entityManager
-            .createQuery(
-                "SELECT a FROM SurveyEntryJpa a LEFT JOIN a.abilities b", SurveyEntryJpa.class)
-            .getResultList();
-    return list.stream()
-        .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  public List<SurveyEntry> getMatchingSurveyEntries(FilterDto filterDto) {
-    // https://www.baeldung.com/hibernate-criteria-queries
-    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<SurveyEntryJpa> cr = builder.createQuery(SurveyEntryJpa.class);
-    Root<SurveyEntryJpa> root = cr.from(SurveyEntryJpa.class);
-
-    ArrayList<Predicate> predicates = new ArrayList<>();
-
-    if (filterDto.companySize() != null) {
-      predicates.add(builder.ge(root.get("companySizeMin"), filterDto.companySize().min()));
-      predicates.add(builder.le(root.get("companySizeMax"), filterDto.companySize().max()));
+    @Override
+    public List<SurveyEntry> getAllSurveyEntries() {
+        // https://www.baeldung.com/hibernate-select-all
+        val list =
+                entityManager
+                        .createQuery(
+                                "SELECT a FROM SurveyEntryJpa a LEFT JOIN a.abilities b", SurveyEntryJpa.class)
+                        .getResultList();
+        return list.stream()
+                .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
+                .collect(Collectors.toList());
     }
 
-    if (filterDto.expirienceInYears() != null) {
-      predicates.add(builder.ge(root.get("expirienceInYearsMin"), filterDto.expirienceInYears().min()));
-      predicates.add(builder.le(root.get("expirienceInYearsMax"), filterDto.expirienceInYears().max()));
+    @Override
+    public List<SurveyEntry> getMatchingSurveyEntries(FilterDto filterDto) {
+        // https://www.baeldung.com/hibernate-criteria-queries
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<SurveyEntryJpa> cr = builder.createQuery(SurveyEntryJpa.class);
+        Root<SurveyEntryJpa> root = cr.from(SurveyEntryJpa.class);
+
+        ArrayList<Predicate> predicates = new ArrayList<>();
+
+        if (filterDto.companySize() != null) {
+            predicates.add(builder.ge(root.get("companySizeMin"), filterDto.companySize().min()));
+            predicates.add(builder.le(root.get("companySizeMax"), filterDto.companySize().max()));
+        }
+
+        if (filterDto.expirienceInYears() != null) {
+            predicates.add(builder.ge(root.get("expirienceInYearsMin"), filterDto.expirienceInYears().min()));
+            predicates.add(builder.le(root.get("expirienceInYearsMax"), filterDto.expirienceInYears().max()));
+        }
+
+        if (filterDto.abilities() != null && !filterDto.abilities().isEmpty()) {
+            predicates.add(root.join("abilities").get("ability").in(filterDto.abilities().toArray()));
+        }
+
+        if (filterDto.countries() != null && !filterDto.countries().isEmpty()) {
+            predicates.add(root.get("country").in(filterDto.countries().toArray()));
+        }
+
+        if (filterDto.degrees() != null && !filterDto.degrees().isEmpty()) {
+            predicates.add(root.get("highestDegree").in(filterDto.degrees().toArray()));
+        }
+
+        if (filterDto.genders() != null && !filterDto.genders().isEmpty()) {
+            predicates.add(root.get("gender").in(filterDto.genders().stream().map(Enum::name).toArray()));
+        }
+
+        if (filterDto.selectedYears() != null && !filterDto.selectedYears().isEmpty()) {
+            predicates.add(root.get("yearOfSurvey").in(filterDto.selectedYears().toArray()));
+        }
+
+        cr = cr.select(root).where(predicates.toArray(Predicate[]::new));
+
+        val list =
+                entityManager.createQuery(cr)
+                        .getResultList();
+        return list.stream()
+                .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
+                .collect(Collectors.toList());
     }
 
-    if (filterDto.abilities() != null && !filterDto.abilities().isEmpty()) {
-      predicates.add(root.join("abilities").get("ability").in(filterDto.abilities().toArray()));
+    @Override
+    public Set<String> getAllAbilities() {
+        // https://www.baeldung.com/hibernate-select-all
+        val list =
+                entityManager
+                        .createQuery(
+                                "SELECT DISTINCT a.ability FROM AbilityJpa a", String.class)
+                        .getResultList();
+        return new HashSet<>(list);
     }
 
-    if (filterDto.countries() != null && !filterDto.countries().isEmpty()) {
-      predicates.add(root.get("country").in(filterDto.countries().toArray()));
+    @Override
+    public Set<String> getAllEducations() {
+        // https://www.baeldung.com/hibernate-select-all
+        val list =
+                entityManager
+                        .createQuery(
+                                "SELECT DISTINCT a.highestDegree FROM SurveyEntryJpa a", String.class)
+                        .getResultList();
+        return new HashSet<>(list);
     }
 
-    if (filterDto.degrees() != null && !filterDto.degrees().isEmpty()) {
-      predicates.add(root.get("highestDegree").in(filterDto.degrees().toArray()));
+    @Override
+    public Set<String> getAllCountries() {
+        // https://www.baeldung.com/hibernate-select-all
+        val list =
+                entityManager
+                        .createQuery(
+                                "SELECT DISTINCT a.country FROM SurveyEntryJpa a", String.class)
+                        .getResultList();
+        return new HashSet<>(list);
     }
 
-    if (filterDto.genders() != null && !filterDto.genders().isEmpty()) {
-      predicates.add(root.get("gender").in(filterDto.genders().stream().map(Enum::name).toArray()));
+    @Transactional
+    @Override
+    public void insertAllSurveyEntries(List<SurveyEntry> entries) {
+        entries.stream()
+                .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryDomainToJpa)
+                .forEach(jpa -> entityManager.merge(jpa));
     }
 
-    if (filterDto.selectedYears() != null && !filterDto.selectedYears().isEmpty()) {
-      predicates.add(root.get("yearOfSurvey").in(filterDto.selectedYears().toArray()));
+    public Long countInvalidEntries() {
+        return entityManager
+                .createQuery("SELECT count(a) FROM SurveyEntryJpa a WHERE a.salary = -1", Long.class)
+                .getSingleResult();
     }
 
-    cr = cr.select(root).where(predicates.toArray(Predicate[]::new));
-
-    val list =
-            entityManager.createQuery(cr)
-                    .getResultList();
-    return list.stream()
-            .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
-            .collect(Collectors.toList());
-  }
-
-  @Override
-  public Set<String> getAllAbilities() {
-    // https://www.baeldung.com/hibernate-select-all
-    val list =
-            entityManager
-                    .createQuery(
-                            "SELECT DISTINCT a.ability FROM AbilityJpa a", String.class)
-                    .getResultList();
-    return new HashSet<>(list);
-  }
-
-  @Override
-  public Set<String> getAllEducations() {
-    // https://www.baeldung.com/hibernate-select-all
-    val list =
-            entityManager
-                    .createQuery(
-                            "SELECT DISTINCT a.highestDegree FROM SurveyEntryJpa a", String.class)
-                    .getResultList();
-    return new HashSet<>(list);
-  }
-
-  @Override
-  public Set<String> getAllCountries() {
-    // https://www.baeldung.com/hibernate-select-all
-    val list =
-            entityManager
-                    .createQuery(
-                            "SELECT DISTINCT a.country FROM SurveyEntryJpa a", String.class)
-                    .getResultList();
-    return new HashSet<>(list);
-  }
-
-  @Override
-  public void insertAllSurveyEntries(List<SurveyEntry> entries) {
-    entries.stream()
-        .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryDomainToJpa)
-        .forEach(jpa -> entityManager.merge(jpa));
-  }
-
-  public Long countInvalidEntries() {
-    return entityManager
-        .createQuery("SELECT count(a) FROM SurveyEntryJpa a WHERE a.salary = -1", Long.class)
-        .getSingleResult();
-  }
-
-  // Wont be done, we simply filter all entries..
-  // TODO: Get sql data for returning calculated boxplot data
-  // https://mode.com/blog/how-to-make-box-and-whisker-plot-sql/
+    // Wont be done, we simply filter all entries..
+    // TODO: Get sql data for returning calculated boxplot data
+    // https://mode.com/blog/how-to-make-box-and-whisker-plot-sql/
 }

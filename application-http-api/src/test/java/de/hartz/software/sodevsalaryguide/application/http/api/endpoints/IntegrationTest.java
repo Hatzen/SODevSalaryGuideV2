@@ -1,5 +1,7 @@
 package de.hartz.software.sodevsalaryguide.application.http.api.endpoints;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import de.hartz.software.sodevsalaryguide.core.model.Range;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.dto.FilterDto;
@@ -40,12 +42,11 @@ public class IntegrationTest {
     void getFilteredSurveyEntries_withAllCriteria_returnsOnlyThatOneMatch() throws Exception {
 
         val surveyEntryMatch = SurveyEntry.builder().abilities(Set.of("Java")).expirienceInYears(new Range(0, 1000)).age(18).yearOfSurvey(2011)
-                .country("Germany").highestDegree("Bsc").salary(2.0).build();
+                .country("Germany").highestDegree("Bsc").salary(2.0).gender(Gender.FEMALE).companySize(new Range(0, 1000)).build();
         val surveyEntryNoMatch = SurveyEntry.builder().abilities(Set.of("Test")).expirienceInYears(new Range(0, 1000)).age(18).yearOfSurvey(2011)
                 .country("Germany").highestDegree("Msc").salary(1.0).build();
 
         repo.insertAllSurveyEntries(List.of(surveyEntryMatch, surveyEntryNoMatch));
-
 
         val filter = new FilterDto(
                 Set.of(2011),
@@ -56,13 +57,46 @@ public class IntegrationTest {
                 Set.of("Germany"),
                 Set.of("Bsc"));
 
-        mvc.perform(
-                        MockMvcRequestBuilders.post(ParticipationRestController.ENDPOINT_URL + ParticipationRestController.FILTERED, filter
-                                )
-                                .accept(MediaType.APPLICATION_JSON))
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(filter);
+
+        val result = mvc.perform(MockMvcRequestBuilders.post(ParticipationRestController.ENDPOINT_URL + ParticipationRestController.FILTERED)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType("application/json")
+                        .content(requestJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].salary", containsInAnyOrder("2.0")));
-        // .andExpect(content().string(equalTo("1678737792891")));
+                .andExpect(jsonPath("$[0].resultSet[*].salary", containsInAnyOrder(2.0)));
     }
 
+    @Test
+    void getFilteredSurveyEntries_withEmptyCriteria_returnsAll() throws Exception {
+
+        val surveyEntryMatch = SurveyEntry.builder().abilities(Set.of("Java")).expirienceInYears(new Range(0, 1000)).age(18).yearOfSurvey(2011)
+                .country("Germany").highestDegree("Bsc").salary(2.0).gender(Gender.FEMALE).companySize(new Range(0, 1000)).build();
+        val surveyEntryNoMatch = SurveyEntry.builder().abilities(Set.of("Test")).expirienceInYears(new Range(0, 1000)).age(18).yearOfSurvey(2011)
+                .country("Germany").highestDegree("Msc").salary(1.0).build();
+
+        repo.insertAllSurveyEntries(List.of(surveyEntryMatch, surveyEntryNoMatch));
+
+        val filter = new FilterDto(
+                Set.of(),
+                null,
+                Set.of(),
+                Set.of(),
+                null,
+                Set.of(),
+                Set.of());
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(filter);
+
+        val result = mvc.perform(MockMvcRequestBuilders.post(ParticipationRestController.ENDPOINT_URL + ParticipationRestController.FILTERED)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType("application/json")
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].resultSet[*].salary", containsInAnyOrder(2.0, 1.0)));
+    }
 }

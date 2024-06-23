@@ -8,10 +8,7 @@ import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataWriteRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -34,7 +31,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         val list =
                 entityManager
                         .createQuery(
-                                "SELECT a FROM SurveyEntryJpa a LEFT JOIN a.abilities b", SurveyEntryJpa.class)
+                                "SELECT a FROM SurveyEntryJpa a LEFT JOIN fetch a.abilities b", SurveyEntryJpa.class)
                         .getResultList();
         return list.stream()
                 .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
@@ -61,7 +58,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         }
 
         if (filterDto.abilities() != null && !filterDto.abilities().isEmpty()) {
-            predicates.add(root.join("abilities").get("ability").in(filterDto.abilities().toArray()));
+            predicates.add(root.join("abilities", JoinType.LEFT).get("ability").in(filterDto.abilities().toArray()));
         }
 
         if (filterDto.countries() != null && !filterDto.countries().isEmpty()) {
@@ -73,7 +70,9 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         }
 
         if (filterDto.genders() != null && !filterDto.genders().isEmpty()) {
-            predicates.add(root.get("gender").in(filterDto.genders().stream().map(Enum::name).toArray()));
+            // No need to map to string.
+            // predicates.add(root.get("gender").in(filterDto.genders().stream().map(Enum::name).toArray()));
+            predicates.add(root.get("gender").in(filterDto.genders().toArray()));
         }
 
         if (filterDto.selectedYears() != null && !filterDto.selectedYears().isEmpty()) {

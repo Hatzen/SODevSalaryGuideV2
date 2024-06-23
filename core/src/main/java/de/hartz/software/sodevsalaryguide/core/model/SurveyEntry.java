@@ -19,6 +19,7 @@ public class SurveyEntry {
     /**
      * Salary converted from origin currency to target currency.
      */
+    @Builder.Default
     private Double convertedSalary = 0.0;
 
     private Integer yearOfSurvey;

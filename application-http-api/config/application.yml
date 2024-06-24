@@ -1,5 +1,0 @@
-test: 12356
-# TODO: use proper liqui base initialization?
-spring:
-  datasource:
-    initialization-mode: always

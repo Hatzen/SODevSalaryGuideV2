@@ -5,11 +5,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-// Needed when running frontend locally on a different port. TODO Should not run in production environment.
+// Needed when running frontend locally on a different port.
+@ConditionalOnProperty(prefix = "sodevsalaryguide", name = "allow-all-cors", havingValue = "true")
 // https://stackoverflow.com/a/59304327/8524651
 @Component
 public class CustomeCORSFilter implements Filter {

@@ -1,5 +1,7 @@
 # TODO: activate logs and optimize bulk inserts
 spring:
+  application:
+    name: worker-intake
   jpa:
     show-sql: false
     properties:

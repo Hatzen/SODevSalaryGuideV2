@@ -1,0 +1,6 @@
+spring:
+  # TODO: really needed? Or only for test?
+  datasource:
+    initialization-mode: always
+  application:
+    name: http-api

@@ -26,4 +26,22 @@ services:
       # HTTP management UI
       - "${RABBIT_MQ_ADMIN_UI_PORT}:15672"
 
-# TODO: Add spring http server and batch
+  application-http-api:
+    build:
+      dockerfile: ./application-http-api/Dockerfile
+      context: ../../../
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-database
+      - rabbitmq3
+
+  application-batch-worker-intake:
+    build:
+      dockerfile: ./application-batch-worker-intake/Dockerfile
+      context: ../../../
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres-database
+      - rabbitmq3

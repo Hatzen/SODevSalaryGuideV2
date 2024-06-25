@@ -30,8 +30,10 @@ services:
     build:
       dockerfile: ./application-http-api/Dockerfile
       context: ../../../
+    deploy:
+      replicas: 5
     ports:
-      - "8081:8081"
+      - "8000-8005:8081"
     depends_on:
       - postgres-database
       - rabbitmq3
@@ -40,8 +42,10 @@ services:
     build:
       dockerfile: ./application-batch-worker-intake/Dockerfile
       context: ../../../
+    deploy:
+      replicas: 5
     ports:
-      - "8082:8082"
+      - "9000-9005:8082"
     depends_on:
       - postgres-database
       - rabbitmq3

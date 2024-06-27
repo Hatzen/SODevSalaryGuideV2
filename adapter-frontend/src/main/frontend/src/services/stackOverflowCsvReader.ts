@@ -23,8 +23,8 @@ const query = gql`
 
 // https://medium.com/november-five/using-apollo-client-with-a-rest-api-ad0203a807cd
 export default class SurveyEntryService {
-    // TODO: Configure somehow via springs yml or zookeeper..
-    static readonly SERVER_URL = "http://localhost:8080"
+    // TODO: Configure somehow via springs config server or reverse proxy
+    static readonly SERVER_URL = "http://ui-backend:8121"
 
     // TODO: Implement GraphQL endpoints.
     //restLink: RestLink

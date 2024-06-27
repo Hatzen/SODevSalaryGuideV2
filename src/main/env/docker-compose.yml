@@ -1,6 +1,7 @@
 version: '3'
 services:
   postgres-database:
+    container_name: db
     build:
       context: ./database
     environment:
@@ -12,6 +13,12 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - ./data/database:/var/lib/postgresql/data
+    # restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-postgres}'" ]
+      interval: 2s
+      timeout: 20s
+      retries: 10
 
   # https://www.section.io/engineering-education/dockerize-a-rabbitmq-instance/
   rabbitmq3:
@@ -27,13 +34,12 @@ services:
       - "${RABBIT_MQ_ADMIN_UI_PORT}:15672"
 
   application-http-api:
+    container_name: ui-backend
     build:
       dockerfile: ./application-http-api/Dockerfile
       context: ../../../
-    deploy:
-      replicas: 5
     ports:
-      - "8000-8005:8081"
+      - "8121:8081"
     depends_on:
       - postgres-database
       - rabbitmq3
@@ -43,9 +49,9 @@ services:
       dockerfile: ./application-batch-worker-intake/Dockerfile
       context: ../../../
     deploy:
-      replicas: 5
+      replicas: 2
     ports:
-      - "9000-9005:8082"
+      - "9120-9121:8082"
     depends_on:
       - postgres-database
       - rabbitmq3

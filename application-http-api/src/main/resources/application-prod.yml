@@ -6,7 +6,7 @@ spring:
   # https://www.cockroachlabs.com/blog/tutorial-spring-hibernate/
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:9999/postgres
+    url: jdbc:postgresql://db:9999/postgres
     username: sodevuser
     password: sodevuserpw
   jpa:
@@ -14,7 +14,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
 
-# 2024-06-18T16:22:31.904+02:00  INFO 15596 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  # 2024-06-18T16:22:31.904+02:00  INFO 15596 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
   devtools:
     add-properties: false
 

@@ -14,11 +14,6 @@ services:
     volumes:
       - ./data/database:/var/lib/postgresql/data
     # restart: always
-    healthcheck:
-      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-postgres}'" ]
-      interval: 2s
-      timeout: 20s
-      retries: 10
 
   # https://www.section.io/engineering-education/dockerize-a-rabbitmq-instance/
   rabbitmq3:
@@ -39,10 +34,15 @@ services:
       dockerfile: ./application-http-api/Dockerfile
       context: ../../../
     ports:
-      - "8121:8081"
+      - "8121:8080"
     depends_on:
       - postgres-database
       - rabbitmq3
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-postgres}'" ]
+      interval: 2s
+      timeout: 20s
+      retries: 10
 
   application-batch-worker-intake:
     build:
@@ -55,3 +55,8 @@ services:
     depends_on:
       - postgres-database
       - rabbitmq3
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-postgres}'" ]
+      interval: 2s
+      timeout: 20s
+      retries: 10

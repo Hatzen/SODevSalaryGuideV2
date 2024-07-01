@@ -5,5 +5,5 @@ SET PROJECT_NAME=%1
 IF "%1"=="" (
     SET PROJECT_NAME=so_guide_local
 )
-docker-compose -p %PROJECT_NAME% --env-file .\example.env up -d
+docker-compose -p %PROJECT_NAME% --env-file .\example.env up -d --force-recreate
 pause

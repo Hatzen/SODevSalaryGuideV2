@@ -1,15 +1,5 @@
 spring:
   config:
     imports: classpath:/application-prod-persistence.properties
-  # https://www.cockroachlabs.com/blog/tutorial-spring-hibernate/
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://db:9999/postgres
-    username: sodevuser
-    password: sodevuserpw
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL95Dialect
 server:
   port: 8081

@@ -41,7 +41,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.batch:spring-batch-test")
-    
+
     // https://stackoverflow.com/a/43204150/8524651
     testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.1")
 

@@ -9,6 +9,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       # always use postgres database
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
+    # TODO: Port should probably only be exported in dev, otherwise docker can use the internal port.
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
@@ -51,7 +52,7 @@ services:
     deploy:
       replicas: 2
     ports:
-      - "9120-9121:8082"
+      - "9120-9125:8082-8087"
     depends_on:
       - postgres-database
       - rabbitmq3

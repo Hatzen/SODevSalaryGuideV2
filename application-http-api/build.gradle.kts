@@ -56,5 +56,6 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-starter-web-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
     testImplementation(testFixtures(project(":adapter-persistence")))
+    testImplementation(testFixtures(project(":core")))
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }

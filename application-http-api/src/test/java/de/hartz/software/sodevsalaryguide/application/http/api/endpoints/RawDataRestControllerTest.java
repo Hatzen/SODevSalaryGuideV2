@@ -18,14 +18,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"persistence-test", "http-test"})
 public class RawDataRestControllerTest {
 
-  @Autowired MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
-  @Test
-  public void getCsvFile_withValidUrl_returnsFile() throws Exception {
-    mockMvc
-        .perform(
-            MockMvcRequestBuilders.get("/api/v1/rawdata/csv/2011-chunk-1")
-                .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
-  }
+    @Test
+    public void getCsvFile_withValidUrl_returnsFile() throws Exception {
+        mockMvc
+                .perform(
+                        MockMvcRequestBuilders.get("/api/v1/rawdata/csv/2011-chunk-1.csv")
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 }

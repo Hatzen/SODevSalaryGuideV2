@@ -3,13 +3,24 @@ package de.hartz.software.sodevsalaryguide.application.http.api.endpoints;
 import de.hartz.software.sodevsalaryguide.adapter.frontend.FrontendConfig;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceConfiguration;
 import de.hartz.software.sodevsalaryguide.application.http.api.HttpApiConfiguration;
+import de.hartz.software.sodevsalaryguide.core.port.service.RouterService;
+import de.hartz.software.sodevsalaryguide.core.service.WiremockRouterServiceImpl;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @Import({
-    FrontendConfig.class,
-    HttpApiConfiguration.class,
-    PersistenceConfiguration.class
+        FrontendConfig.class,
+        HttpApiConfiguration.class,
+        PersistenceConfiguration.class
 })
-public class HttpApiTestConfiguration {}
+public class HttpApiTestConfiguration {
+
+    @Primary
+    @Bean
+    public RouterService testRouterService() {
+        return new WiremockRouterServiceImpl();
+    }
+}

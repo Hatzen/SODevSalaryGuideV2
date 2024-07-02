@@ -45,8 +45,7 @@ class ParticipationRestController {
         val allData = evaluatedDataRepo.getMatchingSurveyEntries(filterDto);
 
         val dummyInvalidCount = 20000;
-
-
+        
         return allData.stream().collect(Collectors.groupingBy(t -> t.getYearOfSurvey()))
                 .entrySet().stream()
                 .map(it -> ResultSetForYearDTO.builder()

@@ -1,11 +1,13 @@
 package de.hartz.software.sodevsalaryguide.adapater.amqp;
 
+import de.hartz.software.sodevsalaryguide.core.port.service.RouterService;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,10 @@ public class RabbitMQConfig {
     public static final String exchange = "myExchange";
     public static final String routingKey = "myRoutingKey";
     public static final String routingJsonKey = "myJsonRoutingKey";
+
+    @Autowired
+    RouterService routerService;
+
 
     // spring bean for queue (store json messages)
     @Bean
@@ -70,8 +76,9 @@ public class RabbitMQConfig {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         // TODO: configure proper docker params. https://stackoverflow.com/a/54002920/8524651
         // Move to config
-        connectionFactory.setAddresses("rabbitmq");
-        connectionFactory.setPort(5672);
+
+        connectionFactory.setAddresses(routerService.getAMQP().host());
+        connectionFactory.setPort(routerService.getAMQP().port());
         connectionFactory.setUsername("admin");
         connectionFactory.setPassword("password123");
         return connectionFactory;

@@ -28,7 +28,6 @@ public class CustomeCORSFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS,PUT, DELETE");
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));

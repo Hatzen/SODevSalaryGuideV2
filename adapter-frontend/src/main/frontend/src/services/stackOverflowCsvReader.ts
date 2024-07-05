@@ -1,8 +1,8 @@
 import ResultSetForYear from '../model/resultSetForYear'
 import ControlState from '../model/controlState'
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+// import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { RestLink } from 'apollo-link-rest';
-import { gql } from '@apollo/client';
+// import { gql } from '@apollo/client';
 import axios from 'axios';
 // const query = gql`
 //   query Luke {
@@ -12,13 +12,13 @@ import axios from 'axios';
 //   }
 // `;
 
-const query = gql`
-  query Luke {
-    person @rest(type: "Person", path: "people/1/") {
-      name
-    }
-  }
-`;
+// const query = gql`
+//   query Luke {
+//     person @rest(type: "Person", path: "people/1/") {
+//       name
+//     }
+//   }
+// `;
 
 
 // https://medium.com/november-five/using-apollo-client-with-a-rest-api-ad0203a807cd

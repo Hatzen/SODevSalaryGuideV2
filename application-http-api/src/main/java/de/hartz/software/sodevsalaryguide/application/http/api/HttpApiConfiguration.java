@@ -1,7 +1,6 @@
 package de.hartz.software.sodevsalaryguide.application.http.api;
 
 import de.hartz.software.sodevsalaryguide.adapater.amqp.RabbitMQConfig;
-import de.hartz.software.sodevsalaryguide.adapter.frontend.FrontendConfig;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceConfiguration;
 import de.hartz.software.sodevsalaryguide.core.port.service.RouterService;
 import de.hartz.software.sodevsalaryguide.core.service.RouterServiceImpl;
@@ -16,8 +15,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @Configuration
 @ComponentScan
-// TODO: Why is the autoconfiguration not detected??
-@Import({PersistenceConfiguration.class, FrontendConfig.class, RabbitMQConfig.class})
+// TODO: Why is the autoconfiguration not detected?? only in test? Which would be expected..
+@Import({PersistenceConfiguration.class, RabbitMQConfig.class})
 public class HttpApiConfiguration {
 
     @Bean

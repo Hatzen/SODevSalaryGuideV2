@@ -1,6 +1,5 @@
 package de.hartz.software.sodevsalaryguide.application.http.api.endpoints;
 
-import de.hartz.software.sodevsalaryguide.adapter.frontend.FrontendConfig;
 import de.hartz.software.sodevsalaryguide.adapter.persistence.PersistenceConfiguration;
 import de.hartz.software.sodevsalaryguide.application.http.api.HttpApiConfiguration;
 import de.hartz.software.sodevsalaryguide.core.port.service.RouterService;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 @Import({
-        FrontendConfig.class,
         HttpApiConfiguration.class,
         PersistenceConfiguration.class
 })

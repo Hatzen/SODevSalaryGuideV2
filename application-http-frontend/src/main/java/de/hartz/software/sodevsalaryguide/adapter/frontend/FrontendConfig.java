@@ -2,7 +2,6 @@ package de.hartz.software.sodevsalaryguide.adapter.frontend;
 
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,25 +20,7 @@ public class FrontendConfig implements WebMvcConfigurer {
     @SneakyThrows
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // TODO: copy resources to applications resources or load resource relative to this classes path
-        // val test = FrontendConfig.class.getClassLoader().getResource("public/");
-        // resourceLoader.getResource(test.openStream());
-        // registry.addResourceHandler("/app/**").addResourceLocations(test);
-        // .addResourceLocations("classpath:/public/");
-
-        val test = FrontendConfig.class.getClassLoader().getResource("public/");
-        if (test != null) {
-            val filePath = test.getFile();
-
-            log.error("{}", filePath);
-            registry.addResourceHandler("/app/**").addResourceLocations(filePath);
-
-        } else {
-
-            log.error("test == null");
-            registry.addResourceHandler("/app/**").addResourceLocations("classpath:/public/");
-        }
-
+        registry.addResourceHandler("/app/**").addResourceLocations("classpath:/public/");
     }
 
     @Override

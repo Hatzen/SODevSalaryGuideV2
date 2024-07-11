@@ -12,7 +12,7 @@ rootProject.name = "sodevsalaryguide"
 include(
     "application-http-api",
     "application-batch-worker-intake",
-    "adapter-frontend",
+    "application-http-frontend",
     "adapter-persistence",
     "adapter-amqp",
     "core"

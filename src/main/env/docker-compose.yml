@@ -45,6 +45,14 @@ services:
       timeout: 20s
       retries: 10
 
+  application-http-frontend:
+    container_name: ui-frontend
+    build:
+      dockerfile: ./application-http-frontend/Dockerfile
+      context: ../../../
+    ports:
+      - "80:8080"
+
   application-batch-worker-intake:
     build:
       dockerfile: ./application-batch-worker-intake/Dockerfile

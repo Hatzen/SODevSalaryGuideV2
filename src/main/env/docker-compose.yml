@@ -58,9 +58,10 @@ services:
       dockerfile: ./application-batch-worker-intake/Dockerfile
       context: ../../../
     deploy:
-      replicas: 2
-    ports:
-      - "9120-9125:8082-8087"
+      replicas: 3
+    # Ports wont be needed
+    # ports:
+    #  - "9120-9125:8082-8087"
     depends_on:
       - postgres-database
       - rabbitmq3

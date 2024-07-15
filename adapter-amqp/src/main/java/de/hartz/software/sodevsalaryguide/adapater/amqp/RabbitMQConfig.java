@@ -6,7 +6,6 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -49,17 +48,13 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public MessageConverter converter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory, MessageConverter converter) {
+    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setDefaultReceiveQueue(jsonQueue);
         rabbitTemplate.setRoutingKey(routingJsonKey);
         rabbitTemplate.setExchange(exchange);
-        rabbitTemplate.setMessageConverter(converter);
+        // Avoid using the http deserializer. (Probably not necessary.)
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
 
         rabbitTemplate.setMandatory(true);
         rabbitTemplate.setConfirmCallback(

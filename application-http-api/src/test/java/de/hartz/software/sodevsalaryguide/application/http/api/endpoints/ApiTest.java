@@ -24,6 +24,7 @@ public class ApiTest {
     @Autowired
     private MockMvc mvc;
 
+    // TODO: Currently fails when rabbitmq server not running, try using testfixtures of amqp adapter and provide mock.
     @Test
     void getApiOverallCount_withValidUrl_returnsNumber() throws Exception {
         mvc.perform(

@@ -13,10 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -76,7 +73,11 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         }
 
         if (filterDto.selectedYears() != null && !filterDto.selectedYears().isEmpty()) {
-            predicates.add(root.get("yearOfSurvey").in(filterDto.selectedYears().toArray()));
+            val selectedYears = filterDto.selectedYears().entrySet().stream()
+                    .filter(Map.Entry::getValue)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toSet());
+            predicates.add(root.get("yearOfSurvey").in(selectedYears));
         }
 
         cr = cr.select(root).where(predicates.toArray(Predicate[]::new));

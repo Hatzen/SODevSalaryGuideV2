@@ -2,6 +2,8 @@ package de.hartz.software.sodevsalaryguide.application.http.api.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import de.hartz.software.sodevsalaryguide.application.http.api.helper.RangeDeserializer;
 import de.hartz.software.sodevsalaryguide.core.model.Range;
 import de.hartz.software.sodevsalaryguide.core.model.SurveyEntry;
 import de.hartz.software.sodevsalaryguide.core.model.dto.FilterDto;
@@ -19,8 +21,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -41,6 +45,8 @@ public class IntegrationTest {
     private ParticipationRestController controller;
     @Autowired
     private EvaluatedDataWriteRepo repo;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void init() {
@@ -54,19 +60,17 @@ public class IntegrationTest {
 
     @Test
     void getFilteredSurveyEntries_withAllCriteria_returnsOnlyThatOneMatch() throws Exception {
+        String requestJson = IOUtils.toString(
+                getClass().getResourceAsStream("/requests/filterDto.json"),
+                "UTF-8"
+        );
 
-        val filter = new FilterDto(
-                Set.of(2011),
-                new Range(0, 1000),
-                Set.of(Gender.FEMALE),
-                Set.of("Java"),
-                new Range(0, 1000),
-                Set.of("Germany"),
-                Set.of("Bsc"));
 
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson = ow.writeValueAsString(filter);
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Range.class, new RangeDeserializer());
+        objectMapper.registerModule(module);
+        val test = objectMapper.readValue(requestJson, FilterDto.class);
 
         val result = mvc.perform(MockMvcRequestBuilders.post(ParticipationRestController.ENDPOINT_URL + ParticipationRestController.FILTERED)
                 .accept(MediaType.APPLICATION_JSON)
@@ -83,16 +87,16 @@ public class IntegrationTest {
     @Test
     void getFilteredSurveyEntries_withEmptyCriteria_returnsAll() throws Exception {
         val filter = new FilterDto(
-                Set.of(),
+                Map.of(),
                 null,
                 Set.of(),
                 Set.of(),
                 null,
                 Set.of(),
-                Set.of());
+                Set.of(),
+                false, false, false, false, false);
 
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(filter);
 
         val result = mvc.perform(MockMvcRequestBuilders.post(ParticipationRestController.ENDPOINT_URL + ParticipationRestController.FILTERED)

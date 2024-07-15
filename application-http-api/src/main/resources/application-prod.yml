@@ -1,4 +1,3 @@
-test: 99999
 spring:
   config:
     imports: classpath:/application-prod-persistence.properties

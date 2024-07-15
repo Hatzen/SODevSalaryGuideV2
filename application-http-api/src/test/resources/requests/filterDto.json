@@ -1,0 +1,30 @@
+{
+  "selectedYears": {
+    "2011": true
+  },
+  "expirienceInYears": [
+    0,
+    1000
+  ],
+  "genders": [
+    "FEMALE"
+  ],
+  "abilities": [
+    "Java"
+  ],
+  "companySize": [
+    0,
+    1000
+  ],
+  "countries": [
+    "Germany"
+  ],
+  "degrees": [
+    "Bsc"
+  ],
+  "abilitiesFilterActive": false,
+  "companySizeFilterActive": false,
+  "countriesFilterActive": false,
+  "degreeFilterActive": false,
+  "expirienceFilterActive": false
+}

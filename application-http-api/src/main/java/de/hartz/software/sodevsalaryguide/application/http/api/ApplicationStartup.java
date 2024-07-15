@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
@@ -23,6 +24,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     final EvaluatedDataReadRepo evaluatedDataReadRepo;
     final AMQPSendService service;
     final Environment env;
+    @Value("${sodevsalaryguide.data-import}")
+    Boolean shouldQueueDataImport;
 
     /**
      * This event is executed as late as conceivably possible to indicate that the application is
@@ -31,6 +34,10 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     @SneakyThrows
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
+        if (!shouldQueueDataImport) {
+            log.info("Initial data import is disabled.");
+            return;
+        }
         if (!evaluatedDataReadRepo.getAllAbilities().isEmpty()) {
             log.info("Launched application database is not empty so not importing initial data");
             return;

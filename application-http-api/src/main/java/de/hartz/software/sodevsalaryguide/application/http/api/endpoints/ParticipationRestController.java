@@ -2,6 +2,7 @@ package de.hartz.software.sodevsalaryguide.application.http.api.endpoints;
 
 import de.hartz.software.sodevsalaryguide.application.http.api.model.dto.FilterValuesDTO;
 import de.hartz.software.sodevsalaryguide.application.http.api.model.dto.ResultSetForYearDTO;
+import de.hartz.software.sodevsalaryguide.application.http.api.model.dto.SurveyEntryDTO;
 import de.hartz.software.sodevsalaryguide.core.model.dto.FilterDto;
 import de.hartz.software.sodevsalaryguide.core.port.repo.EvaluatedDataReadRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -45,14 +46,16 @@ class ParticipationRestController {
         val allData = evaluatedDataRepo.getMatchingSurveyEntries(filterDto);
 
         val dummyInvalidCount = 20000;
-        
+
         return allData.stream().collect(Collectors.groupingBy(t -> t.getYearOfSurvey()))
                 .entrySet().stream()
                 .map(it -> ResultSetForYearDTO.builder()
                         .year(it.getKey())
                         // TODO: determine properly
                         .invalidEntryCount(dummyInvalidCount)
-                        .resultSet(it.getValue())
+                        .resultSet(it.getValue().stream().map(surveyEntry -> {
+                            return SurveyEntryDTO.builder().salary(surveyEntry.getSalary()).build();
+                        }).collect(Collectors.toList()))
                         .overallEntryCount(it.getValue().size() + dummyInvalidCount)
                         .build()
                 ).collect(Collectors.toList());

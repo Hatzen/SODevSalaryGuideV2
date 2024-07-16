@@ -5,7 +5,8 @@ import { Gender } from '../model/gender'
 // https://devlinduldulao.pro/mobx-in-a-nutshell/
 export class ControlStore {
     selectedYears: { [year: number]: boolean } = {
-        2011: true
+        // TODO: Always preselect the latest year.
+        2022: true
     }
     expirienceInYears: [min: number, max:number] = [4, 20]
     genders: Gender[] = [Gender.MALE, Gender.FEMALE, Gender.OTHER]
@@ -78,6 +79,10 @@ export class ControlStore {
     /**
      * Actions
      */
+    
+    modifyYears(year: number, value: boolean): void {
+        this.selectedYears[year] = value
+    }
 
     setYears(selectedYears: { [year: number]: boolean }): void {
         this.selectedYears = selectedYears

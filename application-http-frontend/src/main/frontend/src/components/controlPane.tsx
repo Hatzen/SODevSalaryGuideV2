@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import { Checkbox, FormGroup, FormControl, FormControlLabel, Grid, Slider, FormLabel, Box, TextField } from '@material-ui/core'
+import { Checkbox, FormGroup, FormControl, FormControlLabel, Grid, Slider, FormLabel, Box, TextField, Button } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import { injectClause, StoreProps } from '../stores/storeHelper'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -16,7 +16,8 @@ class ControlPane extends React.Component<StoreProps> {
             <div style={{padding: 50, overflow: 'scroll', position: 'relative', top: 0, left: 0, right: 0, maxHeight: 'calc(100% - 100px)'}}>
                 <Box sx={{ display: 'flex' }}>
                     <FormControl focused={false} component="fieldset" variant="standard">
-                        <FormLabel component="legend">Include Data from years</FormLabel>
+                        <Button style={{margin: 35, marginTop: 0}} variant="text" onClick={entryStore.loadData.bind(entryStore)}>Force reload Data</Button>    
+                        <FormLabel >Include Data from years</FormLabel>
                         <FormGroup key={1}>
                             {this.years}
                             {this.slider}
@@ -34,16 +35,17 @@ class ControlPane extends React.Component<StoreProps> {
 
     get years(): JSX.Element {
         const config = this.props.controlStore!
-        const selectableYears = []
+        const selectableYears = [{year: '2009', label: 'overall (as 2009)'}]
         for (let i = 2011; i < 2023; i++) {
-            selectableYears.push(i.toString())
+            selectableYears.push({year: i.toString(), label: i.toString()})
         }
-        const yearOption = selectableYears.map((year: string) => {
+        const yearOption = selectableYears.map(({year, label}) => {
             const yearSelected = config.controlState.selectedYears[parseInt(year)]
             return <FormControlLabel key={this.key++} control={
                 <Checkbox name={year} defaultChecked={yearSelected} onChange={this.handleChanges.bind(this)}/>
-            } label={year} />
+            } label={label} />
         })
+
         return (
             <Grid container
                 key={1}
@@ -279,7 +281,7 @@ class ControlPane extends React.Component<StoreProps> {
     private handleChanges(event: any, newValue: any): void {
         event.persist() // allow native event access (see: https://facebook.github.io/react/docs/events.html)
         const year = event.target.name
-        this.props.controlStore!.selectedYears[year] = newValue
+        this.props.controlStore!.modifyYears(year, newValue)
     }
 
 }

@@ -5,8 +5,6 @@ import {  EntryStore } from './entryStore'
 
 export class UiStore {
 
-    filteredData: { [year: number]: SurveyEntry[] } = {}
-
     private static readonly renderPeriodInMs = 3000
     private readonly controlStore: ControlStore
     private readonly entryStore: EntryStore
@@ -27,7 +25,6 @@ export class UiStore {
     private initStore(): void {
         
         makeObservable(this, {
-            filteredData: observable,
             udpateFilteredData: action,
         })
 
@@ -63,7 +60,7 @@ export class UiStore {
     }
 
     private resetRenderSchedule (): void {
-        // TODO: get rid of schedule and use a simple button...
+        // TODO: get rid of schedule and use a simple button... or at least check for changes and 5s wait..
         // window.clearInterval(this.timeoutId)
         // this.timeoutId = window.setInterval(this.udpateFilteredData.bind(this), UiStore.renderPeriodInMs)
     }

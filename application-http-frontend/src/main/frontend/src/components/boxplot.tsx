@@ -35,40 +35,44 @@ class BoxPlot extends React.Component<StoreProps> {
     }
 
     private get data(): any { // TODO: Plotty Data
-        const resultList = this.props.uiStore!.filteredData
+        const resultList = this.props.entryStore!.parsedDataByYear // this.props.uiStore!.filteredData
         const allData = this.props.entryStore!.parsedData
 
         const displayYears = this.props.controlStore?.controlState.selectedYears
 
-        return Object.keys(resultList)
+        let filteredData = Object.keys(resultList)
             .filter(year => displayYears![year as any] === true)
             .map(key =>{
                 return {
                     x: key,
                     name: key,
-                    y: resultList[key as any].map((entry: SurveyEntry)  => entry.salary),
+                    y: resultList[key as any].resultSet.map((entry: SurveyEntry)  => entry.salary),
                     ...this.defaultBoxConfig
                 }
             })
+            
+        const showOverall = displayYears![2009]
+        if (filteredData.length > 1 && showOverall) {
             // TODO: xAxis is not set properly and would lead to problems only one point is shown..
-            .concat([{
+            filteredData = filteredData.concat([{
                 x: 2009 as any, // TODO: Somehow label correctly as overall values..
                 name: 2009 as any,
                 y: allData.resultSet.map((entry: SurveyEntry) => entry.salary),
                 ...this.defaultBoxConfig
-            }
-            ])
+            }])
+        }
+        return filteredData
     }
 
     get layout(): Partial<Layout> {
         return {
-            autosize: false,
+            autosize: true,
             width: this.width,
             height: this.height,
             title: '',
             showlegend: false,
             yaxis: {fixedrange: true},
-            xaxis : {fixedrange: true},
+            xaxis: {fixedrange: true},
             paper_bgcolor: '#FF000000',
             plot_bgcolor: '#FF000000'
         }
@@ -80,7 +84,7 @@ class BoxPlot extends React.Component<StoreProps> {
     
     get height(): number {
         const appBarHeight = 100
-        const diagramSelectionHeight = 50
+        const diagramSelectionHeight = 100 // trial and error value 50
         return window.document.documentElement.clientHeight - (appBarHeight + diagramSelectionHeight)
     }
 }

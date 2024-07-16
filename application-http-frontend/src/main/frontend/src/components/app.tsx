@@ -32,7 +32,6 @@ class App extends React.Component<any, AppState> {
         }
         // Store must be created only once.
         this.uiStore = new UiStore(controlStore, entryStore)
-        SurveyEntry.entryStore = entryStore
     }
 
     render(): JSX.Element {
@@ -59,10 +58,9 @@ class App extends React.Component<any, AppState> {
                                         <Allotment.Pane key={pane}>
                                             <div style={{position: 'relative', top: 0, left: 0, right: 0}} >
                                                 <Tabs
-                                                    value={''}
-                                                    onChange={this.changePlot.bind(this)}>
-                                                    <Tab label="Salary" />
-                                                    <Tab label="Participation" />
+                                                    value={this.state.usePlot}>
+                                                    <Tab onClick={this.showSalary.bind(this)} label="Salary" />
+                                                    <Tab onClick={this.showParticipation.bind(this)} label="Participation" />
                                                 </Tabs>
                                             </div>
                                             <div style={{position: 'relative', top: 0, left: 0, right: 0, height: 'calc(100% - 48px)'}}>
@@ -84,15 +82,13 @@ class App extends React.Component<any, AppState> {
             </div>
         )
     }
+    
+    private showSalary() {
+        this.setState({usePlot: 0})
+    }
 
-    private changePlot(): void {
-        let showPlot: number
-        if (this.state.usePlot === 1) {
-            showPlot = 0
-        } else {
-            showPlot = 1
-        }
-        this.setState({usePlot: showPlot})
+    private showParticipation() {
+        this.setState({usePlot: 1})
     }
 
     private toggleControls(): void {

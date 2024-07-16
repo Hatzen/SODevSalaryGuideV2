@@ -5,8 +5,6 @@ import de.hartz.software.sodevsalaryguide.core.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.Set;
 
@@ -39,8 +37,6 @@ public class SurveyEntryJpa {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    // https://stackoverflow.com/a/77394241/8524651
-    @Fetch(FetchMode.JOIN)
     private Set<AbilityJpa> abilities;
 
     private Integer age;

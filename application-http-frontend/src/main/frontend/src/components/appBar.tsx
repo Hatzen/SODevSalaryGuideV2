@@ -7,6 +7,7 @@ import { Typography } from '@material-ui/core'
 import { injectClause, StoreProps } from '../stores/storeHelper'
 import { inject, observer } from 'mobx-react'
 import Loader from 'react-loader-spinner'
+import entryStore from '../stores/entryStore'
 
 export interface MenuAppBarProps extends StoreProps {
   menuClicked: () => void
@@ -52,27 +53,11 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
     }
 
     get loader(): JSX.Element {
-        /*const maxChunks = Object.values(CHUNK_COUNT_PER_YEAR)
-            .reduce((previousValue: number, currentValue: number) => {
-                return 0 + previousValue + currentValue
-            })
-        //
-        const chunksDownloaded = Object.values(this.props.entryStore!.parsedDataByYear)
-            .map((resultSetForYear) =>  resultSetForYear.chunksParsed)
-            .reduce((previousValue: number, currentValue: number) => {
-                return 0 + previousValue + currentValue
-            }, 0)
-        const loadingPercentage = Math.round(chunksDownloaded / maxChunks * 100)
-        if (loadingPercentage > 99) {
+        if (!entryStore.isLoading) {
             return <div></div>
-        }*/
+        }
         return (
             <div style={{padding: 'auto', position: 'absolute', right: '25px'}}>
-                <Typography variant='body1'>
-                    <div style={{}}>
-                         %
-                    </div>
-                </Typography>
                 <Loader
                     type="Audio"
                     color="#F48024"

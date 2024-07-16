@@ -15,12 +15,10 @@ public class RangeDeserializer extends StdDeserializer<Range> {
 
     public RangeDeserializer() {
         super(Range.class);
-        log.error("TEst12333");
     }
 
     @Override
     public Range deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException {
-        log.error("TEst12333");
         if (jsonParser.currentToken() == JsonToken.START_ARRAY) {
             jsonParser.nextToken(); // array token
             jsonParser.nextToken();

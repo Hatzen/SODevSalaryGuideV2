@@ -11,6 +11,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import lombok.val;
+import org.hibernate.jpa.QueryHints;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -41,7 +42,8 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<SurveyEntryJpa> cr = builder.createQuery(SurveyEntryJpa.class);
         Root<SurveyEntryJpa> root = cr.from(SurveyEntryJpa.class);
-        // root.join(abilities) // avoid: Hibernate: select a1_0.surveyentryid,a1_0.id,a1_0.ability from ability a1_0 where a1_0.surveyentryid=?
+        // https://vladmihalcea.com/n-plus-1-query-problem/
+        // avoid: Hibernate: select a1_0.surveyentryid,a1_0.id,a1_0.ability from ability a1_0 where a1_0.surveyentryid=?
         root.fetch("abilities", JoinType.LEFT);
 
         ArrayList<Predicate> predicates = new ArrayList<>();
@@ -57,6 +59,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         }
 
         if (filterDto.abilities() != null && !filterDto.abilities().isEmpty()) {
+            // TODO: abilities dont contain java but there are
             predicates.add(root.join("abilities", JoinType.LEFT).get("ability").in(filterDto.abilities().toArray()));
         }
 
@@ -86,6 +89,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
 
         val list =
                 entityManager.createQuery(cr)
+                        .setHint(QueryHints.HINT_CACHEABLE, true)
                         .getResultList();
         return list.stream()
                 .map(SurveyEntryJpaMapper.INSTANCE::surveyEntryJpaToDomain)
@@ -100,7 +104,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
                         .createQuery(
                                 "SELECT DISTINCT a.ability FROM AbilityJpa a", String.class)
                         .getResultList();
-        return new HashSet<>(list);
+        return list.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     @Override
@@ -111,7 +115,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
                         .createQuery(
                                 "SELECT DISTINCT a.highestDegree FROM SurveyEntryJpa a", String.class)
                         .getResultList();
-        return new HashSet<>(list);
+        return list.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     @Override
@@ -122,7 +126,7 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
                         .createQuery(
                                 "SELECT DISTINCT a.country FROM SurveyEntryJpa a", String.class)
                         .getResultList();
-        return new HashSet<>(list);
+        return list.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     @Transactional

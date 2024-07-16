@@ -1,14 +1,16 @@
 import FreeCurrency from '../model/currencyValues'
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import StackOverflowCsvReader from '../services/stackOverflowCsvReader'
 import { ParseStepResult } from 'papaparse'
 import ResultSetForYear from '../model/resultSetForYear'
 import { AVAILABLE_YEARS } from '../model/constantMetaData'
 import ControlState from '../model/controlState'
+import controlStore from './controlStore'
 
 // https://devlinduldulao.pro/mobx-in-a-nutshell/
 export class EntryStore {
     
+    isLoading = false
     parsedData: ResultSetForYear = new ResultSetForYear()
     parsedDataByYear: EntriesByYearMap = {
         2011: new ResultSetForYear(),
@@ -32,24 +34,33 @@ export class EntryStore {
     constructor() {
         makeAutoObservable(this)
         this.reader = new StackOverflowCsvReader()
-
-        this.reader.getFilterValues().then(it => this.values = it.data)
-
+        
+        this.loadFilterValues()
         this.loadData()
     }
 
     /**
      * Actions
      */
+
+    loadFilterValues(): void {
+        this.reader.getFilterValues().then(it => runInAction(() => this.values = it.data))
+    }
     
     loadData (): void {
-        const years = this.reader.getSurveyEntries(new ControlState({ selectedYears: { 2022: true } }))
+        const years = this.reader.getSurveyEntries(controlStore.controlState)
         
+        this.isLoading = true
         years.then(it => {
-            it.data.forEach(year => {
-                this.parsedDataByYear[year.year] = year
-                this.parsedData.resultSet = this.parsedData.resultSet.concat(year.resultSet)
-            })
+            runInAction(() => {
+                it.data.forEach(year => {
+                    this.parsedDataByYear[year.year] = year
+                    this.parsedData.resultSet = this.parsedData.resultSet.concat(year.resultSet)
+                })
+              })
+        })
+        .finally(() => {
+            runInAction(() => this.isLoading = false)
         })
 
     }

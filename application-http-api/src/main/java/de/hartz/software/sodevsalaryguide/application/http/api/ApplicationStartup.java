@@ -24,7 +24,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     final EvaluatedDataReadRepo evaluatedDataReadRepo;
     final AMQPSendService service;
     final Environment env;
-    @Value("${sodevsalaryguide.data-import}")
+    @Value("${sodevsalaryguide.data-import:false}")
     Boolean shouldQueueDataImport;
 
     /**

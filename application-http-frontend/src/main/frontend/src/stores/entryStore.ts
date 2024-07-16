@@ -33,7 +33,7 @@ export class EntryStore {
         makeAutoObservable(this)
         this.reader = new StackOverflowCsvReader()
 
-        this.reader.getFilterValues().then(it => this.values = it)
+        this.reader.getFilterValues().then(it => this.values = it.data)
 
         this.loadData()
     }
@@ -45,10 +45,12 @@ export class EntryStore {
     loadData (): void {
         const years = this.reader.getSurveyEntries(new ControlState({ selectedYears: { 2022: true } }))
         
-        years.then(it => it.forEach(year => {
-            this.parsedDataByYear[year.year] = year
-            this.parsedData.resultSet = this.parsedData.resultSet.concat(year.resultSet)
-        }))
+        years.then(it => {
+            it.data.forEach(year => {
+                this.parsedDataByYear[year.year] = year
+                this.parsedData.resultSet = this.parsedData.resultSet.concat(year.resultSet)
+            })
+        })
 
     }
 

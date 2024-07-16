@@ -41,6 +41,8 @@ public class EvaluatedDataRepoJpa implements EvaluatedDataWriteRepo, EvaluatedDa
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<SurveyEntryJpa> cr = builder.createQuery(SurveyEntryJpa.class);
         Root<SurveyEntryJpa> root = cr.from(SurveyEntryJpa.class);
+        // root.join(abilities) // avoid: Hibernate: select a1_0.surveyentryid,a1_0.id,a1_0.ability from ability a1_0 where a1_0.surveyentryid=?
+        root.fetch("abilities", JoinType.LEFT);
 
         ArrayList<Predicate> predicates = new ArrayList<>();
 

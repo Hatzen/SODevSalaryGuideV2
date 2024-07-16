@@ -20,7 +20,8 @@ public record FilterDto(
         Boolean companySizeFilterActive,
         Boolean countriesFilterActive,
         Boolean degreeFilterActive,
-        Boolean expirienceFilterActive
+        Boolean expirienceFilterActive,
+        Boolean gendersFilterActive
 ) {
 
 }

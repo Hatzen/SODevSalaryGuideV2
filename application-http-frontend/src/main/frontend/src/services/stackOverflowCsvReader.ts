@@ -1,6 +1,6 @@
 import ResultSetForYear from '../model/resultSetForYear'
 import ControlState from '../model/controlState'
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 
 // https://medium.com/november-five/using-apollo-client-with-a-rest-api-ad0203a807cd
@@ -15,12 +15,12 @@ export default class SurveyEntryService {
     }
 
     
-    public getSurveyEntries(filter: ControlState): Promise<ResultSetForYear[]> {
+    public getSurveyEntries(filter: ControlState): Promise<AxiosResponse<ResultSetForYear[]>> {
         return axios.post(this.serverUrl + "/api/v1/participations/filtered", filter)
     }
 
     
-    public getFilterValues(): Promise<{countries: [string], abilities: [string], educations: [string]}> {
+    public getFilterValues(): Promise<AxiosResponse<{countries: [string], abilities: [string], educations: [string]}>> {
         return axios.get(this.serverUrl + "/api/v1/participations/values")
     }
 

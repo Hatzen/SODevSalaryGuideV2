@@ -8,11 +8,17 @@ import de.hartz.software.sodevsalaryguide.application.http.api.helper.RangeDeser
 import de.hartz.software.sodevsalaryguide.core.model.Range;
 import de.hartz.software.sodevsalaryguide.core.port.service.RouterService;
 import de.hartz.software.sodevsalaryguide.core.service.RouterServiceImpl;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.*;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @EnableAutoConfiguration
 @EnableWebMvc
@@ -20,15 +26,30 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan
 // TODO: Why is the autoconfiguration not detected?? only in test? Which would be expected..
 @Import({PersistenceConfiguration.class, RabbitMQConfig.class})
-public class HttpApiConfiguration {
+public class HttpApiConfiguration implements WebMvcConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(HttpApiConfiguration.class);
+
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        // https://stackoverflow.com/a/55571427/8524651
+        HttpMessageConverter<?> jacksonConverter =
+                converters.stream()
+                        .filter(converter -> converter.getClass().equals(MappingJackson2HttpMessageConverter.class))
+                        .findFirst().orElseThrow(RuntimeException::new);
+
+        // Be careful the bean is not identical as we cannot inject it here.
+        val objectMapper = objectMapper();
+        converters.add(converters.indexOf(jacksonConverter), new MappingJackson2HttpMessageConverter(objectMapper));
+    }
+
 
     @Bean
     public RouterService routerService() {
         return new RouterServiceImpl();
     }
 
+    // TODO: Currently not used as we need to overwrite MessageConverter https://stackoverflow.com/questions/49390931/why-is-spring-boot-not-using-a-primary-jackson-objectmapper-for-json-serializat
     @Primary
     @Bean
     public ObjectMapper objectMapper() {
@@ -38,19 +59,5 @@ public class HttpApiConfiguration {
         objectMapper.registerModule(module);
         return objectMapper;
     }
-
-    /*
-    wont work as cycle dependency for rabbitmq
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Bean
-    public SimpleModule module() {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Range.class, new RangeDeserializer());
-        objectMapper.registerModule(module);
-        return module;
-    }
-     */
 
 }

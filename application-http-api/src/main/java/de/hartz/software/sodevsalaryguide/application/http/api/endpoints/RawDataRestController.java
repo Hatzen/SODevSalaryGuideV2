@@ -24,4 +24,28 @@ class RawDataRestController {
                 .contentType(MediaType.TEXT_PLAIN)
                 .body(resource);
     }
+
+    // @RateLimiting(
+    //         // reference to the property file
+    //         name = "not_an_admin",
+    //         // the rate limit is per user
+    //         cacheKey = "#username",
+    //         // only when the parameter is not admin
+    //         executeCondition = "#username != 'admin'",
+    //         // skip when parameter equals admin
+    //         skipCondition = "#username eq 'admin",
+    //         // the method name is added to the cache key to  prevent conflicts with other methods
+    //         ratePerMethod = true,
+    //         // if the limit is exceeded the fallback method is called. If not provided an exception is thrown
+    //         fallbackMethodName = "myFallbackMethod")
+    // public String execute(String username) {
+    //     log.info("Method with Param {} executed", username);
+    //     return myParamName;
+    // }
+//
+    // // the fallback method must have the same signature
+    // public String myFallbackMethod(String username) {
+    //     log.info("Fallback-Method with Param {} executed", username);
+    //     return myParamName;
+    // }
 }

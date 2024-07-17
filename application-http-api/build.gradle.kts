@@ -43,6 +43,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
 
+    // https://github.com/MarcGiffing/bucket4j-spring-boot-starter
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.hazelcast:hazelcast")
+    implementation("com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter:0.12.7")
+
     // https://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/html/boot-features-developing-auto-configuration.html#boot-features-custom-starter-module-autoconfigure
     annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
 

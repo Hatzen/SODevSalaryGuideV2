@@ -12,6 +12,7 @@ import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @EnableAutoConfiguration
 @EnableWebMvc
+@EnableCaching // https://github.com/MarcGiffing/bucket4j-spring-boot-starter/issues/24
 @Configuration
 @ComponentScan
 // TODO: Why is the autoconfiguration not detected?? only in test? Which would be expected..

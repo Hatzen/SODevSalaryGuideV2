@@ -16,6 +16,17 @@ dependencyManagement {
     }
 }
 
+// https://docs.gradle.org/current/userguide/declaring_repositories.html
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.spring.io/release"
+    }
+    maven {
+        url "https://repository.jboss.org/maven2"
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())

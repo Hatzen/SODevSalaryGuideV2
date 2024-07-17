@@ -94,7 +94,7 @@ public class IntegrationTest {
                 null,
                 Set.of(),
                 Set.of(),
-                false, false, false, false, false);
+                false, false, false, false, false, false);
 
         ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(filter);

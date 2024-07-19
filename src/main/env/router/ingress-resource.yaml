@@ -1,0 +1,24 @@
+# should be updated? https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/ networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sodevsalary-ingress
+spec:
+  rules:
+    - host: demo.sodevsalary.de
+      http:
+        paths:
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: application-http-frontend
+                port:
+                  number: 8080
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: application-http-api
+                port:
+                  number: 8080

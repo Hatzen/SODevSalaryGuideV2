@@ -2,6 +2,7 @@ version: '3'
 services:
   postgres-database:
     container_name: db
+    image: sodevsalary.env.db:rc2
     build:
       context: ./database
     environment:
@@ -31,6 +32,7 @@ services:
 
   application-http-api:
     container_name: ui-backend
+    image: sodevsalary.env.http.api:rc2
     build:
       dockerfile: ./application-http-api/Dockerfile
       context: ../../../
@@ -47,6 +49,7 @@ services:
 
   application-http-frontend:
     container_name: ui-frontend
+    image: sodevsalary.env.http.frontend:rc2
     build:
       dockerfile: ./application-http-frontend/Dockerfile
       context: ../../../
@@ -54,6 +57,7 @@ services:
       - "80:8080"
 
   application-batch-worker-intake:
+    image: sodevsalary.env.batch.intake:rc2
     build:
       dockerfile: ./application-batch-worker-intake/Dockerfile
       context: ../../../

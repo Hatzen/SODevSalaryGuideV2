@@ -35,6 +35,12 @@ minikube kubectl -- apply -f k8ns/ --recursive
 minikube kubectl -- apply -f router/ingress-resource.yaml
 kubectl describe ingress sodevsalary-ingress
 
+REM For windows needs additional stuff https://stackoverflow.com/a/75353664/8524651
+minikube addons enable ingress
+minikube tunnel
+REM start "" http://demo.sodevsalary.de
+start "" http://demo.sodevsalary.de/app
+
 REM Check status of containers to be not ImagePullBackOff
 kubectl get pods --output=wide
 

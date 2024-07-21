@@ -1,24 +1,18 @@
-# FROM openjdk:latest AS BUILD
-# WORKDIR /usr/app/
-# COPY . .
-#
-# CMD ["./gradlew", ":application-http-api:bootWar"]
-
-# Package stage
-
 FROM tomcat:latest
 ENV APP_HOME=/usr/app/
+# https://stackoverflow.com/a/66128131/8524651
+RUN rm -rf $APP_HOME
 WORKDIR $APP_HOME
-# TODO: This is cached too much, regarding size AND deploying needs a clean..
-# COPY --from=BUILD $APP_HOME .
 COPY . .
+RUN ls
 
-CMD ["./gradlew", ":application-http-api:bootWar"]
+RUN chmod +x ./gradlew
+RUN ./gradlew :application-http-api:bootWar
 
 # Same as spring config
 EXPOSE 8081
 
 ENV SPRING_PROFILES_ACTIVE=prod
 # Copy and rename to Root: https://stackoverflow.com/questions/2031537/deploy-war-on-tomcat-without-the-war-name-in-the-url
-COPY application-http-api/build/libs/application-http-api-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
-COPY application-http-api/src/docker/tomcat-users.xml /usr/local/tomcat/conf/
+RUN cp application-http-api/build/libs/application-http-api-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+RUN cp application-http-api/src/docker/tomcat-users.xml /usr/local/tomcat/conf/

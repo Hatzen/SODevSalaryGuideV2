@@ -1,12 +1,12 @@
 REM @ECHO OFF
 REM Build images..
-REM docker-compose build --no-cache
+docker-compose build --no-cache
 
 REM Place example.env vars into docker file: https://github.com/kubernetes/kompose/issues/1289
-REM docker compose --env-file .\example.env --profile production config > docker-compose-resolved.yaml
-REM kompose --file docker-compose-resolved.yaml --profile production convert -o k8ns/
+docker compose --env-file .\example.env --profile production config > docker-compose-resolved.yaml
+kompose --file docker-compose-resolved.yaml --profile production convert -o k8ns/
 
-REM docker context use default
+docker context use default
 
 
 REM https://www.baeldung.com/ops/docker-local-images-minikube
@@ -33,15 +33,15 @@ minikube.exe start
 minikube kubectl -- apply -f k8ns/ --recursive
 
 minikube kubectl -- apply -f router/ingress-resource.yaml
-kubectl describe ingress sodevsalary-ingress
 
 REM For windows needs additional stuff https://stackoverflow.com/a/75353664/8524651
-minikube addons enable ingress
-minikube tunnel
-REM start "" http://demo.sodevsalary.de
+REM minikube addons enable ingress
+REM must be run in other terminal
+REM minikube tunnel
 start "" http://demo.sodevsalary.de/app
 
 REM Check status of containers to be not ImagePullBackOff
 kubectl get pods --output=wide
+kubectl describe ingress sodevsalary-ingress
 
 pause

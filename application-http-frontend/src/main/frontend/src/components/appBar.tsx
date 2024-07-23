@@ -43,7 +43,7 @@ class MenuAppBar extends React.Component<MenuAppBarProps> {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant='h5'>
-                            Stackoverflow Developer Salary Guide
+                            Stackoverflow Developer Salary Guide v2
                         </Typography>
                         {this.loader}
                     </Toolbar>

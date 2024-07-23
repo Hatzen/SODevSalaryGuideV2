@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     java
     id("org.springframework.boot") version "3.3.2"
@@ -90,4 +93,27 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.testcontainers:elasticsearch")
      */
+}
+
+
+tasks.register("incrementVersionCode") {
+    doLast {
+        val versionPropsFile = file("src/main/env/example.env")
+        if (versionPropsFile.canRead()) {
+            val versionProps = Properties()
+
+            versionProps.load(FileInputStream(versionPropsFile))
+
+            val key = "CONTAINER_INCREMENT_VERSION"
+
+            val code = Integer.parseInt(versionProps[key].toString()) + 1
+
+            versionProps[key] = code.toString()
+            versionProps.store(versionPropsFile.writer(), null)
+            // Write version so it can be consumed
+            println(code)
+        } else {
+            throw GradleException("Could not read version.properties!")
+        }
+    }
 }

@@ -4,22 +4,9 @@ ENV APP_HOME=/usr/app/
 # RUN rm -rf $APP_HOME
 WORKDIR $APP_HOME
 COPY . .
-
-
-RUN java --version
-
-# RUN chmod 777 gradlew
 RUN chmod +x gradlew
-RUN ls -l ./gradlew
-RUN pwd
-RUN ls
-#RUN gradlew clean
-#RUN .\gradlew clean
-# RUN ./gradlew clean
-#RUN ./gradlew
 # if gradlew is not found check line endings... https://stackoverflow.com/a/71962964/8524651
 RUN ./gradlew :application-http-frontend:bootWar
-# RUN gradlew :application-http-frontend:bootWar
 
 # Same as spring config
 EXPOSE 8080

@@ -1,11 +1,12 @@
 FROM openjdk:latest
 ENV JAR_NAME=application-batch-worker-intake-0.0.1-SNAPSHOT-boot.jar
 ENV APP_HOME=/usr/app/
-# https://stackoverflow.com/a/66128131/8524651
-RUN rm -rf $APP_HOME
 WORKDIR $APP_HOME
 COPY . .
-RUN ls
+
+# https://stackoverflow.com/questions/73516116/got-error-xargs-is-not-available-when-trying-to-run-a-docker-image
+RUN microdnf install findutils
+
 
 RUN chmod +x ./gradlew
 RUN ./gradlew :application-batch-worker-intake:bootJar

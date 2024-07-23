@@ -27,7 +27,7 @@ REM minikube image ls --format table
 REM Turn off emojis
 SET MINIKUBE_IN_STYLE=0
 
-minikube.exe stop
+REM minikube.exe stop
 minikube.exe start
 
 minikube kubectl -- apply -f k8ns/ --recursive
@@ -38,7 +38,7 @@ REM For windows needs additional stuff https://stackoverflow.com/a/75353664/8524
 REM minikube addons enable ingress
 REM must be run in other terminal
 REM minikube tunnel
-start "" http://demo.sodevsalary.de/app
+start "" http://demo.sodevsalary.de/
 
 REM Check status of containers to be not ImagePullBackOff
 kubectl get pods --output=wide

@@ -1,10 +1,7 @@
 FROM tomcat:latest
 ENV APP_HOME=/usr/app/
-# https://stackoverflow.com/a/66128131/8524651
-RUN rm -rf $APP_HOME
 WORKDIR $APP_HOME
 COPY . .
-RUN ls
 
 RUN chmod +x ./gradlew
 RUN ./gradlew :application-http-api:bootWar

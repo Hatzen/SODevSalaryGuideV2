@@ -34,4 +34,4 @@ spec:
               service:
                 name: application-http-api
                 port:
-                  number: 8080
+                  number: 8121

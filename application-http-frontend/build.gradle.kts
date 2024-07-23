@@ -28,7 +28,8 @@ tasks.named<Jar>("jar") {
 }
 
 tasks.named<BootWar>("bootWar") {
-    // dependsOn(frontend)
+    // Create frontend files
+    dependsOn("publishFrontend")
 }
 
 springBoot {

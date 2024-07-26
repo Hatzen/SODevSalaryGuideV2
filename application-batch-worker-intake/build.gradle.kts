@@ -31,6 +31,8 @@ dependencies {
     implementation(project(":adapter-persistence"))
     annotationProcessor(project(":adapter-persistence"))
 
+    implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-discoveryclient")
+
     // http
     // TODO: Is there a smaller dependency?
     implementation("org.springframework.boot:spring-boot-starter-web")

@@ -44,6 +44,9 @@ springBoot {
 }
 
 dependencies {
+
+    implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-discoveryclient")
+
     // http
     implementation("org.springframework.boot:spring-boot-starter-web")
 }

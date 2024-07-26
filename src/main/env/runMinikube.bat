@@ -34,6 +34,8 @@ minikube kubectl -- apply -f k8ns/ --recursive
 
 minikube kubectl -- apply -f router/ingress-resource.yaml
 
+minikube kubectl -- apply -f discovery/spring-service-discovery.yaml
+
 REM For windows needs additional stuff https://stackoverflow.com/a/75353664/8524651
 REM minikube addons enable ingress
 REM must be run in other terminal

@@ -36,6 +36,8 @@ dependencies {
     implementation(project(":adapter-amqp"))
     annotationProcessor(project(":adapter-amqp"))
 
+    implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-discoveryclient")
+
     // http
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-graphql")

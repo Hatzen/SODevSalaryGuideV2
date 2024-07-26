@@ -56,6 +56,9 @@ allprojects {
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+            // TODO: can we get the versions from spring boot bom? https://spring.io/projects/spring-cloud
+            val springCloudVersion = "2023.0.2"
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
             mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
         }
     }

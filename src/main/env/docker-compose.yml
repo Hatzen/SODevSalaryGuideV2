@@ -30,14 +30,15 @@ services:
       # HTTP management UI
       - "${RABBIT_MQ_ADMIN_UI_PORT}:15672"
 
-  application-http-api:
-    container_name: ui-backend
-    image: sodevsalary.env.http.api:rc2
+
+  application-http-config:
+    container_name: config-server
+    image: sodevsalary.env.http.config:rc2
     build:
-      dockerfile: ./application-http-api/Dockerfile
+      dockerfile: ./application-http-config/Dockerfile
       context: ../../../
     ports:
-      - "8121:8080"
+      - "8888:8888"
     depends_on:
       - postgres-database
       - rabbitmq3
@@ -47,14 +48,16 @@ services:
       timeout: 20s
       retries: 10
 
-  application-http-frontend:
-    container_name: ui-frontend
-    image: sodevsalary.env.http.frontend:rc2
+  application-http-api:
+    container_name: ui-backend
+    image: sodevsalary.env.http.api:rc2
     build:
-      dockerfile: ./application-http-frontend/Dockerfile
+      dockerfile: ./application-http-api/Dockerfile
       context: ../../../
     ports:
-      - "80:8080"
+      - "8121:8080"
+    depends_on:
+      - application-http-config
 
   application-batch-worker-intake:
     image: sodevsalary.env.batch.intake:rc2
@@ -67,10 +70,15 @@ services:
     # ports:
     #  - "9120-9125:8082-8087"
     depends_on:
-      - postgres-database
-      - rabbitmq3
-    healthcheck:
-      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-postgres}'" ]
-      interval: 2s
-      timeout: 20s
-      retries: 10
+      - application-http-config
+
+  application-http-frontend:
+    container_name: ui-frontend
+    image: sodevsalary.env.http.frontend:rc2
+    build:
+      dockerfile: ./application-http-frontend/Dockerfile
+      context: ../../../
+    ports:
+      - "80:8080"
+    depends_on:
+      - application-http-config

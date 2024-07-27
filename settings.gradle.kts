@@ -11,6 +11,7 @@ rootProject.name = "sodevsalaryguide"
 
 include(
     "application-http-api",
+    "application-http-config",
     "application-batch-worker-intake",
     "application-http-frontend",
     "adapter-persistence",

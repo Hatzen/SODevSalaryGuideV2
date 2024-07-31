@@ -8,7 +8,7 @@ plugins {
 // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#packaging-executable
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     archiveClassifier.set("boot")
-    mainClass.set("de.hartz.software.sodevsalaryguide.application.http.api.WebuiApplication")
+    mainClass.set("de.hartz.software.sodevsalaryguide.application.http.config.ConfigServerApplication")
 }
 
 tasks.named<Jar>("jar") {

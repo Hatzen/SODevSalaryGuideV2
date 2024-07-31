@@ -32,6 +32,8 @@ dependencies {
     // modules
     implementation(project(":core"))
     implementation(project(":adapter-persistence"))
+    // Needed for routes and security.
+    implementation(project(":application-http-config"))
 
     implementation(project(":adapter-amqp"))
     annotationProcessor(project(":adapter-amqp"))

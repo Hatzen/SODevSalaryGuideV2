@@ -1,6 +1,7 @@
 plugins {
     war
     application
+    id("java-library") // Needed for api dependencies. https://stackoverflow.com/a/74276456/8524651
     id("org.springframework.boot")
     id("io.spring.dependency-management")
 }
@@ -35,6 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    api("org.springframework.boot:spring-boot-starter-security")
 
     implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-discoveryclient")
     implementation("org.springframework.cloud:spring-cloud-config-server")

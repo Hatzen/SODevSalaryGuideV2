@@ -28,7 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static de.hartz.software.sodevsalaryguide.core.service.WiremockRouterServiceImpl.SERVER_PORT;
+import static de.hartz.software.sodevsalaryguide.application.http.config.WiremockRouterServiceImpl.SERVER_PORT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @AutoConfigureWebClient // https://stackoverflow.com/a/43131830/8524651

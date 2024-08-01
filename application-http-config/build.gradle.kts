@@ -1,6 +1,7 @@
 plugins {
     war
     application
+    `java-test-fixtures`
     id("java-library") // Needed for api dependencies. https://stackoverflow.com/a/74276456/8524651
     id("org.springframework.boot")
     id("io.spring.dependency-management")
@@ -41,5 +42,5 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-discoveryclient")
     implementation("org.springframework.cloud:spring-cloud-config-server")
 
-    testImplementation(testFixtures(project(":core")))
+    testFixtures("org.springframework.boot:spring-boot-core")
 }

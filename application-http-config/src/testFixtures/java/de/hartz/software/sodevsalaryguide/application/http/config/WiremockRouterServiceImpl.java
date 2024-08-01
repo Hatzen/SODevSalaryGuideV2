@@ -1,4 +1,4 @@
-package de.hartz.software.sodevsalaryguide.core.service;
+package de.hartz.software.sodevsalaryguide.application.http.config;
 
 import de.hartz.software.sodevsalaryguide.core.model.helper.Route;
 import de.hartz.software.sodevsalaryguide.core.port.service.RouterService;

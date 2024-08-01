@@ -47,7 +47,7 @@ dependencies {
     // TODO: Centralize
     testImplementation("com.maciejwalkowiak.spring:wiremock-spring-boot:2.1.2")
 
-    testImplementation(testFixtures(project(":core")))
+    testImplementation(testFixtures(project(":application-http-config")))
 
     testImplementation(testFixtures(project(":adapter-amqp")))
     // https://stackoverflow.com/a/60138176/8524651

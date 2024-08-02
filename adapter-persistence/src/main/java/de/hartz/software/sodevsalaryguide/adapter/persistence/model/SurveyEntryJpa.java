@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class SurveyEntryJpa {
     @Id
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

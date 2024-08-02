@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 public class AbilityJpa {
     @Id
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

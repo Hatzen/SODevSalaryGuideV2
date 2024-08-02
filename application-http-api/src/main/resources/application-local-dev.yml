@@ -2,5 +2,10 @@ spring:
   config:
     import: classpath:/application-prod.yml
     # imports: classpath:/application-prod.yml
+    datasource:
+      url: jdbc:postgresql://localhost:9999/postgres
+  #cloud:
+  #  config:
+  #    enabled: false
 sodevsalaryguide:
   allow-all-cors: true

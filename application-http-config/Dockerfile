@@ -14,4 +14,4 @@ RUN ./gradlew :application-http-config:bootJar
 # Same as spring config.
 EXPOSE 8888
 
-ENTRYPOINT exec java -jar -Dspring.profiles.active=prod application-http-config/build/libs/$JAR_NAME
+ENTRYPOINT exec java -jar -Dspring.profiles.active=prod,native application-http-config/build/libs/$JAR_NAME

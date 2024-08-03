@@ -4,12 +4,6 @@ spring:
   profiles:
     # Needed to run without git: https://stackoverflow.com/a/33179106/8524651
     active: native
-  cloud:
-  # config:
-  #searchLocations:
-  #  file: ./,classpath:/
-  #server:
-  #  enabled: false
 
   application:
     name: Config-Server

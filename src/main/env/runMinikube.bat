@@ -19,6 +19,7 @@ REM minikube -p minikube docker-env --shell powershell | Invoke-Expression
 
 minikube image load sodevsalary.env.db:rc2
 minikube image load sodevsalary.env.http.api:rc2
+minikube image load sodevsalary.env.http.config:rc2
 minikube image load sodevsalary.env.http.frontend:rc2
 minikube image load sodevsalary.env.batch.intake:rc2
 

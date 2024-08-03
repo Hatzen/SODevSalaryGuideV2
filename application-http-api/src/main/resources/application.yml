@@ -1,4 +1,11 @@
 spring:
+  config:
+    import:
+      - "optional:configserver:http://localhost:8888"
+      - "optional:configserver:http://config-server:8888"
+      - "optional:configserver:${sodev.config.url:http://user:password@localhost:8888}"
+      # "optional:configserver:http://localhost:8888, http://config-server:8888" # , ${sodev.config.url:http://user:password@localhost:8888}"
+    # import: configserver:http://localhost:8888
   # TODO: really needed? Or only for test?
   datasource:
     initialization-mode: always
@@ -9,7 +16,6 @@ spring:
     type: jcache
     jcache:
       provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
-
 bucket4j:
   cache-to-use: jcache
   enabled: true

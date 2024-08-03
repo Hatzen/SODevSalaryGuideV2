@@ -35,5 +35,5 @@ public class ConfigProviderConfiguration {
                 .httpBasic(withDefaults());
         return http.build();
     }
-    
+
 }

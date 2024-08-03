@@ -42,5 +42,6 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-discoveryclient")
     implementation("org.springframework.cloud:spring-cloud-config-server")
 
-    testFixtures("org.springframework.boot:spring-boot-core")
+    testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
+    testFixturesImplementation(project(":core"))
 }

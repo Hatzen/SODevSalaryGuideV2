@@ -58,6 +58,8 @@ public class HttpApiConfiguration implements WebMvcConfigurer {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
+        // TODO:
+        // 2024-08-02T11:54:09.269+02:00  WARN 52020 --- [http-api] [  restartedMain] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/api/v1/*'], Ant [pattern='/api/v1/*']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
         return (web) -> web.ignoring().requestMatchers("/api/v1/*");
     }
 

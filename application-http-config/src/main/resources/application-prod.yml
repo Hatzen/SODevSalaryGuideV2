@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    # https://cloud.spring.io/spring-cloud-config/multi/multi__spring_cloud_config_server.html#_file_system_backend
+    # Needed to run without git: https://stackoverflow.com/a/33179106/8524651
+    active: native
+  cloud:
+    kubernetes:
+      discovery:
+        discovery-server-url: http://spring-cloud-kubernetes-discoveryserver:8761
+
+  # basic authentification to protect actuator access.
+  security:
+    user:
+      name: admin
+      password: adminpassword
+
+  datasource:
+    url: jdbc:postgresql://db:5432/postgres
+    username: sodevuser
+    password: sodevuserpw
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+    #https://stackoverflow.com/a/39094773/8524651
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect

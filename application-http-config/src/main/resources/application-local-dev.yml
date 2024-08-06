@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:9999/postgres
+    username: sodevuser
+    password: sodevuserpw
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+    #https://stackoverflow.com/a/39094773/8524651
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect

@@ -8,15 +8,14 @@ import lombok.Data;
 @Data
 public class LocalDeveloperRouterServiceImpl implements RouterService {
 
-    // TODO: refactore routes to get loaded from config server.
-    public final Route uiBackend = new Route("ui-backend", 8121);
+    public final Route uiBackend = new Route("localhost", 8081);
     public final Route serviceBackend = uiBackend;
     // Only route for external. TODO: Make a flag within domain model?
-    public final Route frontend = new Route("localhost", 8121);
+    public final Route frontend = new Route("localhost", 8080);
 
     // TODO: Theoretically SET of Ports, maybe make a getter and log a warning to use ingress or other load balancer / reverse proxy
-    public final Route batch = new Route("application-batch-worker-intake", 8082);
-    public final Route database = new Route("db", 5432);
-    public final Route AMQP = new Route("rabbitmq", 5672);
+    public final Route batch = new Route("localhost", 8082);
+    public final Route database = new Route("localhost", 9999);
+    public final Route AMQP = new Route("localhost", 5672);
 
 }

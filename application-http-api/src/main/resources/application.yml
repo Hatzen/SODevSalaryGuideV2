@@ -1,66 +1,7 @@
 spring:
-  config:
-    import:
-      - "optional:configserver:http://localhost:8888"
-      - "optional:configserver:http://config-server:8888"
-      - "optional:configserver:${sodev.config.url:http://user:password@localhost:8888}"
-      # "optional:configserver:http://localhost:8888, http://config-server:8888" # , ${sodev.config.url:http://user:password@localhost:8888}"
-    # import: configserver:http://localhost:8888
-  # TODO: really needed? Or only for test?
-  datasource:
-    initialization-mode: always
   application:
     name: http-api
-
-  cache:
-    type: jcache
-    jcache:
-      provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
-bucket4j:
-  cache-to-use: jcache
-  enabled: true
-  filters:
-    # Configure properly
-    # https://github.com/MarcGiffing/bucket4j-spring-boot-starter?tab=readme-ov-file#monitoring---spring-boot-actuator
-    #- cache-name: buckets2
-    #  filter-method: servlet
-    #  filter-order: 1
-    #  url: .*
-    #  metrics:
-    #    tags:
-    #      - key: IP
-    #        expression: getRemoteAddr()
-    #        types: REJECTED_COUNTER # for data privacy reasons the IP should only be collected on bucket rejections
-    #      - key: USERNAME
-    #        expression: "@securityService.username() != null ? @securityService.username() : 'anonym'"
-    #      - key: URL
-    #        expression: getRequestURI()
-    #  rate-limits:
-    #    - execute-condition: "@securityService.username() == 'admin'"
-    #      cache-key: "@securityService.username()?: getRemoteAddr()"
-    #      bandwidths:
-    #        - capacity: 30
-    #          time: 1
-    #          unit: minutes
-    - cache-name: buckets
-      filter-method: servlet
-      url: .*
-      rate-limits:
-        - execute-condition: "@securityService.notSignedIn()" # only for not logged in users
-          cache-key: "getRemoteAddr()"
-          bandwidths:
-            - capacity: 10
-              time: 1
-              unit: minutes
-        - execute-condition: "@securityService.username() != 'admin'" # strategy is only evaluate first. so the user must be logged in and user is not admin
-          cache-key: "@securityService.username()"
-          bandwidths:
-            - capacity: 1000
-              time: 1
-              unit: minutes
-        - execute-condition: "@securityService.username() == 'admin'"  # user is admin
-          cache-key: "@securityService.username()"
-          bandwidths:
-            - capacity: 1000000000
-              time: 1
-              unit: minutes
+  cloud:
+    kubernetes:
+      discovery:
+        discovery-server-url: http://spring-cloud-kubernetes-discoveryserver:8761

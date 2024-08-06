@@ -1,5 +1,0 @@
-spring:
-  config:
-    imports: classpath:/application-prod-persistence.properties
-server:
-  port: 8081

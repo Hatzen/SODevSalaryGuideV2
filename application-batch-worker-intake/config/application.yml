@@ -2,15 +2,8 @@
 spring:
   application:
     name: worker-intake
-  jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        show_sql: false
 
-  batch:
-    jdbc:
-      # https://stackoverflow.com/a/75480766/8524651
-      # init custom spring batch tables. Seems to initialize our tablesas well.
-      initialize-schema: always
-
+  cloud:
+    kubernetes:
+      discovery:
+        discovery-server-url: http://spring-cloud-kubernetes-discoveryserver:8761

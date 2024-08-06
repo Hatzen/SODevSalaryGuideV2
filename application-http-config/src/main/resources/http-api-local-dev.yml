@@ -1,0 +1,5 @@
+spring:
+  config:
+    import: classpath:/http-api-prod.yml
+sodevsalaryguide:
+  allow-all-cors: true

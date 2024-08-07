@@ -1,7 +1,20 @@
 spring:
   application:
     name: http-api
+  config:
+    import:
+      - "http://admin:adminpassword@localhost:8080/"
+      - "optional:configserver:http://admin:adminpassword@localhost:8888"
+      - "optional:configserver:http://config-server:8888"
+      - "optional:configserver:${sodev.config.url:http://user:password@localhost:8888}"
   cloud:
     kubernetes:
       discovery:
         discovery-server-url: http://spring-cloud-kubernetes-discoveryserver:8761
+
+  # TODO: Use central env file as every microservice needs the same: https://medium.com/@susindaperera/securing-spring-cloud-config-server-eac7b46f3e41
+  # basic authentification to protect actuator access.
+  security:
+    user:
+      name: admin
+      password: adminpassword

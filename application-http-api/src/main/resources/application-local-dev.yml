@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      uri: "http://admin:adminpassword@localhost:8080/"
+
+    #config:
+    #  import: "http://admin:adminpassword@localhost:8080/"
+    # import: "optional:configserver:http://admin:adminpassword@localhost:8080/"

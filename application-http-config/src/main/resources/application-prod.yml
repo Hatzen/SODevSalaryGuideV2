@@ -1,8 +1,4 @@
 spring:
-  profiles:
-    # https://cloud.spring.io/spring-cloud-config/multi/multi__spring_cloud_config_server.html#_file_system_backend
-    # Needed to run without git: https://stackoverflow.com/a/33179106/8524651
-    active: native
   cloud:
     kubernetes:
       discovery:

@@ -15,32 +15,40 @@ public class KubernetesRouterServiceImpl implements RouterService {
 
     @Override
     public Route getUiBackend() {
-        val route = discoveryClient.getInstances("application-http-api").get(0);
-        return new Route(route.getHost(), route.getPort());
+        // TODO: or  ui-backend and port 8121
+        return getRoute("application-http-api");
     }
 
     @Override
     public Route getServiceBackend() {
-        return null;
+        return getUiBackend();
     }
 
     @Override
     public Route getFrontend() {
-        return null;
+        // TODO: or ui-frontend
+        return getRoute("application-http-frontend");
     }
 
     @Override
     public Route getBatch() {
-        return null;
+        return getRoute("application-batch-worker-intake");
     }
 
     @Override
     public Route getDatabase() {
-        return null;
+        // TODO: Or db? and port 5432 or 9999 if external is needed.
+        return getRoute("postgres-database");
     }
 
     @Override
     public Route getAMQP() {
-        return null;
+        // TODO: Or rabbitmq and port 5672
+        return getRoute("rabbitmq3");
+    }
+
+    private Route getRoute(String kubernetesPodName) {
+        val route = discoveryClient.getInstances(kubernetesPodName).get(0);
+        return new Route(route.getHost(), route.getPort());
     }
 }

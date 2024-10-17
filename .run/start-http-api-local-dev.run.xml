@@ -5,6 +5,7 @@
         <option name="MAIN_CLASS_NAME"
                 value="de.hartz.software.sodevsalaryguide.application.http.api.WebuiApplication"/>
         <module name="sodevsalaryguide.application-http-api.main"/>
+        <option name="PROGRAM_PARAMETERS" value="--debug"/>
         <option name="VM_PARAMETERS" value="-Dspring.profiles.active=local-dev"/>
         <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/application-http-api"/>
         <method v="2">
